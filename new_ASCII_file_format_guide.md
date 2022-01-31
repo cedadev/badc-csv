@@ -58,7 +58,7 @@ This could be placed immediately above the “data” line which marks the top o
 
 Unknown entries within the metadata values should be given by the word “unknown” and not be omitted, left blank or indicated by “?” or other word/symbol. This helps to provide confidence to file users that the value really was unknown rather than having been accidentally omitted or missed by some generating script.
 
-Data section 
+## Data section 
 The data section consists of a record with a single “data” entry, followed by a line of the column references and then the data records. The end of the data records is indicated by an “end data” entry. The end data entry is included to flag partial files. Both “data” and “end data” are to be given in lower case.
 
     data
@@ -68,8 +68,29 @@ The data section consists of a record with a single “data” entry, followed b
 
 
 
-Examples
+## Examples
 The examples below illustrated the concepts given above. The orange box labelled G indicates the extent of the global attributes (i.e. to the entire file), while the referenced green boxes link to the relevant metadata entities. Entries have been spaced out below to aid readability, but generally use of additional white space is not encouraged as this is superfluous to requirements within csv files.
+
+    Conventions,G,BADC-CSV,1
+    title,              G, My data file
+    creator,            G, Prof W E Ather, Reading
+    contributor,        G, Sam Pepler,   BADC
+    creator,            G, A. Pdra
+    long_name,          1, time, days since 2007-03-14   
+    long_name,          2, air temperature, degrees C
+    long_name,          3, met station air temperature, degrees C 
+    creator,            3, unknown,Met Office
+    coordinate_variable,1, x
+    location,           G, Rutherford Appleton Lab
+    data
+    1,         2,      3
+    0.8,      2.4,       2.3
+    1.1,      3.4,       3.3
+    2.4,      3.5,       3.3
+    3.7,      6.7,       6.4
+    4.9,      5.7,       5.8
+    end data
+
 
 
 

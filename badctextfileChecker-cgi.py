@@ -12,9 +12,9 @@ badctextfile = badctextfilewarn
 def page(messages):
     if messages == []:
         messages = 'Please select a file to check'
-    print  "Content-type: text/html\n"
+    print("Content-type: text/html\n")
     
-    print """
+    print("""
     <html>
 <head>
 <meta name="robots" content="noindex,nofollow">
@@ -148,7 +148,7 @@ BADC CSV file checker
               </p>
               <p> 
                %s</p>  
-            """ % messages
+            """ % messages)
    
 #     print  """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
 #              <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -168,14 +168,14 @@ BADC CSV file checker
 #                %s  
 #             """ % messages
 
-    print"""<hr><b><font size="6"><h3 class="menu">Standard metadata</font></b> </h3>
+    print("""<hr><b><font size="6"><h3 class="menu">Standard metadata</font></b> </h3>
   
             <p>Full documentation is available on the <a href="http://help.ceda.ac.uk/article/105-badc-csv">BADC-CSV format page</a> on the on the CEDA website</p>
             <p>Red = compulsory elemetents for basic conformance, green = required elements for complete conformance to the metadata standard; other entries are optional, but encouraged.
             </p><p>Data providers are also welcome to add additional metadata entries if desired, but should accompany these with a sutiable comment line to explain to the end user.</p>
             
             <table>
-            <tr><th>Label</th><th>Global or Column</th><th>Meaning</th></tr>"""
+            <tr><th>Label</th><th>Global or Column</th><th>Meaning</th></tr>""")
     
     for label in badctextfile.BADCTextFile.MDinfoOrder:
       
@@ -192,9 +192,9 @@ BADC CSV file checker
         elif mandc: htmllabel = '<td bgcolor="#55ff55">%s</td>' % label 
         else: htmllabel = '<td>%s</td>' % label 
             	
-        print "<tr>%s<td>%s</td><td>%s</td></tr>" % (htmllabel, glob_or_col, meaning) 
+        print("<tr>%s<td>%s</td><td>%s</td></tr>" % (htmllabel, glob_or_col, meaning) )
         
-    print """ </table>
+    print(""" </table>
     </div>
     
             <!-- D. FOOTER -->  
@@ -216,7 +216,7 @@ BADC CSV file checker
     </div> 
  
     </body></html>
-    """
+    """)
 
 
 form = cgi.FieldStorage()

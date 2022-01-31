@@ -12,8 +12,8 @@ badctextfile = badctextfilewarn
 def page(messages):
     if messages == []:
         messages = 'Please select a file to check'
-    print  "Content-type: text/html\n"
-    print  """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+    print ("Content-type: text/html\n")
+    print ("""<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
              <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
              <head>
                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -29,16 +29,16 @@ def page(messages):
                </form> 
                
                %s  
-            """ % messages
+            """ % messages)
 
-    print"""<hr><h3>Standard metadata </h3>
+    print("""<hr><h3>Standard metadata </h3>
   
             <p>Full documentation is available on the <a href="http://help.ceda.ac.uk/article/105-badc-csv">BADC-CSV format page</a> on the on the CEDA website</p>
             <p>Red = compulsory elemetents for basic conformance, green = required elements for complete conformance to the metadata standard; other entries are optional, but encouraged.
             </p><p>Data providers are also welcome to add additional metadata entries if desired, but should accompany these with a sutiable comment line to explain to the end user.</p>
             
             <table>
-            <tr><th>Label</th><th>Global or Column</th><th>Meaning</th></tr>"""
+            <tr><th>Label</th><th>Global or Column</th><th>Meaning</th></tr>""")
     
     for label in badctextfile.BADCTextFile.MDinfoOrder:
       
@@ -55,9 +55,9 @@ def page(messages):
         elif mandc: htmllabel = '<td bgcolor="#55ff55">%s</td>' % label 
         else: htmllabel = '<td>%s</td>' % label 
             	
-        print "<tr>%s<td>%s</td><td>%s</td></tr>" % (htmllabel, glob_or_col, meaning) 
+        print("<tr>%s<td>%s</td><td>%s</td></tr>" % (htmllabel, glob_or_col, meaning) )
         
-    print """ </table></body></html>"""
+    print(""" </table></body></html>""")
 
 
 form = cgi.FieldStorage()
