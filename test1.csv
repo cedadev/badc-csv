@@ -1,0 +1,50 @@
+Conventions,G,BADC-CSV,1,,,
+title,G,My data file,,,,
+creator,G,Prof big," reading, uni",,,
+creator,G,me,,,,
+creator,G,a pdra,,,,
+creator,2,Met Office,,,,
+long_name,0,time,days,,,
+long_name,1,"temp from my experiment, (o'neil version)",K,,,
+long_name,2,temp from met station,K,,,
+type,0,float,,,,
+type,1,float,,,,
+type,2,float,,,,
+xxxxxxx,G,"hhehehehfdfsdf
+hi im a new line",sdfsdfsdf,dsfsdf,sdfsdf,sdf
+creator,1,G Parton,RAL,,,
+coordinate_variables,G,0,,,,
+location,G,-40,190,,,
+date_valid,G,2008-01-31,,
+date_valid,G,2008-01-19,2008-02-23,
+last_revised_date,G,2008-01-03,,
+history,G,test file,,
+source,G,MST,,
+observation_station,G,MST site,,
+activity,G,NERC ,,
+standard_name,0,time,days,CF
+feature_type,G,timeseries,,
+valid_max,1,99999,,
+valid_range,2,-200,99999,
+scale_factor,1,2,,
+Data
+0,1,2
+0.8,2.4,2.3,,
+1.1,3.4,3.3,,
+2.4,3.5,3.3,,
+1321.3,-1091.3,-652.4
+1322.5,-1092.3,-653
+1323.7,-1093.3,-653.6
+1324.9,-1094.3,-654.2
+1326.1,-1095.3,-654.8
+1327.3,-1096.3,-655.4
+1328.5,-1097.3,-656
+1329.7,-1098.3,-656.6
+1748.5,-1447.3,-866
+1748.5,-1447.3,-866
+1748.5,-1447.3,-866
+1748.5,-1447.3,-866
+1748.5,-1447.3,-866
+1748.5,-1447.3,-866
+1748.5,-1447.3,-866
+End Data

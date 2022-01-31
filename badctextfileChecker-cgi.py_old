@@ -1,0 +1,80 @@
+#!/usr/bin/python
+
+import badctextfilewarn
+import cgi, StringIO
+import cgitb; cgitb.enable()
+import traceback
+
+import sys
+
+
+
+def page(messages):
+  print  "Content-type: text/html\n"
+  print  """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ <head>
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+   <title>BADC text file checker</title>
+ </head>
+ <body>
+   <h1>BADC text file checker - Output</h1>
+   <form action="badctextfileChecker-cgi.py" method="post"  
+enctype="multipart/form-data">
+     <input type="file" name="file" />
+     <input type="submit" name="Submit" value="Check file" /></p>
+   </form>   
+"""
+
+
+  if messages != '':
+    print "<h2>Checker Output</h2><pre>%s</pre>" % messages    
+
+  print"""<hr><h3>Standard metadata </h3>
+  
+<p>Full documentation is available on the <a href="http://www.ceda.ac.uk/help/users-guide/file-formats/badc-csv/">BADC-CSV format page</a> on the on the CEDA website</p>
+<table>
+<tr><th>Label</th><th>Global or Column</th><th>Meaning</th></tr>"""
+
+  for label in badctextfile.BADCTextFile.MDinfo.keys():
+    labeloptions = badctextfile.BADCTextFile.MDinfo[label]
+    if labeloptions[0]:
+      if labeloptions[1]:
+        glob_or_col = "G or C"
+      else:
+        glob_or_col = "G"
+    else:
+      glob_or_col = "C"	
+      	
+    print "<tr><td>%s</td><td>%s</td><td>%s</td></tr>" % (label, glob_or_col, labeloptions[7]) 
+
+
+   
+  print """ </table></body></html>"""
+
+
+form = cgi.FieldStorage()
+if form:
+  if form.has_key("file"):
+    filecontent=form["file"].value
+    fh = StringIO.StringIO(filecontent)
+    fh.mode = 'r'
+    
+    try: 
+      t = badctextfile.BADCTextFile(fh)
+    except: 
+      page('Error during parsing: %s' % traceback.format_exc())
+      sys.exit()
+      
+    try:  
+      t.check_complete(1)
+    except: 
+      page('Error during checker: %s' % sys.exc_value)
+      sys.exit()
+
+    page('File OK!')
+    
+else: 
+  page('')
+  sys.exit()
+
