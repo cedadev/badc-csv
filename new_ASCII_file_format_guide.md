@@ -132,10 +132,9 @@ The order of metadata given below group basic mandatory fields first, followed b
 
 
 
-Metadata label	Description	Can be applied to 	Number of values	Needed  at Compliance level	Metadata convention
-Conventions	Conventions used in metadata	G	2 (BADC-CSV, version number)	Basic	CF
-long_name	Text description of the variable and unit	C	2 (name, unit)	Basic
-(Standardised units)	NA, CF
+|Metadata label|	Description|	Can be applied to| 	Number of values|	Needed  at Compliance level|	Metadata convention|
+|Conventions|	Conventions used in metadata|	G|	2 (BADC-CSV, version number)	|Basic	|CF|
+|long_name	|Text description of the variable and unit|	C|	2 (name, unit)|	Basic|(Standardised units)	|NA, CF|
 coordinate_variable	Flag for coordinate variables, optionally a plotting axis suggestion and the name of the coord ref system	C	0-2 (xyt, ref system) 	Basic
 (from list for standard)	CSML, CF, ISO191115
 creator	As DC Creator	G, C	1,2 (name, inst)	Complete	DC
