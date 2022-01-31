@@ -136,23 +136,15 @@ The order of metadata given below group basic mandatory fields first, followed b
 |---|---|---|---|---|---|
 |Conventions|	Conventions used in metadata|	G|	2 (BADC-CSV, version number)	|Basic	|CF|
 |long_name	|Text description of the variable and unit|	C|	2 (name, unit)|	Basic|(Standardised units)	|NA, CF|
+|coordinate_variable| Flag for coordinate variables, optionally a plotting axis suggestion and the name of the coord ref system|C|0-2 (xyt, ref system)|Basic (from list for standard) |CSML, CF, ISO191115|
+|creator| As DC Creator|G, C|1,2 (name, inst)|Complete|DC|
+|source|Name of tool used in the production of the data|G, C|1|	Complete	|NA, MOLES|
+|observation_station|Name of the observation station or platform used |G, C|	1	|Complete|ISO19115, MOLES|
+|activity	|Name of the activity sponsoring the collection of the data	|G, C	|1	|Complete	|NA, MOLES|
+|feature_type	|Profile, point series, trajectory,  point collection	|G	|1	|Complete, (from list for Standardised)|CSML|
+|location	|Location valid for data. 	|G, C	|1 – name of location or WKT formatted, 2 – (lat, long), 4 – bounding box, (?,?,?,?) |Complete	|ISO19115|
+|date_valid|	Date valid for data|	G, C	|1,2 (start, end)	|Complete (ISO8601 date and (optionally) for Standard)	|ISO19115|
 
-coordinate_variable	Flag for coordinate variables, optionally a plotting axis suggestion and the name of the coord ref system	C	0-2 (xyt, ref system) 	Basic
-(from list for standard)	CSML, CF, ISO191115
-creator	As DC Creator	G, C	1,2 (name, inst)	Complete	DC
-source
-	Name of tool used in the production of the data	G, C	1	Complete	NA, MOLES
- 
-
-observation_station	Name of the observation station or platform used 	G, C	1	Complete	ISO19115, MOLES
-activity	Name of the activity sponsoring the collection of the data	G, C	1	Complete	NA, MOLES
-feature_type	Profile, point series, trajectory,  point collection	G	1	Complete, (from list for Standardised)	CSML
-location	Location valid for data. 	G, C	1 – name of location or WKT formatted 
-2 – (lat, long)
-4 – bounding box, (?,?,?,?) 
-	Complete	ISO19115
-date_valid	Date valid for data	G, C	1,2 (start, end)	Complete
-(ISO8601 date and (optionally) for Standard)	ISO19115
 last_revised_date	Date the data, file or metadata was last changed.	G, C	1	Complete (ISO8601 date and (optionally) time for Standard)	DC, NA
 history	Free text description of the file history 	G, C	1	Complete	CF
 standard_name	Name from CF standard name list 	C	3 (name, unit, standard)	Complete, (CF name for Standardised)	CF
