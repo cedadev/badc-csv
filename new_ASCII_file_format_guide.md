@@ -144,28 +144,24 @@ The order of metadata given below group basic mandatory fields first, followed b
 |feature_type	|Profile, point series, trajectory,  point collection	|G	|1	|Complete, (from list for Standardised)|CSML|
 |location	|Location valid for data. 	|G, C	|1 – name of location or WKT formatted, 2 – (lat, long), 4 – bounding box, (?,?,?,?) |Complete	|ISO19115|
 |date_valid|	Date valid for data|	G, C	|1,2 (start, end)	|Complete (ISO8601 date and (optionally) for Standard)	|ISO19115|
-
-last_revised_date	Date the data, file or metadata was last changed.	G, C	1	Complete (ISO8601 date and (optionally) time for Standard)	DC, NA
-history	Free text description of the file history 	G, C	1	Complete	CF
-standard_name	Name from CF standard name list 	C	3 (name, unit, standard)	Complete, (CF name for Standardised)	CF
- 
-
-title	As DC title	G	1		DC, CF
-comments	Any text associated with data	G, C	1		NA
-contributor	As DC 	G, C	1,2 (name, inst)		DC
-height	Height valid for data	G, C	2-4(min height,[max height], unit,[datum])	(Standardised units)	
-reference	Bibliographic reference 	G, C	1		DC
-rights	As DC rights. Conditions of use for the data	G, C	1		DC
-valid_min	Values below min should be interpreted as missing.	G, C	1 	(float for standard)	NA, CF
-valid_max	Values above max should be interpreted as missing.	G, C	1 	(float for standard)	NA, CF
-valid_range	Values outside this range should be interpreted as missing.	G, C	2 (min, max)	(float for standard)	NA, CF
-type	The value interpretation for the variable – char (default), int, float)	C	1	Complete
-(from list for standard)	NetCDF
-cell_method	As CF. 	C	1		CF
-add_offset	Offset for data values. As CF	C	1	(float for standard)	CF
-scale_factor	A scale factor for the data. As NA	C	1	(float for standard)	NA
-flag_values 	As CF: values used for flag table in data	C	List		CF
-flag_meanings	As CF: meanings for each flag_value	C	List		CF
+|last_revised_date	|Date the data, file or metadata was last changed.	|G, C	|1	|Complete (ISO8601 date an (optionally) time for Standard)	|DC, NA|
+|history	|Free text description of the file history 	|G, C	|1	|Complete	|CF|
+|standard_name	|Name from CF standard name list 	|C	|3 (name, unit, standard)	|Complete, (CF name for Standardised)|CF|
+|title	|As DC title	|G	|1		|DC, CF|
+|comments	|Any text associated with data	|G, C	|1		|NA|
+|contributor	|As DC 	|G, C	|1,2 (name, inst)		|DC|
+|height	|Height valid for data	|G, C	|2-4(min height,[max height], unit,[datum])	(Standardised units)	| |
+|reference	|Bibliographic reference 	|G, C	|1		|DC|
+|rights	|As DC rights. Conditions of use for the data	|G, C	|1		|DC|
+|valid_min	|Values below min should be interpreted as missing.	|G, C	|1 	(float for standard)	|NA, CF|
+|valid_max	|Values above max should be interpreted as missing.	|G, C	|1 	(float for standard)	|NA, CF|
+|valid_range	|Values outside this range should be interpreted as missing.	|G, C	2 (min, max)	(float for standard)	|NA, CF|
+|type	|The value interpretation for the variable – char (default), int, float)|	C	|1	|Complete (from list for standard)	|NetCDF|
+|cell_method	|As CF. 	|C	|1		|CF|
+|add_offset	|Offset for data values. As CF	|C	|1	(float for standard)	|CF|
+|scale_factor	|A scale factor for the data. As NA	|C	|1	(float for standard)	|NA|
+|flag_values 	|As CF: values used for flag table in data	|C	|List		|CF|
+|flag_meanings	|As CF: meanings for each flag_value	|C	|List		|CF|
 
 
 Notes:
