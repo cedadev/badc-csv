@@ -91,43 +91,43 @@ The examples below illustrated the concepts given above. The orange box labelled
     4.9,      5.7,       5.8
     end data
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 This example show a file, titled “My data file” created by Prof W E Ather at Reading. The data have been prepared by A. Pdra, but the some metadata was added at the BADC by Sam Pepler. There are three variables in the file: time (column 1), air temperature (column 2) and met station air temperature (column 3). The met station air temperature was created by an unknown person at the Met Office. The time variable is flagged as the coordinate variable (and marked as suitable for plotting on the x axis of a graph). The units of the time variable are given in days since 2007-03-14 . The data in the file was measured at the Rutherford Appleton Lab.
  
+    Conventions,G,BADC-CSV,1
+    title,               G, My data file
+    creator,             G, G Parton, CEDA
+    contributor,         G, Sam Pepler,   BADC
+    creator,             met_temp, S Aylingby, CEDA
+    long_name,           time, time, days since 2007-03-14   
+    long_name,           temp, air temperature, degees C
+    long_name,           met_temp, met station air temperature, degrees C 
+    creator,             met_temp, unknown,Met Office
+    comments,		     met_temp, measured using a thermometer
+    comments, 		     met_temp, the instrument_materials 
+    comments,            met_temp, field details the main 
+    comments,            met_temp, material of the instrument
+    comments,            met_temp, only
+    instrument_materials,met_temp, glass and mercury
+    coordinate_variable, time, X
+    location,            G, Rutherford Appleton Lab
+    data
+    time,     temp,      met_temp
+    0.8,      2.4,       2.3
+    1.1,      3.4,       3.3
+    2.4,      3.5,       3.3
+    3.7,      6.7,       6.4
+    4.9,      5.7,       5.8
+    end data
+
 
 In this example the column references have been replaced by text references and a user defined metadata tag “instrument_materials” has been added to allow additional details to be provided with the file. Comment lines have been added to let others know what this additional metadata tag represents and to aid readability and to ensure that all text is on one screen the comment has been split into 4 consecutive lines.
-Data model
+
+## Data model
 The diagram below shows the data model for the file structure. It says a BADC text file consists of data and metadata. The data consist on variables and the metadata consists of metadata records. All these classes are described by the metadata records.
 
 
 
-
+![Data Model](/data_model.png)
 
 
 
