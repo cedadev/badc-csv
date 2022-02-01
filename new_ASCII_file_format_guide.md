@@ -3,11 +3,11 @@
 
 Sam Pepler, BADC, 2008-09-23
 Verson	Who	Date	Notes
-> Version 0.1 - Sam Pepler, 2008-09-23: Initial version make from dev document.
-> Version 0.2 - Graham Parton, 2008-10-14: Addition of flag_values and flag_meanings
-> Version 0.3 - Graham Parton, 2009-04-23: Cleaned up document and updated conventions used
-> Version 0.4 - Graham Parton, 2010-04-22: Minor corrections
-> Version 0.5 - Sam Pepler, 2022-01-31: Start of Markdown version
+> Version 0.1 - Sam Pepler, 2008-09-23: Initial version make from dev document.  
+> Version 0.2 - Graham Parton, 2008-10-14: Addition of flag_values and flag_meanings  
+> Version 0.3 - Graham Parton, 2009-04-23: Cleaned up document and updated conventions used  
+> Version 0.4 - Graham Parton, 2010-04-22: Minor corrections  
+> Version 0.5 - Sam Pepler, 2022-01-31: Start of Markdown version  
 
 ## About this document
 This document is aimed at people developing or producing data files in the BADC text file format. It describes the structure of the format and the rules for its content.
