@@ -8,7 +8,7 @@
 
 import sys, csv, string
 
-import time, StringIO
+import time, io
 
 import collections
 
@@ -229,7 +229,7 @@ class BADCTextFile:
                         self.add_datarecord(row) 
 
             except BADCTextFileError:
-                print row
+                print(row)
                 raise 
 
 
@@ -293,7 +293,7 @@ class BADCTextFile:
                     check(values)
                 except:
                     
-                    raise BADCTextFileMetadataInvalid("Metadata field values invalid %s: %s  [%s]\n" % (label, values,sys.exc_value))    
+                    raise BADCTextFileMetadataInvalid("Metadata field values invalid %s: %s  [%s]\n" % (label, values,sys.exc_info()[1]))    
             for colname in self.colnames():
                 for values in self[label,colname]:
                     check(values)
@@ -336,10 +336,10 @@ class BADCTextFile:
             #if its not mandatory skip
             if not mand:
                 continue
-            print level, label
+            print(level, label)
             #import pdb ; pdb.set_trace()
 
-            print 'doing this'
+            print('doing this')
             # if applies globally then there should be a global record or
             # one at least one variable
             if applyg:
@@ -412,13 +412,13 @@ class BADCTextFile:
      
         s = s + "variables: \n"
         for colname in self.colnames():
-            print colname
+            print(colname)
             try:
                 varname = "var%s" % int(colname.strip())
             except:
                 varname = colname
             
-            print varname
+            print(varname)
             
             vartype = self['type', colname][0][0]
             s = s + "    %s %s(point);\n" % (vartype, varname)
@@ -523,7 +523,7 @@ class BADCTextFile:
         header.append('File created from BADC text file')
     
         # special comments - all metadata to go in 
-        s = StringIO.StringIO()
+        s = io.StringIO()
         cvswriter = csv.writer(s)
         self._metadata.csv(cvswriter)
         metadata = s.getvalue()
@@ -547,7 +547,7 @@ class BADCTextFile:
 
 
     def cvs(self):
-        s = StringIO.StringIO()
+        s = io.StringIO()
         cvswriter = csv.writer(s, lineterminator='\n' )
         self._metadata.csv(cvswriter)
         self._data.csv(cvswriter)
@@ -677,7 +677,7 @@ class BADCTextFileMetadata:
                 self.varRecords[ref][label] = []
             self.varRecords[ref][label].extend(values)
             
-            print self.varRecords, ref, label, values      
+            print(self.varRecords, ref, label, values)      
            
             
     def cdl(self):
@@ -686,7 +686,7 @@ class BADCTextFileMetadata:
         # make sure labels are unique for netCDF. e.g. creator, creator1, creator2
         used_labels = {}
         for label, column, values in self.varRecords:
-            if used_labels.has_key((label,column)):
+            if (label,column) in used_labels:
                 use_label = "%s%s" % (label, used_labels[label,column])
                 used_labels[label, column] = used_labels[label, column]+1
             else:
@@ -700,7 +700,7 @@ class BADCTextFileMetadata:
         
         
         for label, values in self.globalRecords:
-            if used_labels.has_key(label):
+            if label in used_labels:
                 use_label = "%s%s" % (label, used_labels[label])
                 used_labels[label] = used_labels[label]+1
             else:
@@ -713,8 +713,8 @@ class BADCTextFileMetadata:
     def csv(self, csvwriter):
         for label, values in self.globalRecords:
             csvwriter.writerow((label,'G') + values)
-        for ref, values in self.varRecords.items():
-            for label, value in values.items():
+        for ref, values in list(self.varRecords.items()):
+            for label, value in list(values.items()):
                 csvwriter.writerow((label,ref) + value)
         
     def nc(self, ncfile_obj):
@@ -722,13 +722,13 @@ class BADCTextFileMetadata:
         ncfile_obj.Conventions = 'CF 1.6'
         
         for label, values in self.globalRecords:
-            print label, values
+            print(label, values)
             
             if label == 'Conventions':
                 pass
             
             elif label in ncfile_obj.ncattrs():
-                print values
+                print(values)
                 values = ncfile_obj.getncattr(label) + '\n ' + ', '.join(values)
                 ncfile_obj.setncattr(label,values)    
             else:
@@ -739,7 +739,7 @@ class BADCTextFileMetadata:
                      
             ncfile_obj.history = ncfile_obj.history + '\n File created from original BADC-CSV formatted file'
         
-        print self.globalRecords
+        print(self.globalRecords)
         
 
 
@@ -759,7 +759,7 @@ class BADCTextFileMetadata:
         # then cope with anything else that remains
         # first set up all the variables based on the keys of the variable dictionary:
             
-        for col_ref in self.varRecords.keys():
+        for col_ref in list(self.varRecords.keys()):
             
             try:
                 col_name = 'var%s'% int(col_ref)
@@ -771,7 +771,7 @@ class BADCTextFileMetadata:
     
             # now to set variable attributes:
         
-            for label, values in self.varRecords[col_ref].items():
+            for label, values in list(self.varRecords[col_ref].items()):
                 # in some cases we'll need to handle things in a special way...
                 if label == 'long_name':
                     variable_to_add.setncattr(label, values[0])
@@ -799,7 +799,7 @@ class BADCTextFileMetadata:
                 
                 
                 
-        print ncfile_obj
+        print(ncfile_obj)
                       
 
 class BADCTextFileError(Exception): pass
@@ -821,19 +821,19 @@ if __name__ == "__main__":
     t.add_metadata('units', 'K', 1)
     t.add_metadata('Creator', 'Sam Pepler')
     t.add_metadata('Creator', ('Prof Bigshot', 'Reading uni'))
-    print t
+    print(t)
 
     fh = open('test1.csv', 'r')
     t = BADCTextFile(fh)
-    print t
+    print(t)
     t.check_complete(1)
     #fh = open(r'Z:\scratch\test_ncgen\test1.cdl','wb')
     fh = open(r'test1.cdl','wb')
     fh.write(t.cdl())
     fh.close()
 
-    print
-    print t.cvs()
+    print()
+    print(t.cvs())
     fh = open(r'test1.na','wb')
     fh.write(t.NASA_Ames())
     fh.close()

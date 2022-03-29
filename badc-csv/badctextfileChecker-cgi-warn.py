@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import badctextfilewarn
-import cgi, StringIO
+import cgi, io
 import cgitb; cgitb.enable()
 import traceback, warnings
 
@@ -13,7 +13,7 @@ def page(messages):
     if messages == []:
         messages = 'Please select a file to check'
     print ("Content-type: text/html\n")
-    print ("""<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+    print(("""<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
              <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
              <head>
                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -29,7 +29,7 @@ def page(messages):
                </form> 
                
                %s  
-            """ % messages)
+            """ % messages))
 
     print("""<hr><h3>Standard metadata </h3>
   
@@ -55,22 +55,22 @@ def page(messages):
         elif mandc: htmllabel = '<td bgcolor="#55ff55">%s</td>' % label 
         else: htmllabel = '<td>%s</td>' % label 
             	
-        print("<tr>%s<td>%s</td><td>%s</td></tr>" % (htmllabel, glob_or_col, meaning) )
+        print(("<tr>%s<td>%s</td><td>%s</td></tr>" % (htmllabel, glob_or_col, meaning) ))
         
     print(""" </table></body></html>""")
 
 
 form = cgi.FieldStorage()
 if form:
-  if form.has_key("file"):
+  if "file" in form:
     filecontent=form["file"].value
-    fh = StringIO.StringIO(filecontent)
+    fh = io.StringIO(filecontent)
     fh.mode = 'r'
     
     try: 
       t = badctextfile.BADCTextFile(fh)
     except: 
-      page(["parsing errors:",sys.exc_value])
+      page(["parsing errors:",sys.exc_info()[1]])
       sys.exit()
       
     # do basic checks 

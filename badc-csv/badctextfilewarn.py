@@ -8,7 +8,7 @@
 
 import sys, csv, string
 
-import time, StringIO, warnings
+import time, io, warnings
 
 
 #-----
@@ -217,7 +217,7 @@ class BADCTextFile:
                         self.add_datarecord(row) 
     
             except BADCTextFileError:
-                print row
+                print(row)
                 raise 
     
 
@@ -251,13 +251,13 @@ class BADCTextFile:
                 try:
                     check(values)
                 except:
-                    MetadataInvalid("Metadata field values invalid %s: %s  [%s]" % (label, values,sys.exc_value))    
+                    MetadataInvalid("Metadata field values invalid %s: %s  [%s]" % (label, values,sys.exc_info()[1]))    
             for colname in self.colnames():
                 for values in self[label,colname]:
                     try:
                         check(values)
                     except:
-                        MetadataInvalid("Metadata field values for column '%s' invalid %s: %s  [%s]" % (colname, label, values,sys.exc_value))    
+                        MetadataInvalid("Metadata field values for column '%s' invalid %s: %s  [%s]" % (colname, label, values,sys.exc_info()[1]))    
                 
     def check_colRefs(self):
         
@@ -486,7 +486,7 @@ class BADCTextFile:
         header.append('File created from BADC text file')
     
         # special comments - all metadata to go in 
-        s = StringIO.StringIO()
+        s = io.StringIO()
         cvswriter = csv.writer(s)
         self._metadata.csv(cvswriter)
         metadata = s.getvalue()
@@ -510,7 +510,7 @@ class BADCTextFile:
 
 
     def cvs(self):
-        s = StringIO.StringIO()
+        s = io.StringIO()
         cvswriter = csv.writer(s, lineterminator='\n' )
         self._metadata.csv(cvswriter)
         self._data.csv(cvswriter)
@@ -637,7 +637,7 @@ class BADCTextFileMetadata:
         # make sure labels are unique for netCDF. e.g. creator, creator1, creator2
         used_labels = {}
         for label, column, values in self.varRecords:
-            if used_labels.has_key((label,column)):
+            if (label,column) in used_labels:
                 use_label = "%s%s" % (label, used_labels[label,column])
                 used_labels[label, column] = used_labels[label, column]+1
             else:
@@ -649,7 +649,7 @@ class BADCTextFileMetadata:
         s=s+"// global attributes\n"
         used_labels = {}
         for label, values in self.globalRecords:
-            if used_labels.has_key(label):
+            if label in used_labels:
                 use_label = "%s%s" % (label, used_labels[label])
                 used_labels[label] = used_labels[label]+1
             else:
@@ -685,19 +685,19 @@ if __name__ == "__main__":
     t.add_metadata('units', 'K', 1)
     t.add_metadata('Creator', 'Sam Pepler')
     t.add_metadata('Creator', ('Prof Bigshot', 'Reading uni'))
-    print t
+    print(t)
 
     fh = open('test1.csv', 'r')
     t = BADCTextFile(fh)
-    print t
+    print(t)
     t.check_complete(1)
     #fh = open(r'Z:\scratch\test_ncgen\test1.cdl','wb')
     fh = open(r'test1.cdl','wb')
     fh.write(t.cdl())
     fh.close()
 
-    print
-    print t.cvs()
+    print()
+    print(t.cvs())
     fh = open(r'test1.na','wb')
     fh.write(t.NASA_Ames())
     fh.close()

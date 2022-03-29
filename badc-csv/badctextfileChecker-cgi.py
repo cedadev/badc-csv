@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 import badctextfilewarn
-import cgi, StringIO
+import cgi, io
 import cgitb; cgitb.enable()
 import traceback, warnings
 
@@ -14,7 +14,7 @@ def page(messages):
         messages = 'Please select a file to check'
     print("Content-type: text/html\n")
     
-    print("""
+    print(("""
     <html>
 <head>
 <meta name="robots" content="noindex,nofollow">
@@ -148,7 +148,7 @@ BADC CSV file checker
               </p>
               <p> 
                %s</p>  
-            """ % messages)
+            """ % messages))
    
 #     print  """<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
 #              <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -192,7 +192,7 @@ BADC CSV file checker
         elif mandc: htmllabel = '<td bgcolor="#55ff55">%s</td>' % label 
         else: htmllabel = '<td>%s</td>' % label 
             	
-        print("<tr>%s<td>%s</td><td>%s</td></tr>" % (htmllabel, glob_or_col, meaning) )
+        print(("<tr>%s<td>%s</td><td>%s</td></tr>" % (htmllabel, glob_or_col, meaning) ))
         
     print(""" </table>
     </div>
@@ -221,15 +221,15 @@ BADC CSV file checker
 
 form = cgi.FieldStorage()
 if form:
-  if form.has_key("file"):
+  if "file" in form:
     filecontent=form["file"].value
-    fh = StringIO.StringIO(filecontent)
+    fh = io.StringIO(filecontent)
     fh.mode = 'r'
     
     try: 
       t = badctextfile.BADCTextFile(fh)
     except: 
-      page(["parsing errors:",sys.exc_value])
+      page(["parsing errors:",sys.exc_info()[1]])
       sys.exit()
       
     # do basic checks 

@@ -41,7 +41,7 @@ def parse_NASA_Ames_1001(fh, fhw):
         # dates
         dates = fh.readline().strip()
         bits = dates.split()
-        bits = map(int, bits)
+        bits = list(map(int, bits))
         date_valid = "%2.2d-%2.2d-%2.2d" % (bits[0], bits[1], bits[2])
         last_revised_date = "%2.2d-%2.2d-%2.2d" % (bits[3], bits[4], bits[5])
         f.add_metadata('date_valid',date_valid)
@@ -122,5 +122,5 @@ if __name__ == "__main__":
     f = parse_NASA_Ames_1001(fh, fhw)
     fhw.write("%s" %f)
     fhw.close()
-    print f
+    print(f)
 
