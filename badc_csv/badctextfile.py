@@ -8,7 +8,7 @@
 
 import sys, csv, string
 
-import time, io
+import time, io, warnings
 
 import collections
 
@@ -182,12 +182,11 @@ class BADCTextFile:
 
 
     def parse(self):
-
+        
         reader = csv.reader(self.fh)
         section = 1
         for row in reader:
             try:
-
             # section 1 is the metadata section 
                 if section == 1:
                     while row[-1] == '': 
@@ -236,13 +235,9 @@ class BADCTextFile:
     def check_valid(self):
     
         self.valid_check_error = []
-    
+
         for label in BADCTextFile.MDinfo:
             applyg, applyc, mino, maxo, mandb, mandc, check, meaning = BADCTextFile.MDinfo[label]
-           
-            #if label == 'long_name':
-            #    import pdb ; pdb.set_trace()
-           
             
             # if label can't apply globally but is defined raise error 
             if not applyg and self[label] != []:
@@ -259,7 +254,6 @@ class BADCTextFile:
             # values have wrong number of fields
             
             
-                  
             if applyg:
                 for values in self[label]:
                     if maxo != -1 and len(values) > maxo:
@@ -302,20 +296,44 @@ class BADCTextFile:
             
     def check_colrefs(self):
         long_namesCnt = []
+        metadataRefs = []
+
+        for line in self._metadata.varRecords:
+            metadataRefs.append(line)
         
-        for long_names in self._metadata:
-            ref = long_names[2]
-            long_namesCnt.append(ref)
+        metadataRefs = list(set(metadataRefs))
+
+        for colname in set(self.colnames()):
+            if colname != 'G':
+                long_namesCnt.append(colname)
         
-        if len(long_namesCnt) == len(self.colnames()):
+        if len(long_namesCnt) == len(metadataRefs):
             try:
                 for colName in long_namesCnt:
-                    if not colName in self.colnames():
+                    if not colName in metadataRefs:
                         raise
             except:
                 raise BADCTextFileMetadataInvalid('Column names %s not in column header list %s'% (colName,','.join(self.colnames())))
         else:
             raise BADCTextFileMetadataInvalid('Not all column headings given %s'% ','.join(self.colnames()))
+
+
+        # original
+        # long_namesCnt = []
+
+        # for long_names in self._metadata:
+        #     ref = long_names[2]
+        #     long_namesCnt.append(ref)
+        
+        # if len(long_namesCnt) == len(self.colnames()):
+        #     try:
+        #         for colName in long_namesCnt:
+        #             if not colName in self.colnames():
+        #                 raise
+        #     except:
+        #         raise BADCTextFileMetadataInvalid('Column names %s not in column header list %s'% (colName,','.join(self.colnames())))
+        # else:
+        #     raise BADCTextFileMetadataInvalid('Not all column headings given %s'% ','.join(self.colnames()))
 
     def check_complete(self, level='basic'):
         #self.check_colrefs()
@@ -332,18 +350,14 @@ class BADCTextFile:
             else: 
                 mand = mandc
                       
-            
             #if its not mandatory skip
             if not mand:
                 continue
-            print(level, label)
-            #import pdb ; pdb.set_trace()
+            print(f'Checking {label} for {level} compliance')
 
-            print('doing this')
             # if applies globally then there should be a global record or
             # one at least one variable
             if applyg:
-            
             
                 if self[label] != []:
                     #found global value. next label
@@ -352,7 +366,8 @@ class BADCTextFile:
                     if self[label,colname] != []:
                         break
                 else:
-                    self.basicCheckErrors.append("Basic global metadata not there: %s\n" % label)
+                    print(f"Global metadata missing: {label}")
+                    self.basicCheckErrors.append(f"Global metadata missing: {label}, required for {level} compliance")
                     #raise BADCTextFileMetadataIncomplete("Basic global metadata not there: %s" % label)
                   
             # if applies to column only then there should be a record for
@@ -364,7 +379,8 @@ class BADCTextFile:
                         if self._metadata.varRecords[colname][label] == []:
                             raise
                     except:
-                        self.basicCheckErrors.append('Basic column metadata not there: "%s" not there for %s\n' % (label, colname))
+                        print(f'Column metadata missing: {label} missing for {colname}')
+                        self.basicCheckErrors.append(f'Column metadata missing: {label} missing for {colname}, required for {level} compliance')
                         #raise BADCTextFileMetadataIncomplete('Basic column metadata not there: "%s" not there for %s' % (label, colname))
 
         if self.basicCheckErrors != []:
@@ -419,9 +435,13 @@ class BADCTextFile:
                 varname = colname
             
             print(varname)
-            
-            vartype = self['type', colname][0][0]
-            s = s + "    %s %s(point);\n" % (vartype, varname)
+            if len(self['type', colname]) > 0:
+                vartype = self['type', colname][0][0]
+                s = s + "    %s %s(point);\n" % (vartype, varname)
+            else:
+                warnings.warn(f'Variable type for {varname} has not been provided and will be missing from the CDL file.')
+                s = s + "    %s (point);\n" % (varname)
+
         s = s + "\n"
             
         s = s + self._metadata.cdl()
@@ -430,7 +450,7 @@ class BADCTextFile:
         s = s + "data:\n"
         for i in range(self.nvar()):
             varname = "var%s" % self._data.colnames[i]
-            values = string.join(self[i], ', ')
+            values = ', '.join(self[i])
             s =s + "%s = %s;\n" % (varname, values)
         s = s + "}\n"
 
@@ -469,52 +489,61 @@ class BADCTextFile:
     
         # dates 
         date_valid = self['date_valid']
-        date_valid = min(date_valid)
-        date_valid = date_valid[0]
-        date_valid = date_valid.replace('-', ' ')
+        if len(date_valid) > 0:
+            date_valid = min(date_valid)
+            date_valid = date_valid[0]
+            date_valid = date_valid.replace('-', ' ')
+        else:
+            date_valid = None
         last_revised_date = self['last_revised_date']
-        last_revised_date = min(last_revised_date)
-        last_revised_date = last_revised_date[0]
-        last_revised_date = last_revised_date.replace('-', ' ')
+        if len(last_revised_date) > 0:
+            last_revised_date = min(last_revised_date)
+            last_revised_date = last_revised_date[0]
+            last_revised_date = last_revised_date.replace('-', ' ')
+        else:
+            last_revised_date = None
         header.append("%s    %s" % (date_valid, last_revised_date))
     
         # ??
         header.append('0.0')
     
         # coord variable
-        coord = self['coordinate_variables'][0][0]
-        coord = self['long_name',int(coord)][0]
-        coord = "%s (%s)" % (coord[0], coord[1])
-        header.append(coord)
+        for _,v in self._metadata.varRecords.items():
+            if v.get('coordinate_variable'):
+                coord = v.get('long_name')
+                coord = "%s (%s)" % (coord[0], coord[1])
+                header.append(coord)
     
         # number of variables not coord variable
         header.append("%s" % (self.nvar()-1)) 
     
         #scale factors
         sf_line = ''
-        for i in range(1,self.nvar()):
-            sf = self['scale_factor',i]
-            if len(sf)==0: sf = "1.0"
-            else: sf = sf[0][0]
-            sf_line = sf_line + "%s " % sf
-        header.append(sf_line)
+        for _,v in self._metadata.varRecords.items():
+            if v.get('scale_factor'):
+                sf = v.get('scale_factor')
+                if len(sf)==0: sf = "1.0"
+                else: sf = sf[0][0]
+                sf_line = sf_line + "%s " % sf
+            header.append(sf_line)
     
-        #scale factors
+   
         max_line = ''
-        for i in range(1,self.nvar()):
-            vm = self['valid_max',i]
-            if len(vm)==0: vm = "1.0e99"
-            else: vm = vm[0][0]
-            vr = self['valid_range',i]
-            if len(vr)==0: vr = "1.0e99"
-            else: vr = vr[0][1]
-            vm = min(float(vm), float(vr))
-            max_line = max_line + "%s " % vm
-        header.append(max_line)
+        for _,v in self._metadata.varRecords.items():
+            if v.get('valid_min'):
+                vm = v.get('valid_min')
+                if len(vm)==0: vm = "1.0e99"
+                else: vm = vm[0][0]
+                vr = v.get('valid_range')
+                if len(vr)==0: vr = "1.0e99"
+                else: vr = vr[0][1]
+                vm = min(float(vm), float(vr))
+                max_line = max_line + "%s " % vm
+            header.append(max_line)
     
         # variable names
-        for i in range(1,self.nvar()):
-            long_name = self['long_name',i][0]
+        for _,v in self._metadata.varRecords.items():
+            long_name = v.get('long_name')
             long_name = "%s (%s)" % (long_name[0], long_name[1])
             header.append(long_name)
 
@@ -533,14 +562,12 @@ class BADCTextFile:
         header.append(s.getvalue()) 
     
         # make header
-        header="%s 1001\n%s" % (len(header)+nlines, string.join(header,'\n'))
+        header="%s 1001\n%s" % (len(header)+nlines, '\n'.join(header))
 
         # data space seperated
         data = ''
         for i in range(len(self)):
-            data = data + string.join(self._data.getrow(i)) + '\n'
-
-        
+            data = data + ' '.join(self._data.getrow(i)) + '\n'
     
         return header+data
     
@@ -563,11 +590,13 @@ class BADCTextFileData:
         self.colnames = []
         
     def add_variable(self, name, values):
+        print('vars',self.variables)
         if len(self.variables) == 0 or len(values) == len(self.variables[0]):
             self.variables.append(BADCTextFileVariable(values))
             self.colnames.append(name)
         else:
             raise BADCTextFileError("Wrong length of data")
+        print('vars',self.variables)
 
     def add_data_row(self, values):
         if self.nvar() == 0 and len(values) != 0:
@@ -676,7 +705,7 @@ class BADCTextFileMetadata:
             if not label in self.varRecords[ref]:
                 self.varRecords[ref][label] = []
             self.varRecords[ref][label].extend(values)
-            
+
             print(self.varRecords, ref, label, values)      
            
             
@@ -685,14 +714,16 @@ class BADCTextFileMetadata:
         s = "// variable attributes\n"
         # make sure labels are unique for netCDF. e.g. creator, creator1, creator2
         used_labels = {}
-        for label, column, values in self.varRecords:
-            if (label,column) in used_labels:
-                use_label = "%s%s" % (label, used_labels[label,column])
-                used_labels[label, column] = used_labels[label, column]+1
-            else:
-                use_label = label
-                used_labels[label, column] = 1
-            value = string.join(values, ', ')
+        
+        for label, cv in self.varRecords.items():
+            for column, values in cv.items():
+                if (label,column) in used_labels:
+                    use_label = "%s%s" % (label, used_labels[label,column])
+                    used_labels[label, column] = used_labels[label, column]+1
+                else:
+                    use_label = label
+                    used_labels[label, column] = 1
+            value = ', '.join(values, )
             s =s+'        var%s:%s = "%s";\n' % (column, use_label, value)
 
         s=s+"// global attributes\n"
@@ -706,7 +737,7 @@ class BADCTextFileMetadata:
             else:
                 use_label = label
                 used_labels[label] = 1        
-            value = string.join(values, ', ')
+            value = ', '.join(values, )
             s=s+'        :%s = "%s";\n' % (use_label, value)
         return s
 
@@ -715,7 +746,7 @@ class BADCTextFileMetadata:
             csvwriter.writerow((label,'G') + values)
         for ref, values in list(self.varRecords.items()):
             for label, value in list(values.items()):
-                csvwriter.writerow((label,ref) + value)
+                csvwriter.writerow((label,ref) + tuple(value))
         
     def nc(self, ncfile_obj):
         
@@ -785,7 +816,7 @@ class BADCTextFileMetadata:
                 
                 elif label == 'comment':
                 
-                    value_string = string.join(values, '\n ')
+                    value_string = '\n '.join(values)
                     variable_to_add.setncattr(label, value_string)
             
                 # just need to add in other translations from badc-csv to cf names in here...
@@ -793,7 +824,7 @@ class BADCTextFileMetadata:
                                 
                 else:
 
-                    value_string = string.join(values, ', ')
+                    value_string = '\n '.join(values)
                     variable_to_add.setncattr(label, value_string)
             
                 
@@ -810,31 +841,31 @@ class BADCTextFileMetadataIncomplete(BADCTextFileError): pass #mandatory fields 
 class BADCTextFileMetadataNonstandard(BADCTextFileError): pass #values not in std lists
 
 
-if __name__ == "__main__":
-    fh = open('xxx.csv', 'w')
-    t = BADCTextFile(fh)
-    d1 = (1.2, 3.4, 5.6, 5.2)
-    d2 = (2.2, 4.4, 5.7, 15.2)
+# if __name__ == "__main__":
+#     fh = open('xxx.csv', 'w')
+#     t = BADCTextFile(fh)
+#     d1 = (1.2, 3.4, 5.6, 5.2)
+#     d2 = (2.2, 4.4, 5.7, 15.2)
     
-    t.add_variable("temp",d1)
-    t.add_variable("hieght",d2)
-    t.add_metadata('units', 'K', 1)
-    t.add_metadata('Creator', 'Sam Pepler')
-    t.add_metadata('Creator', ('Prof Bigshot', 'Reading uni'))
-    print(t)
+#     t.add_variable("temp",d1)
+#     t.add_variable("hieght",d2)
+#     t.add_metadata('units', 'K', 1)
+#     t.add_metadata('Creator', 'Sam Pepler')
+#     t.add_metadata('Creator', ('Prof Bigshot', 'Reading uni'))
+#     print(t)
 
-    fh = open('test1.csv', 'r')
-    t = BADCTextFile(fh)
-    print(t)
-    t.check_complete(1)
-    #fh = open(r'Z:\scratch\test_ncgen\test1.cdl','wb')
-    fh = open(r'test1.cdl','wb')
-    fh.write(t.cdl())
-    fh.close()
+#     fh = open('test1.csv', 'r')
+#     t = BADCTextFile(fh)
+#     print(t)
+#     t.check_complete(1)
+#     #fh = open(r'Z:\scratch\test_ncgen\test1.cdl','wb')
+#     fh = open(r'test1.cdl','wb')
+#     fh.write(t.cdl())
+#     fh.close()
 
-    print()
-    print(t.cvs())
-    fh = open(r'test1.na','wb')
-    fh.write(t.NASA_Ames())
-    fh.close()
+#     print()
+#     print(t.cvs())
+#     fh = open(r'test1.na','wb')
+#     fh.write(t.NASA_Ames())
+#     fh.close()
 
