@@ -428,15 +428,15 @@ class BADCTextFile:
      
         s = s + "variables: \n"
         for colname in self.colnames():
-            print(colname)
+            #print(colname)
             try:
                 varname = "var%s" % int(colname.strip())
             except:
                 varname = colname
             
-            print(varname)
-            if len(self['type', colname]) > 0:
-                vartype = self['type', colname][0][0]
+            #print(varname)
+            if self._metadata.varRecords[colname].get('type', None):
+                vartype = self._metadata.varRecords[colname].get('type', None)[0]
                 s = s + "    %s %s(point);\n" % (vartype, varname)
             else:
                 warnings.warn(f'Variable type for {varname} has not been provided and will be missing from the CDL file.')

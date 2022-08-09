@@ -208,6 +208,9 @@ def test_BADCTextFile_complete():
     d2 = ('0')*8
     f.add_variable('36',d2)
     assert f[-1] == ['0']*8
+    # have to add long name and type for this variable to make sure it is still compliant
+    f.add_metadata(label='long_name', values=('test', 'm'), ref='36')
+    f.add_metadata(label='type', values=('float'), ref='36')
 
     # test add variable metadata
     f.add_metadata(label='scale_factor', values=('test'), ref='9')
@@ -221,107 +224,39 @@ def test_BADCTextFile_complete():
         raise Exception 
     
     # test adding data record
-    # f.add_datarecord(['2009','5','6','12','0','-9999999','2009','5','6','12','4','AIRCRAFT','TEST','44.4','11.02','1500','-9999999','-9999999','0','3','-9999999','-9999999','6','-9999999','293','2.1','-9999999','-9999999','-9999999','-9999999','279.7','-9999999','-9999999','0','-9999999']) # should i add as string or not??
-    # assert f[12] == ['AIRCRAFT', 'AIRCRAFT', 'AIRCRAFT', 'AIRCRAFT', 'AIRCRAFT', 'AIRCRAFT', 'LH048', 'LH1852', 'AIRCRAFT']
-    # print(f[13])
+    f.add_datarecord(['2009','5','6','12','0','-9999999','2009','5','6','12','4','AIRCRAFT','TEST','44.4','11.02','1500','-9999999','-9999999','0','3','-9999999','-9999999','6','-9999999','293','2.1','-9999999','-9999999','-9999999','-9999999','279.7','-9999999','-9999999','0','-9999999', '0']) # should i add as string or not??
+    assert f[12] == ['EU6349', 'EU6349', 'CNJCA314', 'CNJCA317', 'JP9Z58UZ', 'JP9Z5Y6Z', 'EU0583', 'EU0362', 'TEST']
 
 #     # test add metadata
-#     f.add_metadata('history', 'Testing out badc-csv code on this file', 'G')
-#     assert f._metadata.globalRecords[-1][0] == 'history'
-#     assert f._metadata.globalRecords[-1][1] == ('Testing out badc-csv code on this file',)
+    f.add_metadata('history', 'Testing out badc-csv code on this file', 'G')
+    assert f._metadata.globalRecords[-1][0] == 'history'
+    assert f._metadata.globalRecords[-1][1] == ('Testing out badc-csv code on this file',)
 
-#      # check that file is still valid and basic level compliant
-#     f.check_valid()
+     # check that file is still valid and basic level compliant
+    f.check_valid()
 
-#     f.check_colrefs()
+    f.check_colrefs()
 
-#     # check basic compliance
-#     f.check_complete(level='basic')
+    # check basic compliance
+    f.check_complete(level='basic')
 
-#     # should this be called csv?
-#     assert f.cvs() == repr(f) == 'Conventions,G,BADC-CSV,1\ntitle,G,My data file\ncreator,G,Prof W E Ather,Reading\ncontributor,G,Sam Pepler,BADC\ncreator,G, A. Pdra\nlocation_name,G,Rutherford Appleton Lab\nhistory,G,Testing out badc-csv code on this file\nlong_name,1,time, days since 2007-03-14\ncoordinate_variable,1,x\nlong_name,2,air temperature, K\nlong_name,3,met station air temperature, K\ncreator,3,unknown,Met Office\nlong_name,4,height,m\nData\n1,2,3,4\n0.8,2.4,2.3,2.2\n1.1,3.4,3.3,4.4\n2.4,3.5,3.3,5.7\n3.7,6.7,6.4,15.2\n4.9,5.7,5.8,16.8\n5.2,3.4,6.7,18.2\nEnd Data\n'
+    # check complete compliance
+    f.check_complete(level='complete')
 
-#     # test cdl
-#     assert f.cdl() == '''// This CDL file was generated from a BADC text file file
-# netcdf foo { 
-# dimensions:
-#    point = 6;
+    # check csv (should the method be called csv instead of cvs?) 
+    assert f.cvs().split('\n')[0] == repr(f).split('\n')[0] == 'Conventions,G,BADC-CSV,1'
+    assert f.cvs().split('\n')[-3] == repr(f).split('\n')[-3] == '2009,5,6,12,0,-9999999,2009,5,6,12,4,AIRCRAFT,TEST,44.4,11.02,1500,-9999999,-9999999,0,3,-9999999,-9999999,6,-9999999,293,2.1,-9999999,-9999999,-9999999,-9999999,279.7,-9999999,-9999999,0,-9999999,0'
 
-# variables: 
-#     var1 (point);
-#     var2 (point);
-#     var3 (point);
-#     var4 (point);
-
-# // variable attributes
-#         varcoordinate_variable:1 = "x";
-#         varlong_name:2 = "air temperature,  K";
-#         varcreator:3 = "unknown, Met Office";
-#         varlong_name:4 = "height, m";
-# // global attributes
-#         :Conventions = "BADC-CSV, 1";
-#         :title = "My data file";
-#         :creator = "Prof W E Ather, Reading";
-#         :contributor = "Sam Pepler, BADC";
-#         :creator1 = " A. Pdra";
-#         :location_name = "Rutherford Appleton Lab";
-#         :history = "Testing out badc-csv code on this file";
-
-# data:
-# var1 = 0.8, 1.1, 2.4, 3.7, 4.9, 5.2;
-# var2 = 2.4, 3.4, 3.5, 6.7, 5.7, 3.4;
-# var3 = 2.3, 3.3, 3.3, 6.4, 5.8, 6.7;
-# var4 = 2.2, 4.4, 5.7, 15.2, 16.8, 18.2;
-# }
-# '''
-
-#     # test NASA Ames format
-#     assert f.NASA_Ames() == '''39 1001
-# Prof W E Ather;  A. Pdra
-# Reading
+    # test cdl
+    assert f.cdl().split('\n')[6] == '    int var1(point);'
+    assert f.cdl().split('\n')[-3] == 'var36 = 0, 0, 0, 0, 0, 0, 0, 0, 0;'
 
 
-# 1 1
-# None    None
-# 0.0
-# time ( days since 2007-03-14)
-# 3
-
-
-
-
-
-
-
-
-# time ( days since 2007-03-14)
-# air temperature ( K)
-# met station air temperature ( K)
-# height (m)
-# 1
-# File created from BADC text file
-# 15
-# BADC-CSV style metadata:
-# Conventions,G,BADC-CSV,1\r
-# title,G,My data file\r
-# creator,G,Prof W E Ather,Reading\r
-# contributor,G,Sam Pepler,BADC\r
-# creator,G, A. Pdra\r
-# location_name,G,Rutherford Appleton Lab\r
-# history,G,Testing out badc-csv code on this file\r
-# long_name,1,time, days since 2007-03-14\r
-# coordinate_variable,1,x\r
-# long_name,2,air temperature, K\r
-# long_name,3,met station air temperature, K\r
-# creator,3,unknown,Met Office\r
-# long_name,4,height,m\r
-# 0.8 2.4 2.3 2.2
-# 1.1 3.4 3.3 4.4
-# 2.4 3.5 3.3 5.7
-# 3.7 6.7 6.4 15.2
-# 4.9 5.7 5.8 16.8
-# 5.2 3.4 6.7 18.2
-# '''
+    # test NASA Ames format
+    # why is there so many t's - check what is happening with this??
+    assert f.NASA_Ames().split('\n')[0] == '287 1001'
+    assert f.NASA_Ames().split('\n')[6] == '2009 05 06    2009 05 11 15:40'
+    assert f.NASA_Ames().split('\n')[-3] == '2009 5 6 12 0 -9999999 2009 5 6 12 4 LH1852 EU0362 41.29 16.52 1500 -9999999 -9999999 0 3 -9999999 -9999999 6 -9999999 293 2.1 -9999999 -9999999 -9999999 -9999999 279.7 -9999999 -9999999 0 -9999999 0'
 
 
 # test the other classes
