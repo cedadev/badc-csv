@@ -1,0 +1,27 @@
+[project]
+name = "badc-csv"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Jenns", email = "rory.jenns@stfc.ac.uk" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+badc-csv = "badc_csv:main"
+
+[build-system]
+requires = ["uv_build>=0.12.16,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 200
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"
