@@ -6,103 +6,18 @@
 # SJP 2008-09-22
 
 
+import sys, csv, io
+from enum import Enum
 
-import sys, csv, time, io, warnings
+from check_types import *  # TODO bad style
+from badc_errors import BADCTextFileError
 
-
-# -----
-# value check functions.
-# each function takes a values tuple and checks it
-
-def checkString(values):
-    pass
+BADC_CSV_Section = Enum("BADC_CSV_Section", [("METADATA", 1), ("COLUMN_HEADERS", 2), ("DATA", 3), ("END", 4)])
 
 
-def checkInt(values):
-    for v in values:
-        int(v)
-
-
-def checkFloat(values):
-    for v in values:
-        float(v)
-
-
-def checkLocation(values):
-    if len(values) == 4 or len(values) == 2:
-        for v in values:
-            float(v)
-    else:
-        pass
-
-
-def checkDate(values):
-    # carries out a check against ISO standard date-time string
-    # that conforms to one of:
-    # Y-m-d
-    # Y-m-d h
-    # Y-m-d h:m
-    # Y-m-d h:m:s
-    # Y-m-d h:m:s.decimal
-
-    for v in values:
-        dateSplit = v.split(" ")
-        dateString = "%Y-%m-%d"
-        # print v, v.split(' ')
-        if len(dateSplit) == 2:
-            timeSplit = dateSplit[1].split(":")
-            if len(timeSplit) == 1:
-                dateString = dateString + " %H"
-            if len(timeSplit) == 2:
-                dateString = dateString + " %H:%M"
-            if len(timeSplit) == 3:
-                dateString = dateString + " %H:%M:%S"
-                if "." in v:
-                    dateString = dateString + ".%f"
-
-        time.strptime(v, dateString)
-
-
-def checkStandardName(values):
-    pass
-
-
-def checkHeight(values):
-    float(values[0])
-
-
-def checkFeatureType(values):
-    pass
-
-
-def checkCoordinateVariables(values):
-    pass
-
-
-def checkConventions(values):
-    if values[0] != "BADC-CSV":
-        raise BADCTextFileMetadataInvalid(f"Conventions must be BADC-CSV, not {values[0]}")
-    if values[1] != "1":
-        raise BADCTextFileMetadataInvalid(f"Conventions must be 'BADC-CSV, 1', not {values[1]}")
-
-
-def MetadataInvalid(message):
-    warnings.warn(message)
-
-
-def checkType(values):
-    v = values[0]
-    if v not in ("int", "float", "char"):
-        raise BADCTextFileMetadataInvalid(f"Type not right must be int, float or char. not {v}")
-
-
-def checkCellMethod(values):
-    pass
-
-
-# The BADCTextFile class is the main class for manipulating data.
 class BADCTextFile:
-    """
+    """The BADCTextFile class is the main class for manipulating data.
+
     MDinfo defines the valid use for the metadata items in the data
     files. The dictionary is keyed on the metadata label and has values
     that correspond to:
@@ -190,51 +105,55 @@ class BADCTextFile:
 
     def parse(self):
         reader = csv.reader(self.fh)
-        section = 1
-        for row in reader:
-            try:
-                # section 1 is the metadata section
-                if section == 1:
-                    while row[-1] == "":
-                        row = row[:-1]  # remove blank cells
-                    if len(row) == 0:
-                        continue  # ignore blank lines
-                    elif len(row) == 1:
-                        if row[0].lower() == "data":
-                            section = 2
-                            continue
+        section = BADC_CSV_Section.METADATA
+        for raw_row in reader:
+            # ignore blank lines, and remove whitespace
+            row = [item for item in raw_row if item != ""]
+            if len(row) == 0:
+                continue
+            # Process by section
+            # BADC_CSV_Section: METADATA then COLUMN_HEADERS then DATA, then END
+            if section == BADC_CSV_Section.METADATA:
+                try:
+                    if len(row) >= 3:
+                        label, ref, raw_values = row[0], row[1], row[2:]  # This can raise an error
+                        # At least 1 item in "values" is expected
+                        values = tuple(v.strip() for v in raw_values)
+                        self.add_metadata(label, values, ref)  # cannot raise an error...
+                    elif len(row) == 1 and row[0].lower() == "data":
+                        section = BADC_CSV_Section.COLUMN_HEADERS
+                        continue
                     else:
-                        label, ref, values = row[0], row[1], row[2:]
-                        values = tuple(values)
-                        self.add_metadata(label, values, ref)
+                        raise BADCTextFileError(f'Expected metadata entry (3+ comma separated values), or "data" (end of section). Instead got: {row}')
 
-                # section 2 the column names
-                elif section == 2:
-                    while row[-1] == "":
-                        row = row[:-1]  # remove blank cells
-                    for colname in row:
+                except BADCTextFileError as error:
+                    print(f"Error in section {BADC_CSV_Section.METADATA}, METADATA")
+                    raise error
+            elif section == BADC_CSV_Section.COLUMN_HEADERS:
+                # This section is only one row.
+                for colname in row:
+                    try:
                         self.add_variable(colname)
-                    section = 3
+                    except BADCTextFileError as error:
+                        print(f"Error in section {BADC_CSV_Section.COLUMN_HEADERS}, COLUMN_HEADERS")
+                        raise error
+                section = BADC_CSV_Section.DATA
+            elif section == BADC_CSV_Section.DATA:
+                try:
+                    if len(row) == 1 and row[0].lower() == "end data":
+                        section = BADC_CSV_Section.END
+                        continue
+                    self.add_datarecord(row)
+                except BADCTextFileError as error:
+                    print(f"Error in section {BADC_CSV_Section.DATA}, DATA")
+                    raise error
 
-                # section 3 is the data section
-                elif section == 3:
-                    while row[-1] == "":
-                        row = row[:-1]  # remove blank cells
-                    if len(row) == 0:
-                        continue  # ignore blank lines
-                    elif len(row) == 1:
-                        if row[0].lower() == "end data":
-                            return
-                    else:
-                        # data row
-                        self.add_datarecord(row)
-
-            except BADCTextFileError:
-                raise
+            if section == BADC_CSV_Section.END:
+                return
 
     def check_valid(self):
         for label in BADCTextFile.MDinfo:
-            applyg, applyc, mino, maxo, mandb, mandc, check, meaning = BADCTextFile.MDinfo[label]
+            applyg, applyc, mino, maxo, mandb, mandc, validationFunction, meaning = BADCTextFile.MDinfo[label]
 
             # if label can't apply globally but is defined raise error
             if not applyg and self[label] != []:
@@ -259,39 +178,23 @@ class BADCTextFile:
 
             # see if values are OK
             for values in self[label]:
-                try:
-                    check(values)
-                except:
+                if validationFunction(values) == False:
                     MetadataInvalid(f"Metadata field values invalid {label}: {values}  [{sys.exc_info()[1]}]")
             for colname in self.colnames():
                 for values in self[label, colname]:
-                    try:
-                        check(values)
-                    except:
+                    if validationFunction(values) == False:
                         MetadataInvalid(f"Metadata field values for column '{colname}' invalid {label}: {values}  [{sys.exc_info()[1]}]")
 
     def check_colRefs(self):
-        metadataRefs = []
-
-        for line in self._metadata.varRecords:
-            metadataRefs.append(line[1])
-
-        metadataRefs = list(set(metadataRefs))
-
-        long_namesCnt = []
-
-        for colname in set(self.colnames()):
-            if colname != "G":
-                long_namesCnt.append(colname)
+        metadataRefs = list(set(line[1] for line in self._metadata.varRecords))
+        long_namesCnt = tuple(colname for colname in set(self.colnames()) if colname != "G")
 
         if len(long_namesCnt) == len(metadataRefs):
-            try:
-                for colName in long_namesCnt:
-                    if not colName in metadataRefs:
-                        raise
-            except:
-                metadata_entries = ",".join(metadataRefs)
-                MetadataInvalid(f"Column name {colName} not used as reference to connect metadata entries {metadata_entries}")
+            for colName in long_namesCnt:
+                if not colName in metadataRefs:
+                    metadata_entries = ",".join(metadataRefs)
+                    MetadataInvalid(f"Column name {colName} not used as reference to connect metadata entries {metadata_entries}")
+                    break  # Here to mirror previous behaviour. I would remove.
         else:
             header_references = ",".join(metadataRefs)
             column_headigns = ",".join(self.colnames())
@@ -301,8 +204,7 @@ class BADCTextFile:
         self.check_colRefs()
         self.check_valid()
         for label in BADCTextFile.MDinfo:
-            applyg, applyc, mino, maxo, mandb, mandc, check, meaning = BADCTextFile.MDinfo[label]
-
+            applyg, applyc, mino, maxo, mandb, mandc, validationFunction, meaning = BADCTextFile.MDinfo[label]
             # find level for check
             if level == "basic":
                 mand = mandb
@@ -406,7 +308,7 @@ class BADCTextFile:
 
         return s
 
-    def cvs(self):
+    def cvs(self):  # TODO change interface because of spelling mistake -> csv.
         s = io.StringIO()
         cvswriter = csv.writer(s, lineterminator="\n")
         self._metadata.csv(cvswriter)
@@ -559,32 +461,9 @@ class BADCTextFileMetadata:
             csvwriter.writerow((label, ref) + values)
 
 
-class BADCTextFileError(Exception):
-    pass
-
-
-class BADCTextFileParseError(BADCTextFileError):
-    pass  # basic conform to format
-
-
-class BADCTextFileDataError(BADCTextFileError):
-    pass  # wrong shape data
-
-
-class BADCTextFileMetadataInvalid(BADCTextFileError):
-    pass  # wrong args for md
-
-
-class BADCTextFileMetadataIncomplete(BADCTextFileError):
-    pass  # mandatory fields not included
-
-
-class BADCTextFileMetadataNonstandard(BADCTextFileError):
-    pass  # values not in std lists
-
-
-if __name__ == "__main__":
-    fh = open(".tmp/xxx.csv", "w")
+if __name__ == "__main__":  # Test File, if called directly
+    # TEST 1: Create a 'BADC-CSV' compliant file
+    fh = open("tmp/xxx.csv", "w")
     t = BADCTextFile(fh)
     d1 = (1.2, 3.4, 5.6, 5.2)
     d2 = (2.2, 4.4, 5.7, 15.2)
@@ -596,17 +475,21 @@ if __name__ == "__main__":
     t.add_metadata("Creator", ("Prof Bigshot", "Reading uni"))
     print(t)
 
+    # TEST 2: Read a 'BADC-CSV' compliant file
     fh = open("./data/test1.csv", "r")
     t = BADCTextFile(fh)
     print(t)
     t.check_complete(1)
     # fh = open(r'Z:\scratch\test_ncgen\test1.cdl','wb')
-    fh = open(r".tmp/test1.cdl", "wb")
+    fh = open(r"tmp/test1.cdl", "wb")
     fh.write(t.cdl().encode("utf-8"))
     fh.close()
 
+    # # ???
     # print()
     # print(t.cvs())
+
+    # FAILED - TEST 3: Convert a 'BADC-CSV' file to the older 'NASA Ames' format
     # fh = open(r"test1.na", "wb")
     # fh.write(t.NASA_Ames().encode("utf-8"))
     # fh.close()
