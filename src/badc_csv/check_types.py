@@ -2,7 +2,7 @@
 # value check functions.
 # each function takes a values tuple and checks it
 
-""" BADC CSV Checker - Type Checking functions
+"""BADC CSV Checker - Type Checking functions
 
 Each Function is of the form (Tuple -> None).
 
@@ -12,9 +12,11 @@ To confirm that a type is INVALID, the function will throw an error.
 TODO - change methods to a BOOL output True/False.
 """
 
-import time, warnings
+import time
+import warnings
 
-from badc_errors import BADCTextFileMetadataInvalid
+from badc_csv.badc_errors import BADCTextFileMetadataInvalid
+
 
 def checkString(values):
     pass

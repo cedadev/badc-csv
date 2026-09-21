@@ -6,13 +6,18 @@
 # SJP 2008-09-22
 
 
-import sys, csv, io
+import csv
+import io
+import sys
 from enum import Enum
+from types import MappingProxyType
 
-from check_types import *  # TODO bad style
-from badc_errors import BADCTextFileError
+from badc_csv.badc_errors import BADCTextFileError
+from badc_csv.check_types import *  # TODO bad style
 
-BADC_CSV_Section = Enum("BADC_CSV_Section", [("METADATA", 1), ("COLUMN_HEADERS", 2), ("DATA", 3), ("END", 4)])
+BADC_CSV_SECTION = Enum("BADC_CSV_SECTION", [("METADATA", 1), ("COLUMN_HEADERS", 2), ("DATA", 3), ("END", 4)])
+
+MANDATORY_CLASS = Enum("MANDATORY_CLASS", [("NOT_MANDATORY", 0), ("MANDATORY", 1), ("ALL_COLUMNS", 2)])
 
 
 class BADCTextFile:
@@ -31,38 +36,40 @@ class BADCTextFile:
           (0=not mandatory, 1=mandatory existence for at least one column, 2=must exist for all columns)
     """
 
-    MDinfo = {
-        "Conventions": (1, 0, 2, 2, 1, 1, checkConventions, "Metadata conventions used. Must be BADC-CSV, 1"),
-        "long_name": (0, 1, 2, 2, 2, 2, checkString, "Description of variable and its unit"),
-        "coordinate_variable": (0, 1, 0, 2, 1, 1, checkCoordinateVariables, "Flag to show which column(s) are regarded as coordinate variables"),
-        "creator": (1, 1, 1, 2, 0, 1, checkString, "The name of the person and/or institute that created the data"),
-        "source": (1, 1, 1, 1, 0, 1, checkString, "The name of the tool used to produce the data. e.g. model name or instrument type"),
-        "observation_station": (1, 1, 1, 1, 0, 1, checkString, "The name of the observation station or instrument platform used"),
-        "activity": (1, 1, 1, 1, 0, 1, checkString, "The name of the activity sponsoring the collection of the data "),
-        "feature_type": (1, 0, 1, 1, 0, 1, checkFeatureType, "type of feature,point series, trajectory or point collection"),
-        "location": (1, 1, 1, 4, 0, 1, checkLocation, "Location for the data. Can be a name, bounding box, or lat and long values"),
-        "date_valid": (1, 1, 1, 2, 0, 1, checkDate, "The date the data is valid for. Needs to be YYYY-MM-DD form"),
-        "last_revised_date": (1, 1, 1, 1, 0, 1, checkDate, "The date the data was revised or worked up. Needs to be YYYY-MM-DD form"),
-        "history": (1, 1, 1, 1, 0, 1, checkString, "Text description of the file history"),
-        "standard_name": (0, 1, 3, 3, 0, 0, checkStandardName, "Name of variable from a standard list, with unit and the name of the list"),
-        "title": (1, 0, 1, 1, 0, 0, checkString, "A title for the data file"),
-        "comments": (1, 1, 1, 1, 0, 0, checkString, "Any text comment associated with data"),
-        "contributor": (1, 1, 1, 2, 0, 0, checkString, "The name of the person and/or institute that contributed to the data"),
-        "height": (1, 1, 2, 2, 0, 0, checkHeight, "Height valid for data"),
-        "reference": (1, 1, 1, 1, 0, 0, checkString, "Bibliographic reference"),
-        "rights": (1, 1, 1, 1, 0, 0, checkString, "Conditions of use for the data"),
-        "valid_min": (1, 1, 1, 1, 0, 0, checkFloat, "Values below this value should be interpreted as missing"),
-        "valid_max": (1, 1, 1, 1, 0, 0, checkFloat, "Values above this value should be interpreted as missing"),
-        "valid_range": (1, 1, 2, 2, 0, 0, checkFloat, "Values outside this range should be interpreted as missing"),
-        "type": (0, 1, 1, 1, 0, 2, checkType, "The type of the variables in a column. Should be char, int or float"),
-        "cell_method": (1, 1, 1, 4, 0, 0, checkCellMethod, "The cell method used in preparing the data"),
-        "add_offset": (0, 1, 1, 1, 0, 0, checkFloat, "An offset value to add to the values recorded in the data"),
-        "scale_factor": (0, 1, 1, 1, 0, 0, checkFloat, "A scale factor to multiply the data values by"),
-        "flag_values": (0, 1, 1, 1, 0, 0, checkString, "Values used for flag table in data"),
-        "flag_meanings": (0, 1, 1, 1, 0, 0, checkString, "Meanings for each flag_value"),
-    }
+    MDinfo = MappingProxyType(
+        {  # Class variable is Immutable (RUF012)
+            "Conventions": (1, 0, 2, 2, 1, 1, checkConventions, "Metadata conventions used. Must be BADC-CSV, 1"),
+            "long_name": (0, 1, 2, 2, 2, 2, checkString, "Description of variable and its unit"),
+            "coordinate_variable": (0, 1, 0, 2, 1, 1, checkCoordinateVariables, "Flag to show which column(s) are regarded as coordinate variables"),
+            "creator": (1, 1, 1, 2, 0, 1, checkString, "The name of the person and/or institute that created the data"),
+            "source": (1, 1, 1, 1, 0, 1, checkString, "The name of the tool used to produce the data. e.g. model name or instrument type"),
+            "observation_station": (1, 1, 1, 1, 0, 1, checkString, "The name of the observation station or instrument platform used"),
+            "activity": (1, 1, 1, 1, 0, 1, checkString, "The name of the activity sponsoring the collection of the data "),
+            "feature_type": (1, 0, 1, 1, 0, 1, checkFeatureType, "type of feature,point series, trajectory or point collection"),
+            "location": (1, 1, 1, 4, 0, 1, checkLocation, "Location for the data. Can be a name, bounding box, or lat and long values"),
+            "date_valid": (1, 1, 1, 2, 0, 1, checkDate, "The date the data is valid for. Needs to be YYYY-MM-DD form"),
+            "last_revised_date": (1, 1, 1, 1, 0, 1, checkDate, "The date the data was revised or worked up. Needs to be YYYY-MM-DD form"),
+            "history": (1, 1, 1, 1, 0, 1, checkString, "Text description of the file history"),
+            "standard_name": (0, 1, 3, 3, 0, 0, checkStandardName, "Name of variable from a standard list, with unit and the name of the list"),
+            "title": (1, 0, 1, 1, 0, 0, checkString, "A title for the data file"),
+            "comments": (1, 1, 1, 1, 0, 0, checkString, "Any text comment associated with data"),
+            "contributor": (1, 1, 1, 2, 0, 0, checkString, "The name of the person and/or institute that contributed to the data"),
+            "height": (1, 1, 2, 2, 0, 0, checkHeight, "Height valid for data"),
+            "reference": (1, 1, 1, 1, 0, 0, checkString, "Bibliographic reference"),
+            "rights": (1, 1, 1, 1, 0, 0, checkString, "Conditions of use for the data"),
+            "valid_min": (1, 1, 1, 1, 0, 0, checkFloat, "Values below this value should be interpreted as missing"),
+            "valid_max": (1, 1, 1, 1, 0, 0, checkFloat, "Values above this value should be interpreted as missing"),
+            "valid_range": (1, 1, 2, 2, 0, 0, checkFloat, "Values outside this range should be interpreted as missing"),
+            "type": (0, 1, 1, 1, 0, 2, checkType, "The type of the variables in a column. Should be char, int or float"),
+            "cell_method": (1, 1, 1, 4, 0, 0, checkCellMethod, "The cell method used in preparing the data"),
+            "add_offset": (0, 1, 1, 1, 0, 0, checkFloat, "An offset value to add to the values recorded in the data"),
+            "scale_factor": (0, 1, 1, 1, 0, 0, checkFloat, "A scale factor to multiply the data values by"),
+            "flag_values": (0, 1, 1, 1, 0, 0, checkString, "Values used for flag table in data"),
+            "flag_meanings": (0, 1, 1, 1, 0, 0, checkString, "Meanings for each flag_value"),
+        }
+    )
 
-    MDinfoOrder = [
+    MDinfoOrder = (  # This is not used. Should it be?
         "Conventions",
         "long_name",
         "coordinate_variable",
@@ -91,7 +98,7 @@ class BADCTextFile:
         "scale_factor",
         "flag_values",
         "flag_meanings",
-    ]
+    )
 
     def __init__(self, fh):
         self.fh = fh
@@ -105,15 +112,15 @@ class BADCTextFile:
 
     def parse(self):
         reader = csv.reader(self.fh)
-        section = BADC_CSV_Section.METADATA
+        section = BADC_CSV_SECTION.METADATA
         for raw_row in reader:
             # ignore blank lines, and remove whitespace
             row = [item for item in raw_row if item != ""]
             if len(row) == 0:
                 continue
             # Process by section
-            # BADC_CSV_Section: METADATA then COLUMN_HEADERS then DATA, then END
-            if section == BADC_CSV_Section.METADATA:
+            # BADC_CSV_SECTION: METADATA then COLUMN_HEADERS then DATA, then END
+            if section == BADC_CSV_SECTION.METADATA:
                 try:
                     if len(row) >= 3:
                         label, ref, raw_values = row[0], row[1], row[2:]  # This can raise an error
@@ -121,60 +128,64 @@ class BADCTextFile:
                         values = tuple(v.strip() for v in raw_values)
                         self.add_metadata(label, values, ref)  # cannot raise an error...
                     elif len(row) == 1 and row[0].lower() == "data":
-                        section = BADC_CSV_Section.COLUMN_HEADERS
+                        section = BADC_CSV_SECTION.COLUMN_HEADERS
                         continue
                     else:
                         raise BADCTextFileError(f'Expected metadata entry (3+ comma separated values), or "data" (end of section). Instead got: {row}')
 
-                except BADCTextFileError as error:
-                    print(f"Error in section {BADC_CSV_Section.METADATA}, METADATA")
-                    raise error
-            elif section == BADC_CSV_Section.COLUMN_HEADERS:
+                except BADCTextFileError:
+                    print(f"Error in section {BADC_CSV_SECTION.METADATA}, METADATA")
+                    raise
+            elif section == BADC_CSV_SECTION.COLUMN_HEADERS:
                 # This section is only one row.
                 for colname in row:
                     try:
                         self.add_variable(colname)
-                    except BADCTextFileError as error:
-                        print(f"Error in section {BADC_CSV_Section.COLUMN_HEADERS}, COLUMN_HEADERS")
-                        raise error
-                section = BADC_CSV_Section.DATA
-            elif section == BADC_CSV_Section.DATA:
+                    except BADCTextFileError:
+                        print(f"Error in section {BADC_CSV_SECTION.COLUMN_HEADERS}, COLUMN_HEADERS")
+                        raise
+                section = BADC_CSV_SECTION.DATA
+            elif section == BADC_CSV_SECTION.DATA:
                 try:
                     if len(row) == 1 and row[0].lower() == "end data":
-                        section = BADC_CSV_Section.END
+                        section = BADC_CSV_SECTION.END
                         continue
                     self.add_datarecord(row)
-                except BADCTextFileError as error:
-                    print(f"Error in section {BADC_CSV_Section.DATA}, DATA")
-                    raise error
+                except BADCTextFileError:
+                    print(f"Error in section {BADC_CSV_SECTION.DATA}, DATA")
+                    raise
 
-            if section == BADC_CSV_Section.END:
+            if section == BADC_CSV_SECTION.END:
                 return
 
     def check_valid(self):
-        for label in BADCTextFile.MDinfo:
-            applyg, applyc, mino, maxo, mandb, mandc, validationFunction, meaning = BADCTextFile.MDinfo[label]
+        for label in BADCTextFile.MDinfoOrder:
+            global_label, column_label, min_count, max_count, _, _, validationFunction, _ = BADCTextFile.MDinfo[label]
+            global_label: bool
+            column_label: bool
+            min_count: int
+            max_count: int
 
             # if label can't apply globally but is defined raise error
-            if not applyg and self[label] != []:
+            if not global_label and self[label] != []:
                 MetadataInvalid(f"Not allowed as global metadata parameter: {label}, {self[label]}")
             # if label can't apply to column but is defined raise error
-            if not applyc and self[label] == []:
+            if not column_label and self[label] == []:
                 for colname in self.colnames():
                     if self[label, colname] != []:
                         MetadataInvalid(f"Given metadata not allowed for a column: {label}, {colname}, {self[label, colname]}")
             # values have wrong number of fields
             for values in self[label]:
-                if len(values) > maxo:
-                    MetadataInvalid(f"Max number of metadata fields ({maxo}) exceeded for {label}: {values}")
-                if len(values) < mino:
-                    MetadataInvalid(f"Min number of metadata fields ({mino}) not given for {label}: {values}")
+                if len(values) > max_count:
+                    MetadataInvalid(f"Max number of metadata fields ({max_count}) exceeded for {label}: {values}")
+                if len(values) < min_count:
+                    MetadataInvalid(f"Min number of metadata fields ({min_count}) not given for {label}: {values}")
             for colname in self.colnames():
                 for values in self[label, colname]:
-                    if len(values) > maxo:
-                        MetadataInvalid(f"Max number of metadata fields ({maxo}) exceeded for column:{colname} {label}: {values}")
-                    if len(values) < mino:
-                        MetadataInvalid(f"Min number of metadata fields ({mino}) not given for column:{colname} {label}: {values}")
+                    if len(values) > max_count:
+                        MetadataInvalid(f"Max number of metadata fields ({max_count}) exceeded for column:{colname} {label}: {values}")
+                    if len(values) < min_count:
+                        MetadataInvalid(f"Min number of metadata fields ({min_count}) not given for column:{colname} {label}: {values}")
 
             # see if values are OK
             for values in self[label]:
@@ -186,7 +197,7 @@ class BADCTextFile:
                         MetadataInvalid(f"Metadata field values for column '{colname}' invalid {label}: {values}  [{sys.exc_info()[1]}]")
 
     def check_colRefs(self):
-        metadataRefs = list(set(line[1] for line in self._metadata.varRecords))
+        metadataRefs = list(set(line[1] for line in self._metadata.varRecords))  # noqa: C401
         long_namesCnt = tuple(colname for colname in set(self.colnames()) if colname != "G")
 
         if len(long_namesCnt) == len(metadataRefs):
@@ -197,27 +208,35 @@ class BADCTextFile:
                     break  # Here to mirror previous behaviour. I would remove.
         else:
             header_references = ",".join(metadataRefs)
-            column_headigns = ",".join(self.colnames())
-            MetadataInvalid(f"Not all column headings given. Header references are: {header_references}\n Column headings given are: {column_headings}")
+            column_headings = ",".join(self.colnames())
+            MetadataInvalid(f"Not all column headings given. Header references are: {header_references}\nColumn headings given are: {column_headings}")
 
     def check_complete(self, level="basic"):
         self.check_colRefs()
         self.check_valid()
-        for label in BADCTextFile.MDinfo:
-            applyg, applyc, mino, maxo, mandb, mandc, validationFunction, meaning = BADCTextFile.MDinfo[label]
+        for label in BADCTextFile.MDinfoOrder:
+            global_label, column_label, _, _, mandatory_basic, mandatory_complete, _, _ = BADCTextFile.MDinfo[label]
+            global_label: bool
+            column_label: bool
+            mandatory_basic: MANDATORY_CLASS
+            mandatory_complete: MANDATORY_CLASS
+
             # find level for check
-            if level == "basic":
-                mand = mandb
+            mandatory: MANDATORY_CLASS
+            if level == "basic" or level == 0:
+                mandatory = mandatory_basic
+            elif level == "complete" or level == 1:
+                mandatory = mandatory_complete
             else:
-                mand = mandc
+                mandatory = mandatory_complete
 
             # if its not mandatory skip
-            if not mand:
+            if not mandatory:
                 continue
 
             # if applies globally then there should be a global record or
             # one at least one variable
-            if applyg and applyc:
+            if global_label and column_label:
                 if self[label] != []:
                     # found global value. next label
                     continue
@@ -225,13 +244,13 @@ class BADCTextFile:
                     if self[label, colname] != []:
                         break
                 else:
-                    if mand == mandb:
+                    if mandatory == mandatory_basic:
                         MetadataInvalid(f"Mandatory basic global/column metadata not provided: {label}")
-                    elif mand == mandc:
+                    elif mandatory == mandatory_complete:
                         MetadataInvalid(f"Recommended complete global/column metadata not provided: {label}")
                     else:
                         MetadataInvalid(f"Suggested global/column metadata not provided: {label}")
-            elif applyg and not applyc:
+            elif global_label and not column_label:
                 if self[label] != []:
                     # found global value. next label
                     continue
@@ -239,16 +258,15 @@ class BADCTextFile:
                     if self[label, colname] != []:
                         break
                 else:
-                    if mand == mandb:
+                    if mandatory == mandatory_basic:
                         MetadataInvalid(f"Mandatory global metadata not provided: {label}")
-                    elif mand == mandc:
+                    elif mandatory == mandatory_complete:
                         MetadataInvalid(f"Recommended complete global metadata not provided: {label}")
                     else:
                         MetadataInvalid(f"Suggested global metadata not provided: {label}")
 
-                # if applies to column only then there should be a record for
-            # each variable
-            elif applyc and mand == 2:
+                # if applies to column only then there should be a record for each variable
+            elif column_label and mandatory == MANDATORY_CLASS.ALL_COLUMNS:
                 for colname in self.colnames():
                     if self[label, colname] == []:
                         MetadataInvalid(f'Recommended complete column metadata "{label}" for column {colname} missing')
@@ -374,7 +392,7 @@ class BADCTextFileData:
 
 class BADCTextFileVariable:
     # class to hold 1D data.
-    def __init__(self, values=[]):
+    def __init__(self, values=()):
         self.set_values(values)
 
     def __len__(self):
@@ -463,33 +481,17 @@ class BADCTextFileMetadata:
 
 if __name__ == "__main__":  # Test File, if called directly
     # TEST 1: Create a 'BADC-CSV' compliant file
-    fh = open("tmp/xxx.csv", "w")
-    t = BADCTextFile(fh)
-    d1 = (1.2, 3.4, 5.6, 5.2)
-    d2 = (2.2, 4.4, 5.7, 15.2)
+    with open(".tmp/xxx.csv", "w") as fh:
+        t = BADCTextFile(fh)
+        d1 = (1.2, 3.4, 5.6, 5.2)
+        d2 = (2.2, 4.4, 5.7, 15.2)
 
-    t.add_variable("temp", d1)
-    t.add_variable("height", d2)
-    t.add_metadata("units", "K", 1)
-    t.add_metadata("Creator", "Sam Pepler")
-    t.add_metadata("Creator", ("Prof Bigshot", "Reading uni"))
-    print(t)
+        t.add_variable("temp", d1)
+        t.add_variable("height", d2)
+        t.add_metadata("units", "K", 1)
+        t.add_metadata("Creator", "Sam Pepler")
+        t.add_metadata("Creator", ("Prof Bigshot", "Reading uni"))
 
     # TEST 2: Read a 'BADC-CSV' compliant file
-    fh = open("./data/test1.csv", "r")
-    t = BADCTextFile(fh)
-    print(t)
-    t.check_complete(1)
-    # fh = open(r'Z:\scratch\test_ncgen\test1.cdl','wb')
-    fh = open(r"tmp/test1.cdl", "wb")
-    fh.write(t.cdl().encode("utf-8"))
-    fh.close()
-
-    # # ???
-    # print()
-    # print(t.cvs())
-
-    # FAILED - TEST 3: Convert a 'BADC-CSV' file to the older 'NASA Ames' format
-    # fh = open(r"test1.na", "wb")
-    # fh.write(t.NASA_Ames().encode("utf-8"))
-    # fh.close()
+    with open("./data/test1.csv", "r") as f:
+        t = BADCTextFile(fh)
