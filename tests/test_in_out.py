@@ -37,10 +37,6 @@ def test_read_compliant():
     with open(TEST_DATA_DIR / "test1.csv", "r") as fh:
         t = BADCTextFile(fh)
         weather_example = t.__repr__()
-        # t.check_complete(1)
-        # with open(r".tmp/test1.cdl", "wb") as fh2:
-        #     fh2.write(t.cdl().encode("utf-8"))
-
         assert ground_truth == weather_example
 
         # Source - https://stackoverflow.com/a/45671804
@@ -80,3 +76,7 @@ def test_cdl_maybe_(): # unsure...
     #     fh.write(t.cdl().encode("utf-8"))
     #     fh.close()
     #     print(t.cvs())
+
+    # t.check_complete(1)
+    # with open(r".tmp/test1.cdl", "wb") as fh2:
+    #     fh2.write(t.cdl().encode("utf-8"))
