@@ -16,7 +16,7 @@ def read_file_text(filepath):
 def test_initial():
     # TEST 1: Create a 'BADC-CSV' file
     ground_truth = read_file_text(TEST_DATA_DIR / "bigshot-example.csv")
-    with open(TEST_TEMP_DIR / "xxx.csv", "w") as fh:
+    with open(TEST_TEMP_DIR / "xxx.csv", "w+") as fh:
         t = BADCTextFile(fh)
         d1 = (1.2, 3.4, 5.6, 5.2)
         d2 = (2.2, 4.4, 5.7, 15.2)
