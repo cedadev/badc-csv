@@ -362,11 +362,9 @@ class BADCTextFileData:
         # number of data rows
         if len(self.variables) == 0:
             return 0
-        else:
-            return len(self.variables[0])
+        return len(self.variables[0])
 
     def nvar(self):
-        # number of variables
         return len(self.variables)
 
     def __getitem__(self, i):
