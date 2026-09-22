@@ -5,7 +5,6 @@
 #
 # SJP 2008-09-22
 
-
 import csv
 import io
 import sys
@@ -218,16 +217,17 @@ class BADCTextFile:
             global_label, column_label, _, _, mandatory_basic, mandatory_complete, _, _ = BADCTextFile.MDinfo[label]
             global_label: bool
             column_label: bool
+            mandatory: MANDATORY_CLASS
             mandatory_basic: MANDATORY_CLASS
             mandatory_complete: MANDATORY_CLASS
 
+            if level not in ("basic", "complete"):
+                level = "complete"
+
             # find level for check
-            mandatory: MANDATORY_CLASS
-            if level == "basic" or level == 0:
+            if level == "basic":
                 mandatory = mandatory_basic
-            elif level == "complete" or level == 1:
-                mandatory = mandatory_complete
-            else:
+            if level == "complete":
                 mandatory = mandatory_complete
 
             # if its not mandatory skip
@@ -477,21 +477,3 @@ class BADCTextFileMetadata:
             csvwriter.writerow((label, "G") + values)
         for label, ref, values in self.varRecords:
             csvwriter.writerow((label, ref) + values)
-
-
-if __name__ == "__main__":  # Test File, if called directly
-    # TEST 1: Create a 'BADC-CSV' compliant file
-    with open(".tmp/xxx.csv", "w") as fh:
-        t = BADCTextFile(fh)
-        d1 = (1.2, 3.4, 5.6, 5.2)
-        d2 = (2.2, 4.4, 5.7, 15.2)
-
-        t.add_variable("temp", d1)
-        t.add_variable("height", d2)
-        t.add_metadata("units", "K", 1)
-        t.add_metadata("Creator", "Sam Pepler")
-        t.add_metadata("Creator", ("Prof Bigshot", "Reading uni"))
-
-    # TEST 2: Read a 'BADC-CSV' compliant file
-    with open("./data/test1.csv", "r") as f:
-        t = BADCTextFile(fh)

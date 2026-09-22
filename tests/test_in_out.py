@@ -1,6 +1,7 @@
 import warnings
 from pathlib import Path
 
+from badc_csv.badc_errors import BADCTextFileError
 from badc_csv.badctextfilewarn import BADCTextFile
 
 TEST_DATA_DIR = Path("tests/reference/")
@@ -32,12 +33,12 @@ def test_read_compliant():
     # TEST 2: Read a 'BADC-CSV' compliant file
     ground_truth = read_file_text(TEST_DATA_DIR / "weather-example.csv")
 
-    with open("./data/test1.csv", "r") as fh:
+    with open(TEST_DATA_DIR / "test1.csv", "r") as fh:
         t = BADCTextFile(fh)
         weather_example = t.__repr__()
         # t.check_complete(1)
-        with open(r".tmp/test1.cdl", "wb") as fh2:
-            fh2.write(t.cdl().encode("utf-8"))
+        # with open(r".tmp/test1.cdl", "wb") as fh2:
+        #     fh2.write(t.cdl().encode("utf-8"))
 
         assert ground_truth == weather_example
 
@@ -50,6 +51,18 @@ def test_read_compliant():
             t.check_complete("basic")
             t.check_complete(0)
             t.check_complete("complete")
+
+
+
+def test_read_bad():
+    with open(TEST_DATA_DIR / "badc-csv-unsupported-multiline.csv", "r") as fh:
+        # this file uses an unsupported format of multi-line comments
+        try:
+            BADCTextFile(fh)
+            assert False
+        except BADCTextFileError:
+            assert True
+
 
 
 def test_expect_warnings():
