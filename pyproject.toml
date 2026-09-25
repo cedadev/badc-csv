@@ -10,7 +10,7 @@ requires-python = ">=3.14"
 dependencies = []
 
 [project.scripts]
-badc-csv = "badc_csv:main"
+test-uv = "test_uv:main"
 
 [build-system]
 requires = ["uv_build>=0.12.16,<0.13.0"]

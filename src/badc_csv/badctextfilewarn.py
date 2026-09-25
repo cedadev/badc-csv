@@ -13,10 +13,9 @@ from types import MappingProxyType
 
 from badc_csv.badc_errors import BADCTextFileError
 from badc_csv.check_types import *  # TODO bad style
+from badc_csv.mandatory_info import MANDATORY_CLASS, mandatory_info_order
 
 BADC_CSV_SECTION = Enum("BADC_CSV_SECTION", [("METADATA", 1), ("COLUMN_HEADERS", 2), ("DATA", 3), ("END", 4)])
-
-MANDATORY_CLASS = Enum("MANDATORY_CLASS", [("NOT_MANDATORY", 0), ("MANDATORY", 1), ("ALL_COLUMNS", 2)])
 
 
 class BADCTextFile:
@@ -68,36 +67,7 @@ class BADCTextFile:
         }
     )
 
-    MDinfoOrder = (  # This is not used. Should it be?
-        "Conventions",
-        "long_name",
-        "coordinate_variable",
-        "feature_type",
-        "creator",
-        "source",
-        "observation_station",
-        "location",
-        "activity",
-        "date_valid",
-        "last_revised_date",
-        "history",
-        "type",
-        "title",
-        "comments",
-        "contributor",
-        "height",
-        "reference",
-        "rights",
-        "valid_min",
-        "valid_max",
-        "valid_range",
-        "cell_method",
-        "standard_name",
-        "add_offset",
-        "scale_factor",
-        "flag_values",
-        "flag_meanings",
-    )
+    MDinfoOrder = mandatory_info_order
 
     def __init__(self, fh):
         self.fh = fh
@@ -114,7 +84,7 @@ class BADCTextFile:
         section = BADC_CSV_SECTION.METADATA
         for raw_row in reader:
             # ignore blank lines, and remove whitespace
-            row = [item for item in raw_row if item != ""]
+            row = [item.strip() for item in raw_row if item != ""]
             if len(row) == 0:
                 continue
             # Process by section
@@ -122,10 +92,9 @@ class BADCTextFile:
             if section == BADC_CSV_SECTION.METADATA:
                 try:
                     if len(row) >= 3:
-                        label, ref, raw_values = row[0], row[1], row[2:]  # This can raise an error
-                        # At least 1 item in "values" is expected
-                        values = tuple(v.strip() for v in raw_values)
-                        self.add_metadata(label, values, ref)  # cannot raise an error...
+                        label, ref, values = row[0], row[1], row[2:]
+                        values = tuple(v for v in values)
+                        self.add_metadata(label, values, ref)
                     elif len(row) == 1 and row[0].lower() == "data":
                         section = BADC_CSV_SECTION.COLUMN_HEADERS
                         continue
@@ -136,8 +105,7 @@ class BADCTextFile:
                     print(f"Error in section {BADC_CSV_SECTION.METADATA}, METADATA")
                     raise
             elif section == BADC_CSV_SECTION.COLUMN_HEADERS:
-                # This section is only one row.
-                for colname in row:
+                for colname in row:  # This section is only one row.
                     try:
                         self.add_variable(colname)
                     except BADCTextFileError:
@@ -153,7 +121,7 @@ class BADCTextFile:
                 except BADCTextFileError:
                     print(f"Error in section {BADC_CSV_SECTION.DATA}, DATA")
                     raise
-
+            # End in same iteration of final line.
             if section == BADC_CSV_SECTION.END:
                 return
 
@@ -446,26 +414,26 @@ class BADCTextFileMetadata:
         # return cdl representation of metadata
         s = "// variable attributes\n"
         # make sure labels are unique for netCDF. e.g. creator, creator1, creator2
-        used_labels = {}
+        label_counter = {}
         for label, column, values in self.varRecords:
-            if (label, column) in used_labels:
-                use_label = f"{label}{used_labels[label, column]}"
-                used_labels[label, column] = used_labels[label, column] + 1
+            if (label, column) in label_counter:
+                use_label = f"{label}{label_counter[label, column]}"
+                label_counter[label, column] = label_counter[label, column] + 1
             else:
                 use_label = label
-                used_labels[label, column] = 1
+                label_counter[label, column] = 1
             value = ", ".join(values)
             s = s + f'        var{column}:{use_label} = "{value}";\n'
 
         s = s + "// global attributes\n"
-        used_labels = {}
+        label_counter = {}
         for label, values in self.globalRecords:
-            if label in used_labels:
-                use_label = f"{label}{used_labels[label]}"
-                used_labels[label] = used_labels[label] + 1
+            if label in label_counter:
+                use_label = f"{label}{label_counter[label]}"
+                label_counter[label] = label_counter[label] + 1
             else:
                 use_label = label
-                used_labels[label] = 1
+                label_counter[label] = 1
             value = ", ".join(values)
             s = s + f'        :{use_label} = "{value}";\n'
         return s

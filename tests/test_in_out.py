@@ -50,7 +50,6 @@ def test_read_compliant():
             t.check_complete("complete")
 
 
-
 def test_read_bad():
     with open(TEST_DATA_DIR / "badc-csv-unsupported-multiline.csv", "r") as fh:
         # this file uses an unsupported format of multi-line comments
@@ -61,7 +60,6 @@ def test_read_bad():
             assert True
 
 
-
 def test_expect_warnings():
     ...
     # Example where we expect 7 warnings
@@ -70,7 +68,7 @@ def test_expect_warnings():
     # assert len(record_complete) == 7
 
 
-def test_cdl_maybe_(): # unsure...
+def test_cdl_maybe_():  # unsure...
     ...
     # with open(r".tmp/test1.cdl", "wb") as fh:
     #     fh.write(t.cdl().encode("utf-8"))

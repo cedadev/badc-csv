@@ -1,2 +1,5 @@
-def main() -> None:
-    print("Hello from badc-csv!")
+ErrorCollection = list
+
+
+def main():
+    return

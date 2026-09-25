@@ -14,8 +14,9 @@ TODO - change methods to a BOOL output True/False.
 
 import time
 import warnings
+from types import MappingProxyType
 
-from badc_csv.badc_errors import BADCTextFileMetadataInvalid
+from badc_csv.badc_errors import BADCTextFileError, BADCTextFileMetadataInvalid
 
 
 def checkString(values):
@@ -36,8 +37,6 @@ def checkLocation(values):
     if len(values) == 4 or len(values) == 2:
         for v in values:
             float(v)
-    else:
-        pass
 
 
 def checkDate(values):
@@ -102,3 +101,34 @@ def checkType(values):
 
 def checkCellMethod(values):
     pass
+
+
+def checkMeta(expected_type, variable):
+    def not_implemented():
+        pass
+
+    function_lookup = MappingProxyType(
+        {
+            "convention": checkConventions,
+            "date": checkDate,
+            "float": checkFloat,
+            "height": checkHeight,
+            "location": checkLocation,
+            "type": checkType,
+            # not implemented
+            "cell_method": not_implemented,
+            "coordinate": not_implemented,
+            "feature_type": not_implemented,
+            "standard_name": not_implemented,
+            "string": not_implemented,
+        }
+    )
+
+    error: Exception = None
+    try:
+        function_lookup[expected_type](variable)
+        pass_check = True
+    except BADCTextFileError as e:
+        pass_check = False
+        error = e
+    return pass_check, error
