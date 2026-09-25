@@ -13,7 +13,7 @@ from types import MappingProxyType
 
 from badc_csv.badc_errors import BADCTextFileError
 from badc_csv.check_types import *  # TODO bad style
-from badc_csv.mandatory_info import MANDATORY_CLASS, mandatory_info_order
+from badc_csv.mandatory_info import MANDATORY_CLASS
 
 BADC_CSV_SECTION = Enum("BADC_CSV_SECTION", [("METADATA", 1), ("COLUMN_HEADERS", 2), ("DATA", 3), ("END", 4)])
 
@@ -38,27 +38,117 @@ class BADCTextFile:
         {  # Class variable is Immutable (RUF012)
             "Conventions": (1, 0, 2, 2, 1, 1, checkConventions, "Metadata conventions used. Must be BADC-CSV, 1"),
             "long_name": (0, 1, 2, 2, 2, 2, checkString, "Description of variable and its unit"),
-            "coordinate_variable": (0, 1, 0, 2, 1, 1, checkCoordinateVariables, "Flag to show which column(s) are regarded as coordinate variables"),
+            "coordinate_variable": (
+                0,
+                1,
+                0,
+                2,
+                1,
+                1,
+                checkCoordinateVariables,
+                "Flag to show which column(s) are regarded as coordinate variables",
+            ),
             "creator": (1, 1, 1, 2, 0, 1, checkString, "The name of the person and/or institute that created the data"),
-            "source": (1, 1, 1, 1, 0, 1, checkString, "The name of the tool used to produce the data. e.g. model name or instrument type"),
-            "observation_station": (1, 1, 1, 1, 0, 1, checkString, "The name of the observation station or instrument platform used"),
-            "activity": (1, 1, 1, 1, 0, 1, checkString, "The name of the activity sponsoring the collection of the data "),
-            "feature_type": (1, 0, 1, 1, 0, 1, checkFeatureType, "type of feature,point series, trajectory or point collection"),
-            "location": (1, 1, 1, 4, 0, 1, checkLocation, "Location for the data. Can be a name, bounding box, or lat and long values"),
+            "source": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                1,
+                checkString,
+                "The name of the tool used to produce the data. e.g. model name or instrument type",
+            ),
+            "observation_station": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                1,
+                checkString,
+                "The name of the observation station or instrument platform used",
+            ),
+            "activity": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                1,
+                checkString,
+                "The name of the activity sponsoring the collection of the data ",
+            ),
+            "feature_type": (
+                1,
+                0,
+                1,
+                1,
+                0,
+                1,
+                checkFeatureType,
+                "type of feature,point series, trajectory or point collection",
+            ),
+            "location": (
+                1,
+                1,
+                1,
+                4,
+                0,
+                1,
+                checkLocation,
+                "Location for the data. Can be a name, bounding box, or lat and long values",
+            ),
             "date_valid": (1, 1, 1, 2, 0, 1, checkDate, "The date the data is valid for. Needs to be YYYY-MM-DD form"),
-            "last_revised_date": (1, 1, 1, 1, 0, 1, checkDate, "The date the data was revised or worked up. Needs to be YYYY-MM-DD form"),
+            "last_revised_date": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                1,
+                checkDate,
+                "The date the data was revised or worked up. Needs to be YYYY-MM-DD form",
+            ),
             "history": (1, 1, 1, 1, 0, 1, checkString, "Text description of the file history"),
-            "standard_name": (0, 1, 3, 3, 0, 0, checkStandardName, "Name of variable from a standard list, with unit and the name of the list"),
+            "standard_name": (
+                0,
+                1,
+                3,
+                3,
+                0,
+                0,
+                checkStandardName,
+                "Name of variable from a standard list, with unit and the name of the list",
+            ),
             "title": (1, 0, 1, 1, 0, 0, checkString, "A title for the data file"),
             "comments": (1, 1, 1, 1, 0, 0, checkString, "Any text comment associated with data"),
-            "contributor": (1, 1, 1, 2, 0, 0, checkString, "The name of the person and/or institute that contributed to the data"),
+            "contributor": (
+                1,
+                1,
+                1,
+                2,
+                0,
+                0,
+                checkString,
+                "The name of the person and/or institute that contributed to the data",
+            ),
             "height": (1, 1, 2, 2, 0, 0, checkHeight, "Height valid for data"),
             "reference": (1, 1, 1, 1, 0, 0, checkString, "Bibliographic reference"),
             "rights": (1, 1, 1, 1, 0, 0, checkString, "Conditions of use for the data"),
             "valid_min": (1, 1, 1, 1, 0, 0, checkFloat, "Values below this value should be interpreted as missing"),
             "valid_max": (1, 1, 1, 1, 0, 0, checkFloat, "Values above this value should be interpreted as missing"),
             "valid_range": (1, 1, 2, 2, 0, 0, checkFloat, "Values outside this range should be interpreted as missing"),
-            "type": (0, 1, 1, 1, 0, 2, checkType, "The type of the variables in a column. Should be char, int or float"),
+            "type": (
+                0,
+                1,
+                1,
+                1,
+                0,
+                2,
+                checkType,
+                "The type of the variables in a column. Should be char, int or float",
+            ),
             "cell_method": (1, 1, 1, 4, 0, 0, checkCellMethod, "The cell method used in preparing the data"),
             "add_offset": (0, 1, 1, 1, 0, 0, checkFloat, "An offset value to add to the values recorded in the data"),
             "scale_factor": (0, 1, 1, 1, 0, 0, checkFloat, "A scale factor to multiply the data values by"),
@@ -67,7 +157,36 @@ class BADCTextFile:
         }
     )
 
-    MDinfoOrder = mandatory_info_order
+    MDinfoOrder = (
+        "Conventions",
+        "long_name",
+        "coordinate_variable",
+        "feature_type",
+        "creator",
+        "source",
+        "observation_station",
+        "location",
+        "activity",
+        "date_valid",
+        "last_revised_date",
+        "history",
+        "type",
+        "title",
+        "comments",
+        "contributor",
+        "height",
+        "reference",
+        "rights",
+        "valid_min",
+        "valid_max",
+        "valid_range",
+        "cell_method",
+        "standard_name",
+        "add_offset",
+        "scale_factor",
+        "flag_values",
+        "flag_meanings",
+    )
 
     def __init__(self, fh):
         self.fh = fh
@@ -99,7 +218,9 @@ class BADCTextFile:
                         section = BADC_CSV_SECTION.COLUMN_HEADERS
                         continue
                     else:
-                        raise BADCTextFileError(f'Expected metadata entry (3+ comma separated values), or "data" (end of section). Instead got: {row}')
+                        raise BADCTextFileError(
+                            f'Expected metadata entry (3+ comma separated values), or "data" (end of section). Instead got: {row}'
+                        )
 
                 except BADCTextFileError:
                     print(f"Error in section {BADC_CSV_SECTION.METADATA}, METADATA")
@@ -140,7 +261,9 @@ class BADCTextFile:
             if not column_label and self[label] == []:
                 for colname in self.colnames():
                     if self[label, colname] != []:
-                        MetadataInvalid(f"Given metadata not allowed for a column: {label}, {colname}, {self[label, colname]}")
+                        MetadataInvalid(
+                            f"Given metadata not allowed for a column: {label}, {colname}, {self[label, colname]}"
+                        )
             # values have wrong number of fields
             for values in self[label]:
                 if len(values) > max_count:
@@ -150,9 +273,13 @@ class BADCTextFile:
             for colname in self.colnames():
                 for values in self[label, colname]:
                     if len(values) > max_count:
-                        MetadataInvalid(f"Max number of metadata fields ({max_count}) exceeded for column:{colname} {label}: {values}")
+                        MetadataInvalid(
+                            f"Max number of metadata fields ({max_count}) exceeded for column:{colname} {label}: {values}"
+                        )
                     if len(values) < min_count:
-                        MetadataInvalid(f"Min number of metadata fields ({min_count}) not given for column:{colname} {label}: {values}")
+                        MetadataInvalid(
+                            f"Min number of metadata fields ({min_count}) not given for column:{colname} {label}: {values}"
+                        )
 
             # see if values are OK
             for values in self[label]:
@@ -161,7 +288,9 @@ class BADCTextFile:
             for colname in self.colnames():
                 for values in self[label, colname]:
                     if validationFunction(values) == False:
-                        MetadataInvalid(f"Metadata field values for column '{colname}' invalid {label}: {values}  [{sys.exc_info()[1]}]")
+                        MetadataInvalid(
+                            f"Metadata field values for column '{colname}' invalid {label}: {values}  [{sys.exc_info()[1]}]"
+                        )
 
     def check_colRefs(self):
         metadataRefs = list(set(line[1] for line in self._metadata.varRecords))  # noqa: C401
@@ -171,12 +300,16 @@ class BADCTextFile:
             for colName in long_namesCnt:
                 if not colName in metadataRefs:
                     metadata_entries = ",".join(metadataRefs)
-                    MetadataInvalid(f"Column name {colName} not used as reference to connect metadata entries {metadata_entries}")
+                    MetadataInvalid(
+                        f"Column name {colName} not used as reference to connect metadata entries {metadata_entries}"
+                    )
                     break  # Here to mirror previous behaviour. I would remove.
         else:
             header_references = ",".join(metadataRefs)
             column_headings = ",".join(self.colnames())
-            MetadataInvalid(f"Not all column headings given. Header references are: {header_references}\nColumn headings given are: {column_headings}")
+            MetadataInvalid(
+                f"Not all column headings given. Header references are: {header_references}\nColumn headings given are: {column_headings}"
+            )
 
     def check_complete(self, level="basic"):
         self.check_colRefs()

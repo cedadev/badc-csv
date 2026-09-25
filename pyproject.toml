@@ -9,15 +9,13 @@ authors = [
 requires-python = ">=3.14"
 dependencies = []
 
-[project.scripts]
-test-uv = "test_uv:main"
 
 [build-system]
 requires = ["uv_build>=0.12.16,<0.13.0"]
 build-backend = "uv_build"
 
 [tool.ruff]
-line-length = 200
+line-length = 120
 indent-width = 4
 
 [tool.ruff.format]

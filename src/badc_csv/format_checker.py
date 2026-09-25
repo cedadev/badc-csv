@@ -13,13 +13,15 @@ the file is correct. This level requires valid metadata.
 items. Requires basic compliance.
 5 • Standardised: Metadata values for appropriate is from standard list.
 Requires complete compliance
-"""  # noqa: N999
+"""
 
 import csv
 from enum import Enum
 from pathlib import Path
 
 from badc_csv import ErrorCollection
+from badc_csv.check_types import getCheckFunction
+from badc_csv.mandatory_info import MANDATORY_CLASS
 from badc_csv.metadata import Metadata
 
 
@@ -30,8 +32,41 @@ class BADC_CSV_Structure:
         self.data = rows_data
 
 
+class MandatoryLabel:
+    def __init__(
+        self,
+        label: str,
+        global_flag: bool,
+        column_flag: bool,
+        min_count: int,
+        max_count: int,
+        mandatory_basic: MANDATORY_CLASS,
+        mandatory_complete: MANDATORY_CLASS,
+        label_type: str,
+        description: str,
+    ):
+        self.label = label
+        self.global_flag = global_flag
+        self.column_flag = column_flag
+        self.min_count = min_count
+        self.mandatory_basic = mandatory_basic
+        self.mandatory_complete = mandatory_complete
+        self.type_check = getCheckFunction(label_type)
+
+
 class ComplianceChecker:
-    COMPLIANCE_LEVEL = Enum("BADC_CSV_SECTION", [("NONE", 0), ("CSV", 1), ("STRUCTURE", 2), ("VALID_METADATA", 3), ("BASIC", 4), ("COMPLETE", 5), ("STANDARDISED", 6)])
+    COMPLIANCE_LEVEL = Enum(
+        "BADC_CSV_SECTION",
+        [
+            ("NONE", 0),
+            ("CSV", 1),
+            ("STRUCTURE", 2),
+            ("VALID_METADATA", 3),
+            ("BASIC", 4),
+            ("COMPLETE", 5),
+            ("STANDARDISED", 6),
+        ],
+    )
 
     def compliance_assessment(self, filepath: str) -> (COMPLIANCE_LEVEL, ErrorCollection):
         # CSV Compliance
@@ -55,6 +90,7 @@ class ComplianceChecker:
 
         # Basic Compliance
         # TODO ...
+        self.basic_compliance(structure)
 
         # Complete Compliance
         # TODO ...
@@ -74,7 +110,7 @@ class ComplianceChecker:
     def process_structure(self, lines: list) -> (BADC_CSV_Structure, ErrorCollection):
         SECTION = Enum("BADC_CSV_SECTION", [("METADATA", 1), ("COLUMN_HEADERS", 2), ("DATA", 3), ("END", 4)])
 
-        def __expect_heading(expected, given) -> (bool, bool):
+        def __compare_heading(expected, given) -> (bool, bool):
             """
             expected: str - heading expected
             given: str - value given
@@ -100,7 +136,7 @@ class ComplianceChecker:
             # BADC_CSV_SECTION: METADATA then COLUMN_HEADERS then DATA, then END
             if section == SECTION.METADATA:
                 if len(row) == 1:
-                    exact, close = __expect_heading("data", row[0])
+                    exact, close = __compare_heading("data", row[0])
                     if exact or close:
                         print("End of Metadata Section")
                         section = SECTION.COLUMN_HEADERS
@@ -128,7 +164,7 @@ class ComplianceChecker:
                 print("Ending Columns")
             elif section == SECTION.DATA:
                 if len(row) == 1:
-                    exact, close = __expect_heading("end data", row[0])
+                    exact, close = __compare_heading("end data", row[0])
                     if exact or close:
                         print("End of Data section")
                         section = SECTION.END
@@ -154,3 +190,5 @@ class ComplianceChecker:
             metadata.add_row(*row)
 
         return metadata, errors
+
+    def basic_compliance(self, structure: BADC_CSV_Structure): ...

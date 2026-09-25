@@ -103,7 +103,7 @@ def checkCellMethod(values):
     pass
 
 
-def checkMeta(expected_type, variable):
+def getCheckFunction(expected_type):
     def not_implemented():
         pass
 
@@ -115,7 +115,7 @@ def checkMeta(expected_type, variable):
             "height": checkHeight,
             "location": checkLocation,
             "type": checkType,
-            # not implemented
+            # not implemented or not possible
             "cell_method": not_implemented,
             "coordinate": not_implemented,
             "feature_type": not_implemented,
@@ -123,10 +123,14 @@ def checkMeta(expected_type, variable):
             "string": not_implemented,
         }
     )
+    return function_lookup[expected_type]
 
+
+def checkMeta(expected_type, variable):
+    check_function = getCheckFunction(expected_type)
     error: Exception = None
     try:
-        function_lookup[expected_type](variable)
+        check_function(variable)
         pass_check = True
     except BADCTextFileError as e:
         pass_check = False
