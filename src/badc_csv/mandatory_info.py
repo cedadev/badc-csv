@@ -14,12 +14,35 @@ that correspond to:
 """
 from enum import Enum
 
-MANDATORY_CLASS = Enum("MANDATORY_CLASS", [("NOT_MANDATORY", 0), ("MANDATORY", 1), ("ALL_COLUMNS", 2)])
+from badc_csv.check_types_bool import getCheckFunction
+
+MANDATORY_CLASS = Enum(
+    "MANDATORY_CLASS",
+    [("NOT_MANDATORY", 0), ("MANDATORY", 1), ("ALL_COLUMNS", 2)],
+)
 
 mandatory_info = MappingProxyType(
     {  # Class variable is Immutable (RUF012)
-        "Conventions": (1, 0, 2, 2, 1, 1, "convention", "Metadata conventions used. Must be BADC-CSV, 1"),
-        "long_name": (0, 1, 2, 2, 2, 2, "string", "Description of variable and its unit"),
+        "Conventions": (
+            1,
+            0,
+            2,
+            2,
+            1,
+            1,
+            "convention",
+            "Metadata conventions used. Must be BADC-CSV, 1",
+        ),
+        "long_name": (
+            0,
+            1,
+            2,
+            2,
+            2,
+            2,
+            "string",
+            "Description of variable and its unit",
+        ),
         "coordinate_variable": (
             0,
             1,
@@ -30,7 +53,16 @@ mandatory_info = MappingProxyType(
             "coordinate",
             "Flag to show which column(s) are regarded as coordinate variables",
         ),
-        "creator": (1, 1, 1, 2, 0, 1, "string", "The name of the person and/or institute that created the data"),
+        "creator": (
+            1,
+            1,
+            1,
+            2,
+            0,
+            1,
+            "string",
+            "The name of the person and/or institute that created the data",
+        ),
         "source": (
             1,
             1,
@@ -51,7 +83,16 @@ mandatory_info = MappingProxyType(
             "string",
             "The name of the observation station or instrument platform used",
         ),
-        "activity": (1, 1, 1, 1, 0, 1, "string", "The name of the activity sponsoring the collection of the data "),
+        "activity": (
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            "string",
+            "The name of the activity sponsoring the collection of the data ",
+        ),
         "feature_type": (
             1,
             0,
@@ -72,7 +113,16 @@ mandatory_info = MappingProxyType(
             "location",
             "Location for the data. Can be a name, bounding box, or lat and long values",
         ),
-        "date_valid": (1, 1, 1, 2, 0, 1, "date", "The date the data is valid for. Needs to be YYYY-MM-DD form"),
+        "date_valid": (
+            1,
+            1,
+            1,
+            2,
+            0,
+            1,
+            "date",
+            "The date the data is valid for. Needs to be YYYY-MM-DD form",
+        ),
         "last_revised_date": (
             1,
             1,
@@ -83,7 +133,16 @@ mandatory_info = MappingProxyType(
             "date",
             "The date the data was revised or worked up. Needs to be YYYY-MM-DD form",
         ),
-        "history": (1, 1, 1, 1, 0, 1, "string", "Text description of the file history"),
+        "history": (
+            1,
+            1,
+            1,
+            1,
+            0,
+            1,
+            "string",
+            "Text description of the file history",
+        ),
         "standard_name": (
             0,
             1,
@@ -95,7 +154,16 @@ mandatory_info = MappingProxyType(
             "Name of variable from a standard list, with unit and the name of the list",
         ),
         "title": (1, 0, 1, 1, 0, 0, "string", "A title for the data file"),
-        "comments": (1, 1, 1, 1, 0, 0, "string", "Any text comment associated with data"),
+        "comments": (
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            "string",
+            "Any text comment associated with data",
+        ),
         "contributor": (
             1,
             1,
@@ -108,16 +176,106 @@ mandatory_info = MappingProxyType(
         ),
         "height": (1, 1, 2, 2, 0, 0, "height", "Height valid for data"),
         "reference": (1, 1, 1, 1, 0, 0, "string", "Bibliographic reference"),
-        "rights": (1, 1, 1, 1, 0, 0, "string", "Conditions of use for the data"),
-        "valid_min": (1, 1, 1, 1, 0, 0, "float", "Values below this value should be interpreted as missing"),
-        "valid_max": (1, 1, 1, 1, 0, 0, "float", "Values above this value should be interpreted as missing"),
-        "valid_range": (1, 1, 2, 2, 0, 0, "float", "Values outside this range should be interpreted as missing"),
-        "type": (0, 1, 1, 1, 0, 2, "type", "The type of the variables in a column. Should be char, int or float"),
-        "cell_method": (1, 1, 1, 4, 0, 0, "cell_method", "The cell method used in preparing the data"),
-        "add_offset": (0, 1, 1, 1, 0, 0, "float", "An offset value to add to the values recorded in the data"),
-        "scale_factor": (0, 1, 1, 1, 0, 0, "float", "A scale factor to multiply the data values by"),
-        "flag_values": (0, 1, 1, 1, 0, 0, "string", "Values used for flag table in data"),
-        "flag_meanings": (0, 1, 1, 1, 0, 0, "string", "Meanings for each flag_value"),
+        "rights": (
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            "string",
+            "Conditions of use for the data",
+        ),
+        "valid_min": (
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            "float",
+            "Values below this value should be interpreted as missing",
+        ),
+        "valid_max": (
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            "float",
+            "Values above this value should be interpreted as missing",
+        ),
+        "valid_range": (
+            1,
+            1,
+            2,
+            2,
+            0,
+            0,
+            "float",
+            "Values outside this range should be interpreted as missing",
+        ),
+        "type": (
+            0,
+            1,
+            1,
+            1,
+            0,
+            2,
+            "type",
+            "The type of the variables in a column. Should be char, int or float",
+        ),
+        "cell_method": (
+            1,
+            1,
+            1,
+            4,
+            0,
+            0,
+            "cell_method",
+            "The cell method used in preparing the data",
+        ),
+        "add_offset": (
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            "float",
+            "An offset value to add to the values recorded in the data",
+        ),
+        "scale_factor": (
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            "float",
+            "A scale factor to multiply the data values by",
+        ),
+        "flag_values": (
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            "string",
+            "Values used for flag table in data",
+        ),
+        "flag_meanings": (
+            0,
+            1,
+            1,
+            1,
+            0,
+            0,
+            "string",
+            "Meanings for each flag_value",
+        ),
     }
 )
 
@@ -151,3 +309,58 @@ mandatory_info_order = (
     "flag_values",
     "flag_meanings",
 )
+
+
+class MandatoryLabel:
+    def __init__(
+        self,
+        label: str,
+        global_flag: bool,
+        column_flag: bool,
+        min_count: int,
+        max_count: int,
+        mandatory_basic: MANDATORY_CLASS,
+        mandatory_complete: MANDATORY_CLASS,
+        label_type: str,
+        description: str,
+    ):
+        self.label = label
+        self.global_flag = global_flag
+        self.column_flag = column_flag
+        self.min_count = min_count
+        self.max_count = max_count
+        self.mandatory_basic = MANDATORY_CLASS(mandatory_basic)
+        self.mandatory_complete = MANDATORY_CLASS(mandatory_complete)
+        self.expected_type = label_type
+        self.type_check = getCheckFunction(label_type)
+
+
+class MandatoryClassifications:
+    def __init__(self):
+        self.labels = [
+            MandatoryLabel(label, *mandatory_info[label])
+            for label in mandatory_info_order
+        ]
+
+    def get_label(self, label) -> MandatoryLabel:
+        if label not in mandatory_info_order:
+            return None
+        index = mandatory_info_order.index(label)
+        return self.labels[index]
+
+    def get_label_names(self) -> set[str]:
+        return {l.label for l in self.labels}
+
+    def basic_labels(self):
+        return [
+            label
+            for label in self.labels
+            if label.mandatory_basic != MANDATORY_CLASS.NOT_MANDATORY
+        ]
+
+    def complete_labels(self):
+        return [
+            label
+            for label in self.labels
+            if label.mandatory_complete != MANDATORY_CLASS.NOT_MANDATORY
+        ]

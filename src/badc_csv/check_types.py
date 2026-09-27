@@ -84,9 +84,13 @@ def checkCoordinateVariables(values):
 
 def checkConventions(values):
     if values[0] != "BADC-CSV":
-        raise BADCTextFileMetadataInvalid(f"Conventions must be BADC-CSV, not {values[0]}")
+        raise BADCTextFileMetadataInvalid(
+            f"Conventions must be BADC-CSV, not {values[0]}"
+        )
     if values[1] != "1":
-        raise BADCTextFileMetadataInvalid(f"Conventions must be 'BADC-CSV, 1', not {values[1]}")
+        raise BADCTextFileMetadataInvalid(
+            f"Conventions must be 'BADC-CSV, 1', not {values[1]}"
+        )
 
 
 def MetadataInvalid(message):
@@ -96,7 +100,9 @@ def MetadataInvalid(message):
 def checkType(values):
     v = values[0]
     if v not in ("int", "float", "char"):
-        raise BADCTextFileMetadataInvalid(f"Type not right must be int, float or char. not {v}")
+        raise BADCTextFileMetadataInvalid(
+            f"Type not right must be int, float or char. not {v}"
+        )
 
 
 def checkCellMethod(values):

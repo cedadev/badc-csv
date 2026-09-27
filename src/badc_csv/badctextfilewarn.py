@@ -15,7 +15,10 @@ from badc_csv.badc_errors import BADCTextFileError
 from badc_csv.check_types import *  # TODO bad style
 from badc_csv.mandatory_info import MANDATORY_CLASS
 
-BADC_CSV_SECTION = Enum("BADC_CSV_SECTION", [("METADATA", 1), ("COLUMN_HEADERS", 2), ("DATA", 3), ("END", 4)])
+BADC_CSV_SECTION = Enum(
+    "BADC_CSV_SECTION",
+    [("METADATA", 1), ("COLUMN_HEADERS", 2), ("DATA", 3), ("END", 4)],
+)
 
 
 class BADCTextFile:
@@ -36,8 +39,26 @@ class BADCTextFile:
 
     MDinfo = MappingProxyType(
         {  # Class variable is Immutable (RUF012)
-            "Conventions": (1, 0, 2, 2, 1, 1, checkConventions, "Metadata conventions used. Must be BADC-CSV, 1"),
-            "long_name": (0, 1, 2, 2, 2, 2, checkString, "Description of variable and its unit"),
+            "Conventions": (
+                1,
+                0,
+                2,
+                2,
+                1,
+                1,
+                checkConventions,
+                "Metadata conventions used. Must be BADC-CSV, 1",
+            ),
+            "long_name": (
+                0,
+                1,
+                2,
+                2,
+                2,
+                2,
+                checkString,
+                "Description of variable and its unit",
+            ),
             "coordinate_variable": (
                 0,
                 1,
@@ -48,7 +69,16 @@ class BADCTextFile:
                 checkCoordinateVariables,
                 "Flag to show which column(s) are regarded as coordinate variables",
             ),
-            "creator": (1, 1, 1, 2, 0, 1, checkString, "The name of the person and/or institute that created the data"),
+            "creator": (
+                1,
+                1,
+                1,
+                2,
+                0,
+                1,
+                checkString,
+                "The name of the person and/or institute that created the data",
+            ),
             "source": (
                 1,
                 1,
@@ -99,7 +129,16 @@ class BADCTextFile:
                 checkLocation,
                 "Location for the data. Can be a name, bounding box, or lat and long values",
             ),
-            "date_valid": (1, 1, 1, 2, 0, 1, checkDate, "The date the data is valid for. Needs to be YYYY-MM-DD form"),
+            "date_valid": (
+                1,
+                1,
+                1,
+                2,
+                0,
+                1,
+                checkDate,
+                "The date the data is valid for. Needs to be YYYY-MM-DD form",
+            ),
             "last_revised_date": (
                 1,
                 1,
@@ -110,7 +149,16 @@ class BADCTextFile:
                 checkDate,
                 "The date the data was revised or worked up. Needs to be YYYY-MM-DD form",
             ),
-            "history": (1, 1, 1, 1, 0, 1, checkString, "Text description of the file history"),
+            "history": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                1,
+                checkString,
+                "Text description of the file history",
+            ),
             "standard_name": (
                 0,
                 1,
@@ -121,8 +169,26 @@ class BADCTextFile:
                 checkStandardName,
                 "Name of variable from a standard list, with unit and the name of the list",
             ),
-            "title": (1, 0, 1, 1, 0, 0, checkString, "A title for the data file"),
-            "comments": (1, 1, 1, 1, 0, 0, checkString, "Any text comment associated with data"),
+            "title": (
+                1,
+                0,
+                1,
+                1,
+                0,
+                0,
+                checkString,
+                "A title for the data file",
+            ),
+            "comments": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                checkString,
+                "Any text comment associated with data",
+            ),
             "contributor": (
                 1,
                 1,
@@ -134,11 +200,56 @@ class BADCTextFile:
                 "The name of the person and/or institute that contributed to the data",
             ),
             "height": (1, 1, 2, 2, 0, 0, checkHeight, "Height valid for data"),
-            "reference": (1, 1, 1, 1, 0, 0, checkString, "Bibliographic reference"),
-            "rights": (1, 1, 1, 1, 0, 0, checkString, "Conditions of use for the data"),
-            "valid_min": (1, 1, 1, 1, 0, 0, checkFloat, "Values below this value should be interpreted as missing"),
-            "valid_max": (1, 1, 1, 1, 0, 0, checkFloat, "Values above this value should be interpreted as missing"),
-            "valid_range": (1, 1, 2, 2, 0, 0, checkFloat, "Values outside this range should be interpreted as missing"),
+            "reference": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                checkString,
+                "Bibliographic reference",
+            ),
+            "rights": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                checkString,
+                "Conditions of use for the data",
+            ),
+            "valid_min": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                checkFloat,
+                "Values below this value should be interpreted as missing",
+            ),
+            "valid_max": (
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                checkFloat,
+                "Values above this value should be interpreted as missing",
+            ),
+            "valid_range": (
+                1,
+                1,
+                2,
+                2,
+                0,
+                0,
+                checkFloat,
+                "Values outside this range should be interpreted as missing",
+            ),
             "type": (
                 0,
                 1,
@@ -149,11 +260,56 @@ class BADCTextFile:
                 checkType,
                 "The type of the variables in a column. Should be char, int or float",
             ),
-            "cell_method": (1, 1, 1, 4, 0, 0, checkCellMethod, "The cell method used in preparing the data"),
-            "add_offset": (0, 1, 1, 1, 0, 0, checkFloat, "An offset value to add to the values recorded in the data"),
-            "scale_factor": (0, 1, 1, 1, 0, 0, checkFloat, "A scale factor to multiply the data values by"),
-            "flag_values": (0, 1, 1, 1, 0, 0, checkString, "Values used for flag table in data"),
-            "flag_meanings": (0, 1, 1, 1, 0, 0, checkString, "Meanings for each flag_value"),
+            "cell_method": (
+                1,
+                1,
+                1,
+                4,
+                0,
+                0,
+                checkCellMethod,
+                "The cell method used in preparing the data",
+            ),
+            "add_offset": (
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                checkFloat,
+                "An offset value to add to the values recorded in the data",
+            ),
+            "scale_factor": (
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                checkFloat,
+                "A scale factor to multiply the data values by",
+            ),
+            "flag_values": (
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                checkString,
+                "Values used for flag table in data",
+            ),
+            "flag_meanings": (
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                checkString,
+                "Meanings for each flag_value",
+            ),
         }
     )
 
@@ -223,14 +379,18 @@ class BADCTextFile:
                         )
 
                 except BADCTextFileError:
-                    print(f"Error in section {BADC_CSV_SECTION.METADATA}, METADATA")
+                    print(
+                        f"Error in section {BADC_CSV_SECTION.METADATA}, METADATA"
+                    )
                     raise
             elif section == BADC_CSV_SECTION.COLUMN_HEADERS:
                 for colname in row:  # This section is only one row.
                     try:
                         self.add_variable(colname)
                     except BADCTextFileError:
-                        print(f"Error in section {BADC_CSV_SECTION.COLUMN_HEADERS}, COLUMN_HEADERS")
+                        print(
+                            f"Error in section {BADC_CSV_SECTION.COLUMN_HEADERS}, COLUMN_HEADERS"
+                        )
                         raise
                 section = BADC_CSV_SECTION.DATA
             elif section == BADC_CSV_SECTION.DATA:
@@ -248,7 +408,16 @@ class BADCTextFile:
 
     def check_valid(self):
         for label in BADCTextFile.MDinfoOrder:
-            global_label, column_label, min_count, max_count, _, _, validationFunction, _ = BADCTextFile.MDinfo[label]
+            (
+                global_label,
+                column_label,
+                min_count,
+                max_count,
+                _,
+                _,
+                validationFunction,
+                _,
+            ) = BADCTextFile.MDinfo[label]
             global_label: bool
             column_label: bool
             min_count: int
@@ -256,7 +425,9 @@ class BADCTextFile:
 
             # if label can't apply globally but is defined raise error
             if not global_label and self[label] != []:
-                MetadataInvalid(f"Not allowed as global metadata parameter: {label}, {self[label]}")
+                MetadataInvalid(
+                    f"Not allowed as global metadata parameter: {label}, {self[label]}"
+                )
             # if label can't apply to column but is defined raise error
             if not column_label and self[label] == []:
                 for colname in self.colnames():
@@ -267,9 +438,13 @@ class BADCTextFile:
             # values have wrong number of fields
             for values in self[label]:
                 if len(values) > max_count:
-                    MetadataInvalid(f"Max number of metadata fields ({max_count}) exceeded for {label}: {values}")
+                    MetadataInvalid(
+                        f"Max number of metadata fields ({max_count}) exceeded for {label}: {values}"
+                    )
                 if len(values) < min_count:
-                    MetadataInvalid(f"Min number of metadata fields ({min_count}) not given for {label}: {values}")
+                    MetadataInvalid(
+                        f"Min number of metadata fields ({min_count}) not given for {label}: {values}"
+                    )
             for colname in self.colnames():
                 for values in self[label, colname]:
                     if len(values) > max_count:
@@ -284,7 +459,9 @@ class BADCTextFile:
             # see if values are OK
             for values in self[label]:
                 if validationFunction(values) == False:
-                    MetadataInvalid(f"Metadata field values invalid {label}: {values}  [{sys.exc_info()[1]}]")
+                    MetadataInvalid(
+                        f"Metadata field values invalid {label}: {values}  [{sys.exc_info()[1]}]"
+                    )
             for colname in self.colnames():
                 for values in self[label, colname]:
                     if validationFunction(values) == False:
@@ -294,7 +471,9 @@ class BADCTextFile:
 
     def check_colRefs(self):
         metadataRefs = list(set(line[1] for line in self._metadata.varRecords))  # noqa: C401
-        long_namesCnt = tuple(colname for colname in set(self.colnames()) if colname != "G")
+        long_namesCnt = tuple(
+            colname for colname in set(self.colnames()) if colname != "G"
+        )
 
         if len(long_namesCnt) == len(metadataRefs):
             for colName in long_namesCnt:
@@ -315,7 +494,16 @@ class BADCTextFile:
         self.check_colRefs()
         self.check_valid()
         for label in BADCTextFile.MDinfoOrder:
-            global_label, column_label, _, _, mandatory_basic, mandatory_complete, _, _ = BADCTextFile.MDinfo[label]
+            (
+                global_label,
+                column_label,
+                _,
+                _,
+                mandatory_basic,
+                mandatory_complete,
+                _,
+                _,
+            ) = BADCTextFile.MDinfo[label]
             global_label: bool
             column_label: bool
             mandatory: MANDATORY_CLASS
@@ -346,11 +534,17 @@ class BADCTextFile:
                         break
                 else:
                     if mandatory == mandatory_basic:
-                        MetadataInvalid(f"Mandatory basic global/column metadata not provided: {label}")
+                        MetadataInvalid(
+                            f"Mandatory basic global/column metadata not provided: {label}"
+                        )
                     elif mandatory == mandatory_complete:
-                        MetadataInvalid(f"Recommended complete global/column metadata not provided: {label}")
+                        MetadataInvalid(
+                            f"Recommended complete global/column metadata not provided: {label}"
+                        )
                     else:
-                        MetadataInvalid(f"Suggested global/column metadata not provided: {label}")
+                        MetadataInvalid(
+                            f"Suggested global/column metadata not provided: {label}"
+                        )
             elif global_label and not column_label:
                 if self[label] != []:
                     # found global value. next label
@@ -360,17 +554,25 @@ class BADCTextFile:
                         break
                 else:
                     if mandatory == mandatory_basic:
-                        MetadataInvalid(f"Mandatory global metadata not provided: {label}")
+                        MetadataInvalid(
+                            f"Mandatory global metadata not provided: {label}"
+                        )
                     elif mandatory == mandatory_complete:
-                        MetadataInvalid(f"Recommended complete global metadata not provided: {label}")
+                        MetadataInvalid(
+                            f"Recommended complete global metadata not provided: {label}"
+                        )
                     else:
-                        MetadataInvalid(f"Suggested global metadata not provided: {label}")
+                        MetadataInvalid(
+                            f"Suggested global metadata not provided: {label}"
+                        )
 
                 # if applies to column only then there should be a record for each variable
             elif column_label and mandatory == MANDATORY_CLASS.ALL_COLUMNS:
                 for colname in self.colnames():
                     if self[label, colname] == []:
-                        MetadataInvalid(f'Recommended complete column metadata "{label}" for column {colname} missing')
+                        MetadataInvalid(
+                            f'Recommended complete column metadata "{label}" for column {colname} missing'
+                        )
 
     def colnames(self):
         return tuple(self._data.colnames)

@@ -130,14 +130,14 @@ metdb_short_name,24,WIND_INST_TYPE
 metdb_code_table,24,CODE TBL 002002,Type of instrumentation for wind measurement
 flag_values,24,1,2,3
 flag_meanings,24,Certified instruments,Originally measured in knots,Originally measured in km h-1
-comments,24,Type of instrumentation and original units for wind measurement (measured in m/s unless otherwise indicated)
+comments,24,"Type of instrumentation and original units for wind measurement (measured in m/s unless otherwise indicated)
 \n Code table 002002 is a 4 bit BUFR flag (bit). Bit 1 is the high order bit.
 \n example uses: 0 means no bits set - i.e. none of the flag values are valid or not known
 \n 4 means bit 2 only is set  - i.e. originally meansured in knots
 \n 12 means bits 1 and 2 set - i.e. originally measured in knots by a certified instrument
 \n 8 means bit 1 is set - i.e. measured by certified instrument in m/s
 \n A value of -9999999.0 means that the Met Office haven't been informed what the type of instrument was/is used for measurements.
-\n In these cases they make judgement based on the WMO block number whether to convert from knots to m/s or not
+\n In these cases they make judgement based on the WMO block number whether to convert from knots to m/s or not"
 long_name,25,Wind direction,degrees
 type,25,float
 metdb_short_name,25,LEVL_WIND_DRCTN
