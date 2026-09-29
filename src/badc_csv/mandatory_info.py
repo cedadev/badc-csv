@@ -1,6 +1,7 @@
 from enum import Enum
 
 from badc_csv.check_types_bool import getCheckFunction
+from badc_csv.error_collection import ErrorCollection
 from badc_csv.mandatory_info_data import mandatory_info, mandatory_info_order
 from badc_csv.metadata import MetadataGlobalLabel
 
@@ -41,17 +42,17 @@ class MandatoryLabel:
             mandatory_complete
         )
 
-    def check_label(self, label, colname, multiline_values) -> list:
-        errors = []
+    def check_label(self, label, colname, multiline_values) -> ErrorCollection:
+        errors = ErrorCollection()
         # Global flag, Column flag
         if colname is MetadataGlobalLabel:
             # column is "Global"
             if not self.global_flag:
                 # global must have global flag
-                errors.append(f"Global cannot have label {label}.")
+                errors.append(f"Global cannot have label '{label}'.")
         elif not self.column_flag:
             # specific column / non-global must have column flag
-            errors.append(f"Non-global column cannot have label {label}.")
+            errors.append(f"Non-global column cannot have label '{label}'.")
 
         # Do for each 'line' of values separately.
         for values in multiline_values:
@@ -64,18 +65,21 @@ class MandatoryLabel:
             else:
                 # -1 indicates unbounded maximum
                 # Unclear how this should be implemented for multiple lines.
-                errors.append(
-                    f"For label {label} column {colname}: Number of values must "
-                    f"be between {self.min_count} and {self.max_count} (inc). "
-                    f"Instead got {num_values}."
+                message = (
+                    f"For label '{label}' column '{colname}': Number of values must be between "
+                    f"{self.min_count} and {self.max_count} (inc). Instead got {num_values}."
                 )
+                if label == "comments":
+                    errors.add_warning(message)
+                else:
+                    errors.append(message)
 
             # Type Check the values (of the metadata)
             type_check_result: bool = self.type_check(values)
             if not type_check_result:
                 errors.append(
-                    f"TypeCheck error for label {label} on column {colname}. "
-                    f"Expected type {self.expected_type}."
+                    f"TypeCheck error for label '{label}' on column '{colname}'. "
+                    f"Expected type '{self.expected_type}'."
                 )
         return errors
 

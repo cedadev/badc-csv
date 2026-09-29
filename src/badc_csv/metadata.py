@@ -1,6 +1,6 @@
 from string import whitespace
 
-from badc_csv import ErrorCollection
+from badc_csv.error_collection import ErrorCollection
 
 
 class MetadataRowError(Exception):
@@ -54,7 +54,7 @@ class Metadata:
         return self.column_names
 
     def columns_reference_exist(self, file_columns: list) -> ErrorCollection:
-        errors = []
+        errors = ErrorCollection()
         for metadata_column in self.column_names:
             if metadata_column in file_columns:
                 continue
@@ -69,13 +69,14 @@ class Metadata:
 
     class MetadataRow:
         def __init__(self, label, column, *values):
-            self.label, label_errors = self.verify_label(label)
+            self.label = label
+            label_errors = self.verify_label(label)
             self.column_name = self.verify_column(column)
             self.values = values
             self.errors = label_errors
 
-        def verify_label(self, label):
-            errors = []
+        def verify_label(self, label: str) -> ErrorCollection:
+            errors = ErrorCollection()
             if any(c in whitespace for c in label):
                 errors.append(
                     "Labels must not contain any whitespace. Use underscore '_' for spacing."
@@ -91,7 +92,7 @@ class Metadata:
                 else:
                     errors.append("Labels must be lowercase.")
 
-            return label, errors
+            return errors
 
         def verify_column(self, column):
             if column == "G":

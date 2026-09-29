@@ -80,7 +80,11 @@ mandatory_info = MappingProxyType(
             "standard_name",
             "Name of variable from a standard list, with unit and the name of the list",
         ),
-        "title": ((1, 0, 1, 1, 0, 0), "string", "A title for the data file"),
+        "title": (
+            (1, 0, 1, 1, 0, 0),
+            "string",
+            "A title for the data file",
+        ),
         "comments": (
             (1, 1, 1, 1, 0, 0),
             "string",
@@ -91,8 +95,16 @@ mandatory_info = MappingProxyType(
             "string",
             "The name of the person and/or institute that contributed to the data",
         ),
-        "height": ((1, 1, 2, 2, 0, 0), "height", "Height valid for data"),
-        "reference": ((1, 1, 1, 1, 0, 0), "string", "Bibliographic reference"),
+        "height": (
+            (1, 1, 2, 2, 0, 0),
+            "height",
+            "Height valid for data",
+        ),
+        "reference": (
+            (1, 1, 1, 1, 0, 0),
+            "string",
+            "Bibliographic reference",
+        ),
         "rights": (
             (1, 1, 1, 1, 0, 0),
             "string",

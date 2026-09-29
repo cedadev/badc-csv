@@ -19,7 +19,7 @@ import csv
 from enum import Enum
 from pathlib import Path
 
-from badc_csv import ErrorCollection
+from badc_csv.error_collection import ErrorCollection
 from badc_csv.mandatory_info import (
     MANDATORY_CLASS,
     MandatoryClassifications,
@@ -62,28 +62,32 @@ class ComplianceChecker:
     def compliance_assessment(
         self, filepath: str
     ) -> (COMPLIANCE_LEVEL, ErrorCollection):
+
+        errors = ErrorCollection()
         # CSV Compliance
         raw, csv_errors = self.read_file(Path(filepath))
+        errors += csv_errors
         if csv_errors:
             print("CSV errors")
             for e in csv_errors:
                 self.print_verbose(e)
             return (
                 ComplianceChecker.COMPLIANCE_LEVEL.NONE,
-                csv_errors,
+                errors,
             )
         else:
             print("File is CSV.")  # csv is a very lax format
 
         # Structure Compliance
         structure, structural_errors = self.process_structure(raw)
+        errors += structural_errors
         if structural_errors:
             print("Structural errors")
             for e in structural_errors:
                 self.print_verbose(e)
             return (
                 ComplianceChecker.COMPLIANCE_LEVEL.CSV,
-                structural_errors,
+                errors,
             )
         else:
             print("Structure Processed")
@@ -97,6 +101,7 @@ class ComplianceChecker:
         valid_metadata_errors = (
             metadata_errors + column_reference_errors + metadata_rules_errors
         )
+        errors += valid_metadata_errors
         self.print_verbose("Done with valid metadata checks")
         if valid_metadata_errors:
             print("Metadata errors")
@@ -104,13 +109,14 @@ class ComplianceChecker:
                 self.print_verbose(e)
             return (
                 ComplianceChecker.COMPLIANCE_LEVEL.STRUCTURE,
-                valid_metadata_errors,
+                errors,
             )
         else:
             print("Passed Valid Metadata level")
 
         # Basic Compliance
         basic_compliance_errors = self.basic_compliance(metadata)
+        errors += basic_compliance_errors
         self.print_verbose("Done with BASIC checks")
         if basic_compliance_errors:
             print("Basic errors")
@@ -118,13 +124,14 @@ class ComplianceChecker:
                 self.print_verbose(e)
             return (
                 ComplianceChecker.COMPLIANCE_LEVEL.VALID_METADATA,
-                basic_compliance_errors,
+                errors,
             )
         else:
             print("Passed BASIC checks")
 
         # Complete Compliance
         complete_compliance_errors = self.complete_compliance(metadata)
+        errors += complete_compliance_errors
         self.print_verbose("Done with COMPLETE checks")
         if complete_compliance_errors:
             print("Complete Errors")
@@ -132,27 +139,27 @@ class ComplianceChecker:
                 self.print_verbose(e)
             return (
                 ComplianceChecker.COMPLIANCE_LEVEL.VALID_METADATA,
-                complete_compliance_errors,
+                errors,
             )
         else:
             print("Passed COMPLETE checks")
 
         # TODO - Data Section Compliance (e.g. consistent # of data items per row)
 
-        return ComplianceChecker.COMPLIANCE_LEVEL.COMPLETE, None
+        return ComplianceChecker.COMPLIANCE_LEVEL.COMPLETE, errors
 
     def read_file(self, filepath: Path) -> (list, ErrorCollection):
         self.print_verbose(f"Path {filepath} given.")
         if not filepath.exists:
             self.print_verbose("Path does not exist. Cancelling read.")
-            return None, [FileExistsError(filepath)]
+            return None, ErrorCollection([FileExistsError(filepath)])
 
         self.print_verbose("Reading file.")
         with open(filepath, "r") as f:
             reader = csv.reader(f, delimiter=",", quotechar='"')
             raw = [line for line in reader]
         self.print_verbose("Successful read")
-        return raw, []
+        return raw, ErrorCollection()
 
     def process_structure(
         self, lines: list
@@ -174,7 +181,7 @@ class ComplianceChecker:
             close = expected.lower() == given.lower()
             return exact, close
 
-        errors = []
+        errors = ErrorCollection()
         rows_metadata = []
         columns = []
         rows_data = []
@@ -236,7 +243,7 @@ class ComplianceChecker:
     def process_metadata(
         self, metadata_rows: list
     ) -> (Metadata, ErrorCollection):
-        errors = []
+        errors = ErrorCollection()
         metadata = Metadata()
         for row in metadata_rows:
             if len(row) < 3:
@@ -248,7 +255,7 @@ class ComplianceChecker:
         return metadata, errors
 
     def metadata_rules(self, metadata: Metadata) -> ErrorCollection:
-        errors = []
+        errors = ErrorCollection()
         mc = MandatoryClassifications()
         convention_labels = mc.get_label_names()
         # iterate through columns.
@@ -268,7 +275,7 @@ class ComplianceChecker:
     def __check_label_compliance_at_level(
         self, metadata: Metadata, basic: bool = False, complete: bool = False
     ) -> ErrorCollection:
-        errors = []
+        errors = ErrorCollection()
 
         # Validation
         if not basic and not complete:
@@ -318,9 +325,11 @@ class ComplianceChecker:
                         has_attribute = True
                         break  # criteria achieved, end search
                 if not has_attribute:
-                    errors.append(
-                        f"CHECK {tag}: Must be at least one column with attribute: {m_label.label}"
-                    )
+                    message = f"CHECK {tag}: Must be at least one column with attribute: {m_label.label}"
+                    if m_label.label == "coordinate_variable":
+                        errors.add_warning(message)
+                    else:
+                        errors.append(message)
         return errors
 
     def basic_compliance(self, metadata: Metadata) -> ErrorCollection:
