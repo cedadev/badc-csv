@@ -13,7 +13,6 @@ from types import MappingProxyType
 
 from badc_csv.badc_errors import BADCTextFileError
 from badc_csv.check_types import *  # TODO bad style
-from badc_csv.mandatory_info import MANDATORY_CLASS
 
 BADC_CSV_SECTION = Enum(
     "BADC_CSV_SECTION",
@@ -506,9 +505,9 @@ class BADCTextFile:
             ) = BADCTextFile.MDinfo[label]
             global_label: bool
             column_label: bool
-            mandatory: MANDATORY_CLASS
-            mandatory_basic: MANDATORY_CLASS
-            mandatory_complete: MANDATORY_CLASS
+            mandatory: int
+            mandatory_basic: int
+            mandatory_complete: int
 
             if level not in ("basic", "complete"):
                 level = "complete"
@@ -567,7 +566,7 @@ class BADCTextFile:
                         )
 
                 # if applies to column only then there should be a record for each variable
-            elif column_label and mandatory == MANDATORY_CLASS.ALL_COLUMNS:
+            elif column_label and mandatory == 2:  # 2 - all columns
                 for colname in self.colnames():
                     if self[label, colname] == []:
                         MetadataInvalid(
