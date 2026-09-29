@@ -2,6 +2,7 @@ from enum import Enum
 
 from badc_csv.check_types_bool import getCheckFunction
 from badc_csv.mandatory_info_data import mandatory_info, mandatory_info_order
+from badc_csv.metadata import MetadataGlobalLabel
 
 MANDATORY_CLASS = Enum(
     "MANDATORY_CLASS",
@@ -31,12 +32,52 @@ class MandatoryLabel:
         mandatory_basic: int,  # 0,1,2
         mandatory_complete: int,  # 0,1,2
     ):
-        self.global_flag = global_flag
-        self.column_flag = column_flag
-        self.min_count = min_count
-        self.max_count = max_count
-        self.mandatory_basic = MANDATORY_CLASS(mandatory_basic)
-        self.mandatory_complete = MANDATORY_CLASS(mandatory_complete)
+        self.global_flag: bool = bool(global_flag)
+        self.column_flag: bool = bool(column_flag)
+        self.min_count: int = int(min_count)
+        self.max_count: int = int(max_count)
+        self.mandatory_basic: MANDATORY_CLASS = MANDATORY_CLASS(mandatory_basic)
+        self.mandatory_complete: MANDATORY_CLASS = MANDATORY_CLASS(
+            mandatory_complete
+        )
+
+    def check_label(self, label, colname, multiline_values) -> list:
+        errors = []
+        # Global flag, Column flag
+        if colname is MetadataGlobalLabel:
+            # column is "Global"
+            if not self.global_flag:
+                # global must have global flag
+                errors.append(f"Global cannot have label {label}.")
+        elif not self.column_flag:
+            # specific column / non-global must have column flag
+            errors.append(f"Non-global column cannot have label {label}.")
+
+        # Do for each 'line' of values separately.
+        for values in multiline_values:
+            # Number of "values" in a label
+            num_values = len(values)
+            if self.min_count <= num_values and (
+                num_values <= self.max_count or self.max_count == -1
+            ):
+                pass  # Valid parameters
+            else:
+                # -1 indicates unbounded maximum
+                # Unclear how this should be implemented for multiple lines.
+                errors.append(
+                    f"For label {label} column {colname}: Number of values must "
+                    f"be between {self.min_count} and {self.max_count} (inc). "
+                    f"Instead got {num_values}."
+                )
+
+            # Type Check the values (of the metadata)
+            type_check_result: bool = self.type_check(values)
+            if not type_check_result:
+                errors.append(
+                    f"TypeCheck error for label {label} on column {colname}. "
+                    f"Expected type {self.expected_type}."
+                )
+        return errors
 
 
 class MandatoryClassifications:

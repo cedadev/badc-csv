@@ -38,8 +38,8 @@ class Metadata:
         # Enable multi-line labels
         if row.label not in record:
             record[row.label] = []
-        for v in row.values:
-            record[row.label].append(v)
+        # Treat each row as a separate label.
+        record[row.label].append(row.values)
 
     def get_attributes(self):
         return self.records
@@ -79,6 +79,10 @@ class Metadata:
             if any(c in whitespace for c in label):
                 errors.append(
                     "Labels must not contain any whitespace. Use underscore '_' for spacing."
+                )
+            if not label.isascii():
+                errors.append(
+                    f"Label contains non-ascii characters. Label: {label}."
                 )
 
             if label.lower() != label:

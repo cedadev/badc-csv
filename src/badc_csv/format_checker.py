@@ -25,7 +25,7 @@ from badc_csv.mandatory_info import (
     MandatoryClassifications,
     MandatoryLabel,
 )
-from badc_csv.metadata import Metadata, MetadataGlobalLabel
+from badc_csv.metadata import Metadata
 
 
 class BADC_CSV_Structure:
@@ -37,7 +37,7 @@ class BADC_CSV_Structure:
 
 class ComplianceChecker:
     COMPLIANCE_LEVEL = Enum(
-        "BADC_CSV_SECTION",
+        "COMPLIANCE_LEVEL",
         [
             ("NONE", 0),
             ("CSV", 1),
@@ -65,24 +65,28 @@ class ComplianceChecker:
         # CSV Compliance
         raw, csv_errors = self.read_file(Path(filepath))
         if csv_errors:
+            print("CSV errors")
             for e in csv_errors:
-                print(e)
+                self.print_verbose(e)
             return (
                 ComplianceChecker.COMPLIANCE_LEVEL.NONE,
                 csv_errors,
             )
-        print("File is CSV.")  # csv is a very lax format
+        else:
+            print("File is CSV.")  # csv is a very lax format
 
         # Structure Compliance
         structure, structural_errors = self.process_structure(raw)
         if structural_errors:
+            print("Structural errors")
             for e in structural_errors:
-                print(e)
+                self.print_verbose(e)
             return (
                 ComplianceChecker.COMPLIANCE_LEVEL.CSV,
                 structural_errors,
             )
-        print("Structure Processed")
+        else:
+            print("Structure Processed")
 
         # Valid Metadata Compliance
         metadata, metadata_errors = self.process_metadata(structure.metadata)
@@ -95,12 +99,13 @@ class ComplianceChecker:
         )
         self.print_verbose("Done with valid metadata checks")
         if valid_metadata_errors:
+            print("Metadata errors")
             for e in valid_metadata_errors:
-                print(e)
-            # return (
-            #     ComplianceChecker.COMPLIANCE_LEVEL.STRUCTURE,
-            #     valid_metadata_errors,
-            # )
+                self.print_verbose(e)
+            return (
+                ComplianceChecker.COMPLIANCE_LEVEL.STRUCTURE,
+                valid_metadata_errors,
+            )
         else:
             print("Passed Valid Metadata level")
 
@@ -108,12 +113,13 @@ class ComplianceChecker:
         basic_compliance_errors = self.basic_compliance(metadata)
         self.print_verbose("Done with BASIC checks")
         if basic_compliance_errors:
+            print("Basic errors")
             for e in basic_compliance_errors:
-                print(e)
-            # return (
-            #     ComplianceChecker.COMPLIANCE_LEVEL.VALID_METADATA,
-            #     basic_compliance_errors,
-            # )
+                self.print_verbose(e)
+            return (
+                ComplianceChecker.COMPLIANCE_LEVEL.VALID_METADATA,
+                basic_compliance_errors,
+            )
         else:
             print("Passed BASIC checks")
 
@@ -121,31 +127,19 @@ class ComplianceChecker:
         complete_compliance_errors = self.complete_compliance(metadata)
         self.print_verbose("Done with COMPLETE checks")
         if complete_compliance_errors:
+            print("Complete Errors")
             for e in complete_compliance_errors:
-                print(e)
-            # return (
-            #     ComplianceChecker.COMPLIANCE_LEVEL.VALID_METADATA,
-            #     complete_compliance_errors,
-            # )
+                self.print_verbose(e)
+            return (
+                ComplianceChecker.COMPLIANCE_LEVEL.VALID_METADATA,
+                complete_compliance_errors,
+            )
         else:
             print("Passed COMPLETE checks")
 
         # TODO - Data Section Compliance (e.g. consistent # of data items per row)
 
-        compliance_level = ComplianceChecker.COMPLIANCE_LEVEL.COMPLETE
-        if complete_compliance_errors:
-            compliance_level = ComplianceChecker.COMPLIANCE_LEVEL.BASIC
-        if basic_compliance_errors:
-            compliance_level = ComplianceChecker.COMPLIANCE_LEVEL.VALID_METADATA
-        if valid_metadata_errors:
-            compliance_level = ComplianceChecker.COMPLIANCE_LEVEL.STRUCTURE
-
-        total_errors = (
-            valid_metadata_errors
-            + basic_compliance_errors
-            + complete_compliance_errors
-        )
-        return compliance_level, total_errors
+        return ComplianceChecker.COMPLIANCE_LEVEL.COMPLETE, None
 
     def read_file(self, filepath: Path) -> (list, ErrorCollection):
         self.print_verbose(f"Path {filepath} given.")
@@ -164,7 +158,7 @@ class ComplianceChecker:
         self, lines: list
     ) -> (BADC_CSV_Structure, ErrorCollection):
         SECTION = Enum(
-            "BADC_CSV_SECTION",
+            "SECTION",
             [("METADATA", 1), ("COLUMN_HEADERS", 2), ("DATA", 3), ("END", 4)],
         )
 
@@ -193,7 +187,7 @@ class ComplianceChecker:
             if len(row) == 0:
                 continue
             # Process by section
-            # BADC_CSV_SECTION: METADATA then COLUMN_HEADERS then DATA, then END
+            # SECTION: METADATA then COLUMN_HEADERS then DATA, then END
             if section == SECTION.METADATA:
                 if len(row) == 1:
                     exact, close = __compare_heading("data", row[0])
@@ -265,37 +259,10 @@ class ComplianceChecker:
                 if label in convention_labels:
                     # Reference the rules for this attribute.
                     rules: MandatoryLabel = mc.get_label(label)
-
-                    # Global flag, Column flag
-                    if colname is MetadataGlobalLabel:  # column is "Global"
-                        if (
-                            not rules.global_flag
-                        ):  # global must have global flag
-                            errors.append(f"Global cannot have label {label}.")
-                    elif (
-                        not rules.column_flag
-                    ):  # specific column / non-global must have column flag
-                        errors.append(
-                            f"Non-global column cannot have label {label}."
-                        )
-
-                    # Number of "values" in a label
-                    num_values = len(attributes[label])
-                    if not (
-                        rules.min_count <= num_values <= rules.max_count
-                    ):  # Unclear how this should be implemented for multiple lines.
-                        errors.append(
-                            f"For label {label} column {colname}: Number of values must be between {rules.min_count} and {rules.max_count} (inc). Instead got {num_values}."
-                        )
-
-                    # Check that the label values (of the metadata) are correctly typed
-                    type_check_result: bool = rules.type_check(
-                        attributes[label]
+                    violated_rules = rules.check_label(
+                        label, colname, attributes[label]
                     )
-                    if not type_check_result:
-                        errors.append(
-                            f"TypeCheck error for label {label} on column {colname}. Expected type {rules.expected_type}."
-                        )
+                    errors = errors + violated_rules
         return errors
 
     def __check_label_compliance_at_level(
