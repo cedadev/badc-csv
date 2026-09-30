@@ -310,7 +310,7 @@ class ComplianceChecker:
                     self.print_verbose(attributes.keys())
                     if m_label.label not in attributes:
                         errors.append(
-                            f"CHECK {tag}: Column {column_name} should have attribute {m_label.label}"
+                            f"CHECK '{tag}': Column '{column_name}' should have attribute '{m_label.label}'"
                         )
 
             elif getattr(m_label, mandatory_class) == MANDATORY_CLASS.MANDATORY:
@@ -320,12 +320,12 @@ class ComplianceChecker:
                     self.print_verbose(attributes)
                     if m_label.label in attributes:
                         self.print_verbose(
-                            f"Column {colname} has label {m_label.label}."
+                            f"Column '{colname}' has label '{m_label.label}'."
                         )
                         has_attribute = True
                         break  # criteria achieved, end search
                 if not has_attribute:
-                    message = f"CHECK {tag}: Must be at least one column with attribute: {m_label.label}"
+                    message = f"CHECK {tag}: Must be at least one column with attribute: '{m_label.label}'"
                     if m_label.label == "coordinate_variable":
                         errors.add_warning(message)
                     else:

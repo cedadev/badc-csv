@@ -7,7 +7,7 @@ DEBUG = False
 
 
 def test_read_bad_data_heading():
-    # Read an otherwise sound file with a "Data" instead of "data" heading.
+    # Incorrect headings "Data" instead of "data" heading.
     standard_test(
         rel_filepath="test1.csv",
         expected_level=COMPLIANCE_LEVEL.CSV,
@@ -63,17 +63,17 @@ def test_read_ukmo():
 def test_read_additional_amended():
     # In-use file. UKMO-METDB dataset.
     # With some amendments, it can be made more compliant!
-    # Error BASIC however: file has no 'coordinate_variable'
-    # Warning: Non-compliant use of comments.
+    # Error COMPLIANT however: no 'type' attribute for various columns
+    # Warning: Non-compliant use of comments, file has no 'coordinate_variable'
     standard_test(
         rel_filepath="amended/ukmo-metdb_lndsyn_20240202.csv",
         expected_level=COMPLIANCE_LEVEL.BASIC,
-        num_errors=1,
+        num_errors=5,
         errors_comparison_type="gte",
-        # file has no 'coordinate_variable'
-        num_warnings=1,
+        num_warnings=10,  # many repeated warnings
         warnings_comparison_type="gte",
-        debug=DEBUG,
+        debug=True,
+        verbose=True,
     )
 
 
