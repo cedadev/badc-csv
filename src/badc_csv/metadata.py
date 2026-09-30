@@ -102,5 +102,5 @@ class Metadata:
                 return str(
                     column
                 )  # return as str, to remain consistent with reader.
-            except TypeError:
+            except ValueError:
                 return str(column)

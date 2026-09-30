@@ -138,7 +138,7 @@ class ComplianceChecker:
             for e in complete_compliance_errors:
                 self.print_verbose(e)
             return (
-                ComplianceChecker.COMPLIANCE_LEVEL.VALID_METADATA,
+                ComplianceChecker.COMPLIANCE_LEVEL.BASIC,
                 errors,
             )
         else:
@@ -340,11 +340,6 @@ class ComplianceChecker:
 
 
 """
-COLUMN CHECK
-for each column
-- check that it has a name!
-
-
 DATA CHECK
 for each data row
 - for each column
