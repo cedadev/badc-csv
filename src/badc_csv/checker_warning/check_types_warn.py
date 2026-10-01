@@ -8,15 +8,18 @@ Each Function is of the form (Tuple -> None).
 
 To confirm that a type is VALID, nothing occurs.
 To confirm that a type is INVALID, the function will throw an error.
-
-TODO - change methods to a BOOL output True/False.
 """
 
 import time
 import warnings
-from types import MappingProxyType
 
-from badc_csv.badc_errors import BADCTextFileError, BADCTextFileMetadataInvalid
+
+class BADCTextFileError(Exception):
+    pass
+
+
+class BADCTextFileMetadataInvalid(BADCTextFileError):
+    pass  # wrong args for md
 
 
 def checkString(values):
@@ -107,38 +110,3 @@ def checkType(values):
 
 def checkCellMethod(values):
     pass
-
-
-def getCheckFunction(expected_type):
-    def not_implemented():
-        pass
-
-    function_lookup = MappingProxyType(
-        {
-            "convention": checkConventions,
-            "date": checkDate,
-            "float": checkFloat,
-            "height": checkHeight,
-            "location": checkLocation,
-            "type": checkType,
-            # not implemented or not possible
-            "cell_method": not_implemented,
-            "coordinate": not_implemented,
-            "feature_type": not_implemented,
-            "standard_name": not_implemented,
-            "string": not_implemented,
-        }
-    )
-    return function_lookup[expected_type]
-
-
-def checkMeta(expected_type, variable):
-    check_function = getCheckFunction(expected_type)
-    error: Exception = None
-    try:
-        check_function(variable)
-        pass_check = True
-    except BADCTextFileError as e:
-        pass_check = False
-        error = e
-    return pass_check, error

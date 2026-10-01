@@ -11,8 +11,20 @@ import sys
 from enum import Enum
 from types import MappingProxyType
 
-from badc_csv.badc_errors import BADCTextFileError
-from badc_csv.check_types import *  # TODO bad style
+from .check_types_warn import (
+    MetadataInvalid,
+    checkCellMethod,
+    checkConventions,
+    checkCoordinateVariables,
+    checkDate,
+    checkFeatureType,
+    checkFloat,
+    checkHeight,
+    checkLocation,
+    checkStandardName,
+    checkString,
+    checkType,
+)
 
 BADC_CSV_SECTION = Enum(
     "BADC_CSV_SECTION",

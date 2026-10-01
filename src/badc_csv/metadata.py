@@ -1,6 +1,6 @@
 from string import whitespace
 
-from badc_csv.error_collection import ErrorCollection
+from badc_csv.util.error_collection import ErrorCollection
 
 
 class MetadataRowError(Exception):

@@ -1,6 +1,6 @@
 import warnings
 
-from badc_csv.badctextfilewarn import BADCTextFile
+from badc_csv.checker_warning.badctextfilewarn import BADCTextFile
 from tests.util import TEST_DATA_DIR, TEST_TEMP_DIR, read_file_text
 
 

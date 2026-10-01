@@ -19,13 +19,13 @@ import csv
 from enum import Enum
 from pathlib import Path
 
-from badc_csv.error_collection import ErrorCollection
 from badc_csv.mandatory_info import (
     MANDATORY_CLASS,
     MandatoryClassifications,
     MandatoryLabel,
 )
 from badc_csv.metadata import Metadata
+from badc_csv.util.error_collection import ErrorCollection
 
 
 class BADC_CSV_Structure:

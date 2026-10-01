@@ -97,8 +97,3 @@ def getCheckFunction(expected_type: str):  # -> function (list[str] -> bool)
         }
     )
     return function_lookup[expected_type]
-
-
-def checkMeta(expected_type: str, values: list[str]) -> bool:
-    check_function = getCheckFunction(expected_type)
-    return check_function(values)
