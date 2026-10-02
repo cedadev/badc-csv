@@ -12,6 +12,7 @@ from enum import Enum
 from types import MappingProxyType
 
 from .check_types_warn import (
+    BADCTextFileError,
     MetadataInvalid,
     checkCellMethod,
     checkConventions,

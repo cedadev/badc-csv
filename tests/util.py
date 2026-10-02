@@ -38,17 +38,18 @@ def standard_test(
     warnings_comparison_type: str = "eq",
     verbose: bool = False,
     debug: bool = False,
+    disallow_warnings: bool = False,
 ):
-
     checker = ComplianceChecker()
     checker.set_verbose(verbose)
+    checker.disallow_warnings(disallow_warnings)
     compliance_level, errors = checker.compliance_assessment(
         TEST_DATA_DIR / rel_filepath
     )
     if debug:
         print(compliance_level)
-        print(errors)
-        print(errors.get_warnings())
+        print(errors.num_errors(), errors.get_errors())
+        print(errors.num_warnings(), errors.get_warnings())
     assert compliance_level == expected_level
     assert __compare(len(errors), num_errors, errors_comparison_type)
     assert __compare(

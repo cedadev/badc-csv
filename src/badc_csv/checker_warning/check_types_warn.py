@@ -54,7 +54,6 @@ def checkDate(values):
     for v in values:
         dateSplit = v.split(" ")
         dateString = "%Y-%m-%d"
-        # print v, v.split(' ')
         if len(dateSplit) == 2:
             timeSplit = dateSplit[1].split(":")
             if len(timeSplit) == 1:

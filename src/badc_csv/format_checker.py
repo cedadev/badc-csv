@@ -51,6 +51,7 @@ class ComplianceChecker:
 
     def __init__(self):
         self.__verbose = False
+        self.__disallow_warnings = False
 
     def set_verbose(self, setting: bool = True):
         self.__verbose = setting
@@ -59,30 +60,43 @@ class ComplianceChecker:
         if self.__verbose:
             print("# V-LOGS:", *args, **kwargs)
 
+    def disallow_warnings(self, setting: bool = True):
+        self.__disallow_warnings = setting
+
     def compliance_assessment(
         self, filepath: str
     ) -> (COMPLIANCE_LEVEL, ErrorCollection):
-
         errors = ErrorCollection()
         # CSV Compliance
         raw, csv_errors = self.read_file(Path(filepath))
         errors += csv_errors
-        if csv_errors:
-            print("CSV errors")
-            for e in csv_errors:
+
+        if errors:
+            print("Fucking hell mate")
+
+        if self.__disallow_warnings and errors.has_warnings():
+            print("you awl rite?")
+            if self.__disallow_warnings:
+                print("calm bruv")
+            if errors.has_warnings():
+                print("nuff said aight")
+
+        if errors or (self.__disallow_warnings and errors.has_warnings()):
+            self.print_verbose("CSV errors")
+            for e in errors:
                 self.print_verbose(e)
             return (
                 ComplianceChecker.COMPLIANCE_LEVEL.NONE,
                 errors,
             )
         else:
-            print("File is CSV.")  # csv is a very lax format
+            self.print_verbose("File is CSV.")  # csv is a very lax format
 
         # Structure Compliance
         structure, structural_errors = self.process_structure(raw)
         errors += structural_errors
-        if structural_errors:
-            print("Structural errors")
+        if errors or (self.__disallow_warnings and errors.has_warnings()):
+            self.print_verbose("Structural errors")
             for e in structural_errors:
                 self.print_verbose(e)
             return (
@@ -90,7 +104,7 @@ class ComplianceChecker:
                 errors,
             )
         else:
-            print("Structure Processed")
+            self.print_verbose("Structure Processed")
 
         # Valid Metadata Compliance
         metadata, metadata_errors = self.process_metadata(structure.metadata)
@@ -103,8 +117,8 @@ class ComplianceChecker:
         )
         errors += valid_metadata_errors
         self.print_verbose("Done with valid metadata checks")
-        if valid_metadata_errors:
-            print("Metadata errors")
+        if errors or (self.__disallow_warnings and errors.has_warnings()):
+            self.print_verbose("Metadata errors")
             for e in valid_metadata_errors:
                 self.print_verbose(e)
             return (
@@ -112,14 +126,14 @@ class ComplianceChecker:
                 errors,
             )
         else:
-            print("Passed Valid Metadata level")
+            self.print_verbose("Passed Valid Metadata level")
 
         # Basic Compliance
         basic_compliance_errors = self.basic_compliance(metadata)
         errors += basic_compliance_errors
         self.print_verbose("Done with BASIC checks")
-        if basic_compliance_errors:
-            print("Basic errors")
+        if errors or (self.__disallow_warnings and errors.has_warnings()):
+            self.print_verbose("Basic errors")
             for e in basic_compliance_errors:
                 self.print_verbose(e)
             return (
@@ -127,14 +141,14 @@ class ComplianceChecker:
                 errors,
             )
         else:
-            print("Passed BASIC checks")
+            self.print_verbose("Passed BASIC checks")
 
         # Complete Compliance
         complete_compliance_errors = self.complete_compliance(metadata)
         errors += complete_compliance_errors
         self.print_verbose("Done with COMPLETE checks")
-        if complete_compliance_errors:
-            print("Complete Errors")
+        if errors or (self.__disallow_warnings and errors.has_warnings()):
+            self.print_verbose("Complete Errors")
             for e in complete_compliance_errors:
                 self.print_verbose(e)
             return (
@@ -142,7 +156,7 @@ class ComplianceChecker:
                 errors,
             )
         else:
-            print("Passed COMPLETE checks")
+            self.print_verbose("Passed COMPLETE checks")
 
         # TODO - Data Section Compliance (e.g. consistent # of data items per row)
 
@@ -203,7 +217,7 @@ class ComplianceChecker:
                         section = SECTION.COLUMN_HEADERS
                         if not exact:
                             errors.append(
-                                f"Warning: Label must be 'data', not {row[0]}. Must be lowercase."
+                                f"Label must be 'data', not {row[0]}. Must be lowercase."
                             )
                         self.print_verbose("Starting Columns")
                         continue
@@ -228,7 +242,7 @@ class ComplianceChecker:
                         section = SECTION.END
                         if not exact:
                             errors.append(
-                                f"Warning: Label must be 'end data', not {row[0]}. Must be lowercase."
+                                f"Label must be 'end data', not {row[0]}. Must be lowercase."
                             )
                     continue
                 rows_data.append(row)
@@ -340,9 +354,10 @@ class ComplianceChecker:
 
 
 """
+TODO
+
 DATA CHECK
 for each data row
 - for each column
     - check that the type matches what is given, if the metadata label specifies
-
 """

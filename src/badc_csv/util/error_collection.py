@@ -10,10 +10,10 @@ class ErrorCollection:
         self.__errors: list[str] = [e for e in errors]
         self.__warnings: list[str] = [w for w in warnings]
 
-    def append(self, error: str):
+    def append(self, error: str) -> None:
         self.__errors.append(error)
 
-    def add_warning(self, warning: str):
+    def add_warning(self, warning: str) -> None:
         self.__warnings.append(warning)
 
     def get_errors(self) -> tuple:
@@ -22,11 +22,14 @@ class ErrorCollection:
     def get_warnings(self) -> tuple:
         return tuple(self.__warnings)
 
-    def num_errors(self):
+    def num_errors(self) -> int:
         return len(self.__errors)
 
-    def num_warnings(self):
+    def num_warnings(self) -> int:
         return len(self.__warnings)
+
+    def has_warnings(self) -> bool:
+        return self.num_warnings() > 0
 
     def __len__(self):
         return len(self.__errors)

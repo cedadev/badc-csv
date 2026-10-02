@@ -39,23 +39,3 @@ def test_read_compliant():
             t.check_complete("basic")
             t.check_complete(0)
             t.check_complete("complete")
-
-
-def test_expect_warnings():
-    ...
-    # Example where we expect 7 warnings
-    # with pytest.warns() as record_complete:
-    #     t.check_complete("complete")
-    # assert len(record_complete) == 7
-
-
-def test_cdl_maybe_():  # unsure...
-    ...
-    # with open(r".tmp/test1.cdl", "wb") as fh:
-    #     fh.write(t.cdl().encode("utf-8"))
-    #     fh.close()
-    #     print(t.cvs())
-
-    # t.check_complete(1)
-    # with open(r".tmp/test1.cdl", "wb") as fh2:
-    #     fh2.write(t.cdl().encode("utf-8"))

@@ -32,6 +32,21 @@ def test_read_compliant():
     )
 
 
+def test_read_compliant_block_warnings():
+    # compliant file, but with warnings for no 'coordinate_variable'
+    # this time... treat warnings as errors. Lowers file to "VALID METADATA".
+    standard_test(
+        rel_filepath="test2.csv",
+        expected_level=COMPLIANCE_LEVEL.VALID_METADATA,
+        num_errors=0,
+        # file has no 'coordinate_variable'
+        num_warnings=1,
+        warnings_comparison_type="gte",
+        debug=DEBUG,
+        disallow_warnings=True,  # but treat warnings as errors
+    )
+
+
 def test_read_long_compliant():
     # compliant file, but with warnings for no 'coordinate_variable'
     standard_test(
@@ -72,7 +87,7 @@ def test_read_additional_amended():
         errors_comparison_type="gte",
         num_warnings=10,  # many repeated warnings
         warnings_comparison_type="gte",
-        debug=True,
+        debug=DEBUG,
         verbose=True,
     )
 
