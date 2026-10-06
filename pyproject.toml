@@ -1,0 +1,29 @@
+[project]
+name = "badc-csv"
+version = "26.10.1"
+description = "Evaluation tool for the BADC-CSV format"
+readme = "README.md"
+authors = [
+    { name = "R Jenns", email = "rory.jenns@stfc.ac.uk" }
+]
+requires-python = ">=3.14"
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.12.16,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 80
+indent-width = 4
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "lf"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

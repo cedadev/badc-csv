@@ -127,12 +127,7 @@ The diagram below shows the data model for the file structure. It says a BADC te
 
 
 
-![Data Model](/data_model.png)
-
-
-
-
-
+![Data Model](./data_model.png)
 
 
 Levels of compliance
@@ -190,7 +185,7 @@ Date and Times
 All dates should be given in the YYYY-MM-DD format, while times are represented as hh[:mm:ss.sss] down to the required resolution. Fractions of a second can be given if appropriate to the degree required. 
 When the date and time elements are to be given together then they should appear separated by a space i.e. YYYY-MM-DD hh:[mm:ss].
 
-E.g. if jus the hours of observation are to be given for data taken at the synoptic hours (00,06,12 and 18 UT) for the first week in the year then the data_valid field could be given as:
+E.g. if just the hours of observation are to be given for data taken at the synoptic hours (00,06,12 and 18 UT) for the first week in the year then the data_valid field could be given as:
 
     date_valid,G,2006-01-01 06, 2006-01-08 18
 
