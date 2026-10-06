@@ -66,12 +66,21 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="treat warnings as errors",
     )
+    p.add_argument(
+        "-t",
+        "--test-netcdf-converter",
+        action="store_true",
+        help="TODO remove before publication",
+    )
     return p
 
 
 def parse_args() -> argparse.Namespace:
     p = build_parser()
     args = p.parse_args()
+
+    if args.test_netcdf_converter:  # TODO temp remove
+        return args
 
     if args.filename_pos and args.filename_opt:
         p.error("specify the file either positionally or with -f, not both")
@@ -86,8 +95,14 @@ def parse_args() -> argparse.Namespace:
 
 if __name__ == "__main__":
     args = parse_args()
-    report = main(args.filename, args.verbose, args.disallow_warnings)
-    print(report)
+    if args.test_netcdf_converter:
+        import badc_csv.netcdf.badc_csv_reader as convert_test
+
+        convert_test.test_conversion()
+
+    else:
+        report = main(args.filename, args.verbose, args.disallow_warnings)
+        print(report)
 
 
 """

@@ -55,7 +55,7 @@ def checkDate(values: list[str]) -> bool:
 
             time.strptime(v, dateString)
         return True
-    except:  # noqa: E722
+    except:  # noqa: E722  # TODO
         return False
 
 

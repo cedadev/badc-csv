@@ -23,3 +23,14 @@ def badc_to_netcdf(src: str, dest: Path) -> bool:
     # https://docs.xarray.dev/en/stable/generated/xarray.Dataset.to_netcdf.html#xarray.Dataset.to_netcdf
     # xarray.Dataset
     # xarray.Dataset.to_netcdf
+
+
+def badc_to_cdl():
+    """CDL (Common Data Language) is a format that corresponds to NetCDF.
+
+    CDL is the output and input format of ncdump and ncgen respectively,
+        ncdump and ncgen being two key NetCDF command line utilities
+
+    This is necessary as NetCDF is a BINARY format, optimized for access and computation
+    -- meaning that a text editor cannot natively read it
+    """

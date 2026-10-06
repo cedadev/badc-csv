@@ -1,13 +1,10 @@
 from string import whitespace
 
+from badc_csv.data.mandatory_info import MetadataGlobalLabel
 from badc_csv.util.error_collection import ErrorCollection
 
 
 class MetadataRowError(Exception):
-    pass
-
-
-class MetadataGlobalLabel:
     pass
 
 
@@ -27,6 +24,7 @@ class Metadata:
         # Create Metadata Row struct
         row = self.MetadataRow(*args)
         if row.errors:
+            print(*args)
             raise MetadataRowError(row.errors)  # TODO ... raise higher...
 
         if row.column_name not in self.records:

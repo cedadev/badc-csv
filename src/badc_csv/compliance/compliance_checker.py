@@ -19,13 +19,13 @@ import csv
 from enum import Enum
 from pathlib import Path
 
-from badc_csv.util.error_collection import ErrorCollection
-
-from .mandatory_info import (
+from badc_csv.data.mandatory_info import (
     MANDATORY_CLASS,
     MandatoryClassifications,
     MandatoryLabel,
 )
+from badc_csv.util.error_collection import ErrorCollection
+
 from .metadata import Metadata
 
 COMPLIANCE_LEVEL = Enum(
