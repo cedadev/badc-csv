@@ -19,13 +19,27 @@ import csv
 from enum import Enum
 from pathlib import Path
 
-from badc_csv.mandatory_info import (
+from badc_csv.util.error_collection import ErrorCollection
+
+from .mandatory_info import (
     MANDATORY_CLASS,
     MandatoryClassifications,
     MandatoryLabel,
 )
-from badc_csv.metadata import Metadata
-from badc_csv.util.error_collection import ErrorCollection
+from .metadata import Metadata
+
+COMPLIANCE_LEVEL = Enum(
+    "COMPLIANCE_LEVEL",
+    [
+        ("NONE", 0),
+        ("CSV", 1),
+        ("STRUCTURE", 2),
+        ("VALID_METADATA", 3),
+        ("BASIC", 4),
+        ("COMPLETE", 5),
+        ("STANDARDISED", 6),
+    ],
+)
 
 
 class BADC_CSV_Structure:
@@ -36,19 +50,6 @@ class BADC_CSV_Structure:
 
 
 class ComplianceChecker:
-    COMPLIANCE_LEVEL = Enum(
-        "COMPLIANCE_LEVEL",
-        [
-            ("NONE", 0),
-            ("CSV", 1),
-            ("STRUCTURE", 2),
-            ("VALID_METADATA", 3),
-            ("BASIC", 4),
-            ("COMPLETE", 5),
-            ("STANDARDISED", 6),
-        ],
-    )
-
     def __init__(self):
         self.__verbose = False
         self.__disallow_warnings = False
@@ -86,7 +87,7 @@ class ComplianceChecker:
             for e in errors:
                 self.print_verbose(e)
             return (
-                ComplianceChecker.COMPLIANCE_LEVEL.NONE,
+                COMPLIANCE_LEVEL.NONE,
                 errors,
             )
         else:
@@ -100,7 +101,7 @@ class ComplianceChecker:
             for e in structural_errors:
                 self.print_verbose(e)
             return (
-                ComplianceChecker.COMPLIANCE_LEVEL.CSV,
+                COMPLIANCE_LEVEL.CSV,
                 errors,
             )
         else:
@@ -122,7 +123,7 @@ class ComplianceChecker:
             for e in valid_metadata_errors:
                 self.print_verbose(e)
             return (
-                ComplianceChecker.COMPLIANCE_LEVEL.STRUCTURE,
+                COMPLIANCE_LEVEL.STRUCTURE,
                 errors,
             )
         else:
@@ -137,7 +138,7 @@ class ComplianceChecker:
             for e in basic_compliance_errors:
                 self.print_verbose(e)
             return (
-                ComplianceChecker.COMPLIANCE_LEVEL.VALID_METADATA,
+                COMPLIANCE_LEVEL.VALID_METADATA,
                 errors,
             )
         else:
@@ -152,7 +153,7 @@ class ComplianceChecker:
             for e in complete_compliance_errors:
                 self.print_verbose(e)
             return (
-                ComplianceChecker.COMPLIANCE_LEVEL.BASIC,
+                COMPLIANCE_LEVEL.BASIC,
                 errors,
             )
         else:
@@ -160,7 +161,7 @@ class ComplianceChecker:
 
         # TODO - Data Section Compliance (e.g. consistent # of data items per row)
 
-        return ComplianceChecker.COMPLIANCE_LEVEL.COMPLETE, errors
+        return COMPLIANCE_LEVEL.COMPLETE, errors
 
     def read_file(self, filepath: Path) -> (list, ErrorCollection):
         self.print_verbose(f"Path {filepath} given.")

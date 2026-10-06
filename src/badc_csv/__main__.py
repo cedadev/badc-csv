@@ -2,7 +2,7 @@ import argparse
 import json
 from pathlib import Path
 
-from badc_csv.format_checker import ComplianceChecker
+from badc_csv.compliance import COMPLIANCE_LEVEL, ComplianceChecker
 from badc_csv.util.error_collection import ErrorCollection
 
 type JsonText = str  # additional type hints
@@ -10,7 +10,7 @@ type JsonText = str  # additional type hints
 
 def create_report_json(
     file: Path,
-    compliance_level: ComplianceChecker.COMPLIANCE_LEVEL,
+    compliance_level: COMPLIANCE_LEVEL,
     errors: ErrorCollection,
 ) -> JsonText:
     return json.dumps(
@@ -25,16 +25,10 @@ def create_report_json(
 
 
 def main(filename: Path, verbose: bool, disallow_warnings: bool) -> JsonText:
-    """
-    filename: -f or positional. type: path - REQUIRED - file being validated.
-    verbose: -v. type: flag - display additional information during processing
-    disallow-warnings: -w --disallow-warnings. type: flag - treat warnings as errors
-    """
     checker = ComplianceChecker()
     checker.set_verbose(verbose)
     checker.disallow_warnings(disallow_warnings)
     compliance_level, errors = checker.compliance_assessment(filename)
-
     return create_report_json(filename, compliance_level, errors)
 
 

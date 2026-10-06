@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from badc_csv.format_checker import ComplianceChecker
+from badc_csv.compliance import ComplianceChecker
 
 TEST_DATA_DIR = Path("tests/reference/")
 TEST_TEMP_DIR = Path("tests/tmp/")

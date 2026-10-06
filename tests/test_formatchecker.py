@@ -1,7 +1,5 @@
-from badc_csv.format_checker import ComplianceChecker
+from badc_csv.compliance import COMPLIANCE_LEVEL
 from tests.util import standard_test
-
-COMPLIANCE_LEVEL = ComplianceChecker.COMPLIANCE_LEVEL
 
 DEBUG = False
 
