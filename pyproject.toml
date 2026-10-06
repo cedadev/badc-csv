@@ -1,14 +1,13 @@
 [project]
 name = "badc-csv"
-version = "0.1.0"
-description = "Add your description here"
+version = "26.10.1"
+description = "Evaluation tool for the BADC-CSV format"
 readme = "README.md"
 authors = [
-    { name = "Jenns", email = "rory.jenns@stfc.ac.uk" }
+    { name = "R Jenns", email = "rory.jenns@stfc.ac.uk" }
 ]
 requires-python = ">=3.14"
 dependencies = []
-
 
 [build-system]
 requires = ["uv_build>=0.12.16,<0.13.0"]
