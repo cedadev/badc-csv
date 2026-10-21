@@ -1,0 +1,912 @@
+Conventions,G,BADC-CSV,1
+title,G,UK Met Office MetDB Land SYNOP message
+creator,G,G A Parton,British Atmospheric Data Centre
+location,G,global
+reference,G,UK Meteorological Office. MetDB Land SYNOP data, [Internet]. British Atmospheric Data Centre, 2008, Date of citation. Available from http://badc.nerc.ac.uk/data/ukmo-metdb
+valid_min,G,-9999999
+feature_type,G,point collection
+observation_station,G,Global Synoptic station network 
+activity,G,Met Office forcasting system
+source,G,UK Met Office MetDB
+date_valid,G,2024-02-02
+last_revised_date,G,2024-02-03 23:05:53
+history,G,2024-02-03 00:11:40 : File created. 23947 data lines written to file.
+history,G,2024-02-03 00:11:41 : 24369 data lines added.
+history,G,2024-02-03 00:11:42 : 24401 data lines added.
+history,G,2024-02-03 23:05:52 : 23749 data lines added.
+history,G,2024-02-03 23:05:53 : 48 data lines added.
+comments,G,Land SYNOP messages from the UK Met Office metDB. Archived at the BADC using the BADC-CSV format. The metdb_short_name field indicates the 
+comments,G,data entity name used within the Met Office's metDB system and documentation, while the metdb_code_table field is the corresponding metDB code table reference
+comments,G,code table comments have been taken from UK Met Office metDB documentation and from WMO Manual on Codes - WMO No 306
+comments,G,metdb_header_tag gives version number for header information, date this header version came into use and metDB message type to which it applies
+comments,G,Quality Control flagging: a number of fields have a basic level of quality control applied to them by the Met Office. These are indicated
+comments,G,by a '_QC' suffix to the metdb_short_name. Details of the tests used are given below: 
+comments,G,Ir & Rainfall:
+comments,G,Ir Indicated Rainfall In Sections 1 And 3 But None Found 
+comments,G,Ir Indicated Rainfall In Section 1 But None Found 
+comments,G,Ir Indicated Rainfall In Section 3 But None Found 
+comments,G,Ir Indicated No Rainfall But Rainfall Found 
+comments,G,Ix & Weather:
+comments,G,Ix Indicated No Weather Group, But Weather Group Found 
+comments,G,Ix Indicated Weather Group, But No Weather Group Found 
+comments,G,Weather (Ww, W1 & W2):
+comments,G,Present And Past Weather Insignificant But Weather Group Reported (Allowed For Ships But Not For Land Stations See Manual On Codes 12.2.6.1 And 12.2.6.2). 
+comments,G,Past Weather Indicates Fog In The Past Hour But Present Weather Doesn''t Mention Fog And No Thunderstorm Reported. 
+comments,G,Second Past Weather Code Is Greater Than The First. 
+comments,G,Wind:
+comments,G,Wind Direction Indicates Calm But Wind Speed Reported. 
+comments,G,Wind Speed Indicates Calm But Wind Direction Reported. 
+comments,G,Wind Direction Range Check 
+comments,G,Variable Wind Direction & Inconsistent Speed (0 Or More Than 5m/S) 
+comments,G,Pressure Tendency (App):
+comments,G,Pressure Characteristic Indicates Steady, But Pressure Change Exists 
+comments,G,Pressure Characteristic Indicates Change, But No Pressure Change. 
+comments,G,Temperature Range, Temperatures And Weather:
+comments,G,Dew Point Higher Than Temperature At Land Station Or More Than 1 Degree Higher On Ship 
+comments,G,Freezing Rain, Snow, Rime Etc But Ttt 10c Or More 
+comments,G,Dew Point Depression Too Great For Fog 
+comments,G,Visibility & Weather:
+comments,G,Visibility < 1 Km, But Present Weather Inconsistent. 
+comments,G,Visibility >= 1 Km, But Fog Reported 
+comments,G,Visibility >= 2 Km, But Heavy Snow Reported. 
+comments,G,Vvv>1km But Weather Is Haze With Visibility <1km
+comments,G,Total Cloud Amount (N) & Height Of Lowest Cloud (H):
+comments,G,Sky Not Obscured But No Low/Medium Cloud Base Reported. 
+comments,G,No Cloud Amount But Cloud Base Reported. 
+comments,G,Total Cloud Amount (N), Visibility & Weather:
+comments,G,Total Cloud Amount Obscured But Visibility 2km Or More 
+comments,G,Total Cloud Amount Obscured But Sky Visible. 
+comments,G,No Total Cloud Amount But Clouds Forming Or Precipitation Reported. 
+comments,G,Half Cloud Cover Or Less But Past Weather Indicates More Than Half Cloud Cover Throughout Period. 
+comments,G,More Than Half Cloud Cover But Past Weather Indicates Half Cloud Cover Or Less Throughout Period. 
+comments,G,Main Cloud Group (8-Group In Section 1) Ww & Main Cloud Group:
+comments,G,Thunderstorm At Or In Sight Of The Station, Cloud Amount Nonzero, But No Suitable Cloud In 8-Group (Allow For A Blanket Of Low Cloud) 
+comments,G,H & Main Cloud Group:
+comments,G,Cloud Base Is Missing But Low/Medium Cloud Amount Is Reported 
+comments,G,Cloud Base Reported But No Amount Of Low/Medium Cloud Is Reported 
+comments,G,N & Main Cloud Group:
+comments,G,Total Cloud Amount Is Less Than Low/Medium Cloud Amount. 
+comments,G,Sky Obscured But Low Or Medium Cloud Present 
+comments,G,No Medium/High Cloud, But Not All Cloud Is In Lowest Layer 
+comments,G,No Low/High Cloud, But Not All Cloud Is In Medium Layer. 
+comments,G,Cirrostratus Covers Sky But Cloud Amount Not 8/8. 
+comments,G,Total Cloud Amount Reported But No Low, Medium Or High Cloud. 
+comments,G,No Total Cloud Amount But Low, Medium Or High Cloud Reported. 
+comments,G,Sky Obscured But Cloud Type Reported (Perhaps As Zero) 
+comments,G,Main Cloud Group: Internal Checks:
+comments,G,Low Cloud Missing But Medium Cloud Reported. 
+comments,G,Low And Medium Cloud Missing But High Cloud Reported. 
+comments,G,No Cloud Amount Reported But Low Cloud Type Given. 
+comments,G,Cloud Amount Reported But No Low Cloud Type Given 
+comments,G,Medium Cloud Reported But No Cloud Amount. 
+comments,G,8/8 Low/Medium Cloud Amount But Ch Not Missing 
+comments,G,Cloud Checks Involving 8-Groups In Section 3:
+comments,G,Cloud Not Observed, Total Cloud Is 0, But 8-Groups Reported (N & Ww Agree, So The 8-Groups Are Assumed To Be Wrong) 
+comments,G,Total Cloud Amount Less Than Cloud Amount In One 8-Group 
+comments,G,No Low,Medium Or High Cloud But Cloud Amount In First 8-Group 
+comments,G,Less Cloud In Nh Than In Corresponding 8-Groups 
+comments,G,First 8-Group Obscured But Amount Of Cloud Reported. 
+comments,G,Low/Medium Cloud Reported But Height Inconsistent In 1st 8-Group. 
+comments,G,Low Cloud Reported But First 8-Group Not Low Cloud 
+comments,G,Low Cloud Reported But First 8-Group Cloud Amount Obscured. 
+comments,G,Low Cloud Reported In First 8-Group But Height Inconsistent. 
+comments,G,Cumulonimbus In Main Cloud Group But Not In 8-Groups 
+comments,G,Cumulonimbus In 8-Group But Not In Main Cloud Group. 
+comments,G,No Medium Cloud In Main Group But Medium Height Or Type In 8-Group 
+comments,G,No Medium/High Cloud In Main Group But High Cloud Height In 8-Group 
+comments,G,First 8-Group Indicates Obscured But Medium Cloud Reported. 
+comments,G,First 8-Group Has High Cloud Height, But Medium Cloud In Main Group 
+comments,G,Altocumulus Reported In 8-Group But Not In Main Group 
+comments,G,Nimbostratus Or Altostratus In 8-Group But Not In Main Cloud Group 
+comments,G,Medium (But No Low) Cloud Present, But No 8-Groups For Medium Cloud 
+comments,G,No High Cloud In Main Group But High Cloud Type Or Height In 8-Group 
+comments,G,First 8-Group Indicates Obscured But High Cloud Reported. 
+comments,G,Cirrostratus Reported In 8-Group But Not In Main Group 
+comments,G,Height In 8-Group Too High For Low Cloud 
+comments,G,Cloud Height In 8-Group For Medium Cloud But Cloud Type Not Medium 
+comments,G,Height In 8-Group Implies High Cloud But Type Not High 
+comments,G,Invalid 8-Group, Type Missing But Amount Not Missing 
+comments,G,Insufficient Cloud Amounts For Sequence Of 8-Groups 
+metdb_header_tag,G,6,2009-05-28,landsyn
+long_name,1,Year,year
+standard_name,1,time,s,CF
+type,1,int
+metdb_short_name,1,YEAR
+long_name,2,Month,month
+standard_name,2,time,s,CF
+type,2,int
+metdb_short_name,2,MNTH
+long_name,3,Day,day
+standard_name,3,time,s,CF
+type,3,int
+metdb_short_name,3,DAY
+long_name,4,Hour,hour
+standard_name,4,time,s,CF
+type,4,int
+metdb_short_name,4,HOUR
+long_name,5,Minute,minute
+standard_name,5,time,s,CF
+type,5,int
+metdb_short_name,5,MINT
+long_name,6,Time of receipt year,year
+type,6,int
+metdb_short_name,6,RCPT_YEAR
+long_name,7,Time of receipt month,month
+type,7,int
+metdb_short_name,7,RCPT_MNTH
+long_name,8,Time of receipt day,day
+type,8,int
+metdb_short_name,8,RCPT_DAY
+long_name,9,Time of receipt hour,hour
+type,9,int
+metdb_short_name,9,RCPT_HOUR
+long_name,10,Time of receipt minute,minute
+type,10,int
+metdb_short_name,10,RCPT_MINT
+long_name,11,WMO block number,1
+type,11,int
+metdb_short_name,11,WMO_BLCK_NMBR
+long_name,12,WMO station number,1
+type,12,int
+metdb_short_name,12,WMO_STTN_NMBR
+long_name,13,WMO region,1
+type,13,int
+metdb_short_name,13,WMO_REGN_NMBR
+long_name,14,Latitude,degrees
+standard_name,14,latitude,degrees,CF
+type,14,int
+metdb_short_name,14,LTTD
+coordintate_variable,14,y
+long_name,15,Longitude,degrees
+standard_name,15,longitude,degrees,CF
+type,15,int
+metdb_short_name,15,LNGD
+coordintate_variable,15,x
+long_name,16,Station height,m
+comments,16,Station height will be the height of the station if available, otherwise it will be the pressure sensor height (if this is available).
+comments,16,Pressure sensor height (element 19) will be the pressure sensor height. It will not be the station height if the pressure sensor height is missing
+standard_name,16,height,m,CF
+type,16,float
+metdb_short_name,16,STTN_HGHT
+long_name,17,Pressure sensor height,m
+standard_name,17,height,m,CF
+type,17,float
+metdb_short_name,17,PESR_SNSR_HGHT
+long_name,18,Collecting centre,1
+type,18,char
+metdb_short_name,18,COLTN_CNTR
+long_name,19,Bulletin ID,1
+type,19,char
+metdb_short_name,19,BLTN_IDNY
+long_name,20,Station type,1
+type,20,int
+metdb_short_name,20,STTN_RPRT_TYPE
+metdb_code_table,20,CODE TBL 002001,Type of station
+flag_values,20,0,1,2,3
+flag_meanings,20,Automatic,Manned,Hybrid: both manned and automatic,Missing value
+long_name,21,Amendment number,1
+type,21,int
+metdb_short_name,21,AMND_NMBR
+long_name,22,Correction number,1
+type,22,int
+metdb_short_name,22,CORTN_NMBR
+long_name,23,Original wind speed units,1
+type,23,int
+metdb_short_name,23,SRFC_WIND_SPED_RCRDG_IDNY
+metdb_code_table,23,CODE TBL 002002,Type of instrumentation for wind measurement
+flag_values,23,1,2,3,All 4
+flag_meanings,23,Certified instruments,Originally measured in knots,Originally measured in km h-1,Missing value
+comments,23,Type of instrumentation and original units for wind measurement (measured in m/s unless otherwise indicated)
+comments,23,Code table 002002 is a 4 bit BUFR flag (bit). Bit 1 is the high order bit.
+comments,23,example uses: 0 means no bits set - i.e. none of the flag values are valid or not known
+comments,23,4 means bit 2 only is set  - i.e. originally meansured in knots
+comments,23,12 means bits 1 and 2 set - i.e. originally measured in knots by a certified instrument
+comments,23,8 means bit 1 is set - i.e. measured by certified instrument in m/s
+comments,23,A value of -9999999.0 means that the Met Office haven't been informed what the type of instrument was/is used for measurements.
+comments,23,In these cases they make judgement based on the WMO block number whether to convert from knots to m/s or not
+long_name,24,Wind direction,degrees true
+standard_name,24,wind_from_direction,degrees true,CF
+type,24,float
+metdb_short_name,24,SRFC_WIND_DRCTN
+long_name,25,Wind direction quality control flag,1
+type,25,int
+metdb_short_name,25,SRFC_WIND_DRCTN_QC
+flag_values,25,-1,0,1
+flag_meanings,25,qc not run,qc passed,qc failed
+long_name,26,Wind speed,m/s
+standard_name,26,wind_speed,m/s,CF
+type,26,float
+metdb_short_name,26,SRFC_WIND_SPED
+long_name,27,Wind speed quality control flag,1
+type,27,int
+metdb_short_name,27,SRFC_WIND_SPED_QC
+flag_values,27,-1,0,1
+flag_meanings,27,qc not run,qc passed,qc failed
+long_name,28,Air temperature,K
+standard_name,28,air_temperature,K,CF
+type,28,float
+metdb_short_name,28,SRFC_AIR_TMPR
+long_name,29,Air temperature quality control flag,1
+type,29,int
+metdb_short_name,29,SRFC_AIR_TMPR_QC
+flag_values,29,-1,0,1
+flag_meanings,29,qc not run,qc passed,qc failed
+long_name,30,Dew point temperature,K
+standard_name,30,dew_point_temperature,K,CF
+type,30,float
+metdb_short_name,30,SRFC_DEW_PONT_TMPR
+long_name,31,Dew point temperature quality control flag,1
+type,31,int
+metdb_short_name,31,SRFC_DEW_PONT_TMPR_QC
+flag_values,31,-1,0,1
+flag_meanings,31,qc not run,qc passed,qc failed
+long_name,32,Relative humidity (only if dew point not present and RH coded),%
+standard_name,32,relative_humidity,1,CF
+type,32,float
+metdb_short_name,32,SRFC_RLTV_HUMDY
+long_name,33,Horizontal visibility,m
+standard_name,33,visibility_in_air,m,CF
+type,33,float
+metdb_short_name,33,HRZL_VSBLY
+comments,33,Conversion has been carried out from WMO code to metDB value according to the following table. 
+comments,33,Note this differs slightly from the 4377 (VV) table in the WMO Manual on Codes
+comments,33,WMO code value,0,0,1,2,3,4,5,6,7,8,9,10
+comments,33,metDB stored value (m),0,50,100,200,300,400,500,600,700,800,900,1000
+comments,33,WMO code value,11,12,13,14,15,16,17,18,19,20,21,22
+comments,33,metDB stored value (m),1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,2100,2200
+comments,33,WMO code value,23,24,25,26,27,28,29,30,31,32,33,34
+comments,33,metDB stored value (m),2300,2400,2500,2600,2700,2800,2900,3000,3100,3200,3300,3400
+comments,33,WMO code value,35,36,37,38,39,40,41,42,43,44,45,46
+comments,33,metDB stored value (m),3500,3600,3700,3800,3900,4000,4100,4200,4300,4400,4500,4600
+comments,33,WMO code value,47,48,49,50,51,52,53,54,55,56,57,58
+comments,33,metDB stored value (m),4700,4800,4900,5000,not used,not used,not used,not used,not used,6000,7000,8000
+comments,33,WMO code value,59,60,61,62,63,64,65,66,67,68,69,70
+comments,33,metDB stored value (m),9000,10000,11000,12000,13000,14000,15000,16000,17000,18000,19000,20000
+comments,33,WMO code value,71,72,73,74,75,76,77,78,79,80,81,82
+comments,33,metDB stored value (m),21000,22000,23000,24000,25000,26000,27000,28000,29000,30000,35000,40000
+comments,33,WMO code value,83,84,85,86,87,88,89,90,91,92,93,94
+comments,33,metDB stored value (m),45000,50000,55000,60000,65000,70000,75000,25,50,200,500,1000
+comments,33,WMO code value,95,96,97,98,99,96147,96148,96149
+comments,33,metDB stored value (m),2000,4000,10000,20000,50000,15,45,75
+comments,33,1st 0 value is from WMO BLK 03 - error - no 9 group
+comments,33,2nd 0 value is there ins't a WMO BLK 03 in message
+comments,33,96147 is from section 333 - 9 SpSpSpSp group
+comments,33,96148 is from section 333 - 9 SpSpSpSp group
+comments,33,96149 is from section 333 - 9 SpSpSpSp group
+long_name,34,Horizontal visibility quality control flag,1
+type,34,int
+metdb_short_name,34,HRZL_VSBLY_QC
+flag_values,34,-1,0,1
+flag_meanings,34,qc not run,qc passed,qc failed
+long_name,35,Vertical visibility,m
+standard_name,35,visibility_in_air,m,CF
+type,35,float
+metdb_short_name,35,VRTL_VSBLY
+long_name,36,Present weather,1
+type,36,int
+metdb_short_name,36,CRNT_WTHR_TYPE
+metdb_code_table,36,CODE TBL 020003,Present weather
+flag_values,36,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50
+flag_meanings,36,Cloud development not observed or not observable,Clouds generally dissolving or becoming less developed,State of sky on the whole unchanged,Clouds generally forming or developing,Visibility reduced by smoke, e.g. veldt or forest fires, industrial smoke or volcanic ashes,Haze,Widespread dust in suspension in the air, not raised by wind at or near the station at the time of observation,Dust or sand raised by wind at or near the station at the time of observation, but no well-developed dust whirl(s) or sand whirl(s), and no duststorm or sandstorm seen; or, in the case of sea stations and coastal stations, blowing spray at the station,Well-developed dust whirl(s) or sand whirl(s) seen at or near the station during the preceding hour or at the same time of observation, but no duststorm or sandstorm,Duststorm or sandstorm within sight at the time of observation, or at the station during the preceding hour,Mist,Paches of shallow fog or ice at the station, whether on land or sea, not deeper than about 2 metres on land or 10 metres at sea,More or less continuous shallow fog or ice at the station, whether on land or sea, not deeper than about 2 metres on land or 10 metres at sea,Lightning visible, no thunder heard,Precipitation within sight, not reaching the ground or the surface of the sea,Precipitation within sight, reaching the ground or the surface of the sea, but distant, i.e. estimated to be more than 5 km from the station,Precipitation within sight, reaching the ground or the surface of the sea, near to, but not at the station,Thunderstorm, but no precipitation at the time of observation,Squalls at or within sight of the station during the preceding hour or at the time of observation,Funnel cloud(s)* at or within sight of the station during the preceding hour or at the time of observation,Drizzle (not freezing) or snow grains, not falling as shower(s) - during the preceding hour but not at the time of observation,Rain (not freezing), not falling as shower(s) - during the preeceding hour but not at the time of observation,Snow, not falling as shower(s) - during the preceding hour but not at the time of observation,Rain and snow or ice pellets, not falling as shower(s) - during the preceding hour but not at the time of observation,Freezing drizzle or freezing rain, not falling as shower(s) - during the preceding hour but not at the time of observation,Shower(s) of rain - during the preceding hour but not at the time of observation,Shower(s) of snow, or of rain and snow - during the preceding hour but not at the time of observation,Shower(s) of hail**, or of rain and hail** - during the preceding hour but not at the time of observation,Fog or ice fog - during the preceding hour but not at the time of observation,Thunderstorm (with or without precipitation) - during the preceding hour but not at the time of observation,Slight or moderate duststorm or sandstorm - has decreased during the preceding hour,Slight or moderate duststorm or sandstorm - no appreciable change during the preceding hour,Slight or moderate duststorm or sandstorm - has begun or has inceased during the preceding hour,Severe duststorm or sandstorm - has decreased during the preceding hour,Severe duststorm or sandstorm - no appreciable change during the preceding hour,Severe duststorm or sandstorm - has begun or has increased during the preceding hour,Slight or moderate drifting snow, generally low (below eye level),Heavy drifting snow, generally low (below eye level),Slight or moderate blowing snow, generally high (above eye level),Heavy blowing snow, generally high (above eye level),Fog or ice fog at a distance at the time of observation, but not at the station during the preceding hour, the fog or ice fog extending to a level above that of the observer,Fog or ice fog in patches,Fog or ice fog, sky visible, has become thinner during the preceding hour,Fog or ice fog, sky invisible, has become thinner during the preceding hour,Fog or ice fog, sky visible, no appreciable change during the preceding hour,Fog or ice fog, sky invisible, no appreciable change during the preceding hour,Fog or ice fog, sky visible, has begun or has become thicker during the preceding hour,Fog or ice fog, sky invisible, has begun or has become thicker during the preceding hour,Fog, depositing rime, sky visible,Fog, depositing rime, sky invisible,Drizzle, not freezing, intermittent, slight at time of observation
+flag_values,36,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99
+flag_meanings,36,Drizzle, not freezing, continuous, slight at time of observation,Drizzle, not freezing, intermittent, moderate at time of observation,Drizzle, not freezing, continuous, moderate at time of observation,Drizzle, not freezing, intermittent, heavy (dense) at time of observation,Drizzle, not freezing, continuous, heavy (dense) at time of observation,Drizzle, freezing, slight,Drizzle, freezing, moderate or heavy (dense),Drizzle and rain, slight,Drizzle and rain, moderate or heavy,Rain, not freezing, intermittent, slight at time of observation,Rain, not freezing, continuous, slight at time of observation,Rain, not freezing, intermittent, moderate at time of observation,Rain, not freezing, continuous. moderate at time of observation,Rain, not freezing, intermittent, heavy at time of observation,Rain, not freezing, continuous, heavy at time of observation,Rain, freezing, slight,Rain, freezing, moderate or heavy,Rain or drizzle and snow, slight,Rain or drizzle and snow, moderate or heavy,Intermittent fall of snowflakes, slight at time of observation,Continuous fall of snowflakes, slight at time of observation,Intermittent fall of snowflakes, moderate at time of observation,Continuous fall of snowflakes, moderate at time of observation,Intermittent fall of snowflakes, heavy at time of observation,Continuous fall of snowflakes, heavy at time of observation,Diamond dust (with or without fog),Snow grains (with or without fog),Isolated star-like snow crystals (with or without fog),Ice pellets,Rain shower(s), slight,Rain shower(s), moderate or heavy,Rain shower(s), violent,Shower(s) of rain and snow mixed, slight,Shower(s) of rain and snow mixed, moderate or heavy,Snow shower(s), slight,Snow shower(s), moderate or heavy,Shower(s) of snow pellets or small hail, with or without rain or rain and snow mixed - slight,Shower(s) of snow pellets or small hail, with or without rain or rain and snow mixed - moderate or heavy,Shower(s) of hail, with or without rain or rain and snow mixed, not associated with thunder - slight,Shower(s) of hail, with or without rain or rain and snow mixed, not associated with thunder - moderate or heavy,Slight rain at time of observation, thunderstorm during the preceding hour but not at time of observation,Moderate or heavy rain at time of observation, thunderstorm during the preceding hour but not at time of observation,Slight snow, or rain and snow mixed or hail** at time of observation, thunderstorm during the preceding hour but not at time of observation,Moderate or heavy snow, or rain and snow mixed or hail** at time of observation, thunderstorm during preceding hour but not at time of observation,Thunderstorm, slight or moderate, without hail**, but with rain and/or snow at time of observation - thunderstorm at time of observation,Thunderstorm, slight or moderate, with hail** at time of observation - thunderstorm at time of observation,Thunderstorm, heavy, without hail**, but with rain and/or snow at time of observation - thunderstorm at time of observation,Thunderstorm combined with duststorm or sandstorm at time of observation - thunderstorm at time of observation,Thunderstorm, heavy, with hail** at time of observation - thunderstorm at time of observation
+flag_values,36,100,101,102,103,104,105,110,111,112,118,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,140,141,142,143,144,145,146,147,148,150
+flag_meanings,36,No significant weather observed,Clouds generally dissolving or becoming less developed during the past hour,State of sky on the whole unchanged during the past hour,Clouds generally forming or developing during the past hour,Haze or smoke, or dust in suspension in the air, visibility equal to, or greater than, 1 km,Haze or smoke, or dust in suspension in the air, visibility less than 1 km,Mist,Diamond dust,Distant lightning,Squalls,Fog,PRECIPITATION,Drizzle (not freezing) or snow grains,Rain (not freezing),Snow,Freezing drizzle or freezing rain,Thunderstorm (with or without precipitation),BLOWING OR DRIFTING SNOW OR SAND,Blowing or drifting snow or sand, visibility equal to, or greater than, 1 km,Blowing or drifting snow or sand, visibility less than 1 km,FOG,Fog or ice fog, in patches,Fog or ice fog, has become thinner during past hour,Fog or ice fog, no appreciable change during past hour,Fog or ice fog, has begun or become thicker during past hour,Fog, depositing rime,PRECIPITATION,Precipitation, slight or moderate,Precipitation, heavy,Liquid precipitation, slight or moderate,Liquid precipitation, heavy,Solid precipitation, slight or moderate,Solid precipitation, heavy,Freezing precipitation, slight or moderate,Freezing precipitation, heavy,DRIZZLE
+flag_values,36,151,152,153,154,155,156,157,158,160,161,162,163,164,165,166,167,168,170,171,172,173,174,175,176,177,178,180,181,182,183,184,185,186,187,189,190,191,192,193,194,195,196,199
+flag_meanings,36,Drizzle, not freezing, slight,Drizzle, not freezing, moderate,Drizzle, not freezing, heavy,Drizzle, freezing, slight,Drizzle, freezing, moderate,Drizzle, freezing, heavy,Drizzle and rain, slight,Drizzle and rain, moderate or heavy,RAIN,Rain, not freezing, slight,Rain, not freezing, moderate,Rain, not freezing, heavy,Rain, freezing, slight,Rain, freezing, moderate,Rain, freezing, heavy,Rain (or drizzle) and snow, slight,Rain (or drizzle) and snow, moderate or heavy,SNOW,Snow, slight,Snow, moderate,Snow, heavy,Ice pellets, slight,Ice pellets, moderate,Ice pellets, heavy,Snow grains,Ice crystals,SHOWER(S) or intermittent PRECIPITATION,Rain shower(s) or intermittent rain, slight,Rain shower(s) or intermittent rain, moderate,Rain shower(s) or intermittent rain, heavy,Rain shower(s) or intermittent rain, violent,Snow shower(s) or intermittent snow, slight,Snow shower(s) or intermittent snow, moderate,Snow shower(s) or intermittent snow, heavy,Hail,THUNDERSTORM,Thunderstorm, slight or moderate, with no precipitation,Thunderstorm, slight or moderate, with rain showers and/or snow showers,Thunderstorm, slight or moderate, with hail,Thunderstorm, heavy, with no precipitation,Thunderstorm, heavy, with rain showers and/or snow showers,Thunderstorm, heavy, with hail,Tornado
+flag_values,36,204,206,207,208,209,210,211,213,217,219,220,221,222,223,224,225,226,227,228,230,239,241,242,243,244,245,246,247,248,249,250
+flag_meanings,36,Volcanic ash suspended in the air aloft,Thick dust haze, visibility less than 1 km,Blowing spray at the station,Drifting dust (sand),Wall of dust or sand in distance (like habob),Snow haze,Whiteout,Lightning, cloud to surface,Dry thunderstorm,Tornado cloud (destructive) at or within sight of the station during preceding hour or at the time of observation,Deposition of volcanic ash,Deposition of dust or sand,Deposition of dew,Deposition of wet snow,Deposition of soft rime,Deposition of hard rime,Deposition of hoar frost,Deposition of glaze,Deposition of ice crust (ice slick),Duststorm or sandstorm with temperature below 0C,Blowing snow, impossible to determine whether snow is falling or not,Fog on sea,Fog in valleys,Arctic or Antarctic sea smoke,Steam fog (sea, lake or river),Steam fog (land),Fog over ice or snow cover,Dense fog visibility 60-90 m,Dense fog visibility 30-60 m,Dense fog visibility less than 30 m,Drizzle, <0.10mm/h
+flag_values,36,251,252,253,254,255,256,257,259,260,261,262,263,264,265,266,267,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,508,509,510,511
+flag_meanings,36,Drizzle, rate of fall 0.10 - 0.19 mm/h,Drizzle, rate of fall 0.20 - 0.39 mm/h,Drizzle, rate of fall 0.40 - 0.79 mm/h,Drizzle, rate of fall 0.80 - 1.59 mm/h,Drizzle, rate of fall 1.60 - 3.19 mm/h,Drizzle, rate of fall 3.20 - 6.39 mm/h,Drizzle, rate of fall 6.4 mm/h or more,Drizzle and snow,Rain, rate of fall less than 1.0 mm/h,Rain, rate of fall 1.0 - 1.9 mm/h,Rain, rate of fall 2.0 - 3.9 mm/h,Rain, rate of fall 4.0 - 7.9 mm/h,Rain, rate of fall 8.0 - 15.9 mm/h,Rain, rate of fall 16.0 - 31.9 mm/h,Rain, rate of fall 32.0 - 63.9 mm/h,Rain, rate of fall 64.0 mm/h or more,Snow, rate of fall less than 1.0 cm/h,Snow, rate of fall 1.0 - 1.9 cm/h,Snow, rate of fall 2.0 - 3.9 cm/h,Snow, rate of fall 4.0 - 7.9 cm/h,Snow, rate of fall 8.0 - 15.9 cm/h,Snow, rate of fall 16.0 - 31.9 cm/h,Snow, rate of fall 32.0 - 63.9 cm/h,Snow, rate of fall 64.0 cm/h or more,Snow or ice cristal precipitation from a clear sky,Wet snow, freezing on contact,Precipitation of rain,Precipitation of rain, freezing,Precipitation of rain and snow mixed,Precipitation of snow,Precipitation of snow pellets or small hail,Precipitation of snow pellets or small hail, with rain,Precipitation of snow pellets or small hail, with rain and snow mixed,Precipitation of snow pellets or small hail, with snow,Precipitation of hail,Precipitation of hail, with rain,Precipitation of hail, with rain and snow mixed,Precipitation of hail, with snow,Shower(s) or thunderstorm over sea,Shower(s) or thunderstorm over mountains,No significant phenomenon to report, present and past weather omitted,Not observation, data not available, present and past weather omitted,Present and past weather missing, but expected,Missing value
+comments,36,00-49 No precipitation at the station at the time of observation 
+comments,36,00-19 No precipitation, fog, ice fog (except for 11 and 12), duststorm, sandstorm, drifting or blowing snow at the station* at the time of observation or, except for 09 and 17, during the preceding hour 
+comments,36,20-29 Precipitation, fog, Ice fog or thunderstorm at the station during the preceding hour but not at the time of observation 
+comments,36,30-39 Duststorm, sandstorm, drifting or blowing snow 
+comments,36,40-49 Fog or ice fog at the time of observation 
+comments,36,50-99 Precipitation at the station at the time of observation
+comments,36,50-59 Drizzle
+comments,36,60-69 Rain 
+comments,36,70-79 Solid precipitation not in showers 
+comments,36,80-99 Showery precipitation, or precipitation with current or recent thunderstorm 
+comments,36,100-199 Present weather reported from an automatic weather station 
+comments,36,Code figures 120-126 are used to report precipitation, fog (or ice fog) or thunderstorm at the station during the preceding hour but not at the time of observation 
+comments,36,200-299 Present weather (In addition to present weather report from either a manned or an automatic station)
+comments,36,* The expression "at the station" refers to a land station or a ship.
+comments,36,* Tornado cloud or water-spout.
+comments,36,** Hail, small hail, snow pellets.
+comments,36,1. The middle portion of this code table (code figures 100-199) includes terms on several levels to cover simple and increasingly complex automatic stations. 
+comments,36,2. Generic terms for weather (e.g. fog, drizzle) are intended for use at automatic stations capable of determining types of weather but no other information. Generic terms are included in the code table using all capital letters. 
+comments,36,3. Code figures for generic precipitation (code figures 140-148) are arranged in order of increasing complexity. For example, a very simple station that can sense only the presence or absence of precipitation would use code figure 140 (precipitation). At the next level, an automatic station capable of sensing amount but not type would use code figure 141 or 142. An automatic station capable of sensing gross type (liquid, solid, freezing) and amount would use code figures 143-148. An automatic station capable of reporting actual types of precipitation (e.g. drizzle rain), but not the amount, would use the appropriate whole decile number (e.g. 150 for generic drizzle, 160 for generic rain). 
+long_name,37,Present weather quality control flag,1
+type,37,int
+metdb_short_name,37,CRNT_WTHR_TYPE_QC
+flag_values,37,-1,0,1
+flag_meanings,37,qc not run,qc passed,qc failed
+long_name,38,Past weather period,hour
+type,38,int
+metdb_short_name,38,PAST_WTHR_PERD
+long_name,39,Most significant past weather report,1
+type,39,int
+metdb_short_name,39,PRMY_PAST_WTHR_TYPE
+metdb_code_table,39,CODE TBL 020004,Past weather (1)
+flag_values,39,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,31
+flag_meanings,39,Cloud covering 1/2 or less of the sky throughout the appropriate period,Cloud covering more than 1/2 of the sky during part of the appropriate period and covering 1/2 or less during part of the period,Cloud covering more than 1/2 of the sky throughout the appropriate period,Sandstorm, duststorm or blowing snow,Fog or ice or thick haze,Drizzle,Rain,Snow, or rain and snow mixed,Shower(s),Thunderstorm(s) with or without precipitation,No significant weather observed,VISIBILITY REDUCED,Blowing phenomena, visibility reduced,FOG,PRECIPITATION,Drizzle,Rain,Snow or ice pellets,Showers or intermittent precipitation,Thunderstorm,Missing value
+comments,39,The weather descriptions in code figures 10 to 19 are progressively complex, to accommodate the
+comments,39,different levels of weather discrimination capability of various automatic stations. Stations having only
+comments,39,basic sensing capability may use the lower code figures and basic generic descriptions (shown in
+comments,39,capital letters). Stations with progressively higher discrimination capability shall use the more
+comments,39,detailed descriptions (higher codes).
+long_name,40,Most significant past weather report quality control flag,1
+type,40,int
+metdb_short_name,40,PRMY_PAST_WTHR_TYPE_QC
+flag_values,40,-1,0,1
+flag_meanings,40,qc not run,qc passed,qc failed
+long_name,41,Least significant pas weather report,1
+type,41,int
+metdb_short_name,41,SCNY_PAST_WTHR_TYPE
+metdb_code_table,41,CODE TBL 020005,Past weather (2)
+flag_values,41,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,31
+flag_meanings,41,Cloud covering 1/2 or less of the sky throughout the appropriate period,Cloud covering more than 1/2 of the sky during part of the appropriate period and covering 1/2 or less during part of the period,Cloud covering more than 1/2 of the sky throughout the appropriate period,Sandstorm, duststorm or blowing snow,Fog or ice or thick haze,Drizzle,Rain,Snow, or rain and snow mixed,Shower(s),Thunderstorm(s) with or without precipitation,No significant weather observed,VISIBILITY REDUCED,Blowing phenomena, visibility reduced,FOG,PRECIPITATION,Drizzle,Rain,Snow or ice pellets,Showers or intermittent precipitation,Thunderstorm,Missing value
+comments,41,The weather descriptions in code figures 10 to 19 are progressively complex, to accommodate the
+comments,41,different levels of weather discrimination capability of various automatic stations. Stations having only
+comments,41,basic sensing capability may use the lower code figures and basic generic descriptions (shown in
+comments,41,capital letters). Stations with progressively higher discrimination capability shall use the more
+comments,41,detailed descriptions (higher codes).
+long_name,42,Least significant past weather report quality control flag,1
+type,42,int
+metdb_short_name,42,SCNY_PAST_WTHR_TYPE_QC
+flag_values,42,-1,0,1
+flag_meanings,42,qc not run,qc passed,qc failed
+long_name,43,Amount of all cloud present,1
+type,43,int
+metdb_short_name,43,TOTL_CLOD_AMNT
+metdb_code_table,43,CODE TBL 020011,Cloud Amount
+flag_values,43,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+flag_meanings,43,0 oktas (0/10),1 okta or less, but not zero (1/10 or less, but not zero),2 oktas (2/10 - 3/10),3 oktas (4/10),4 oktas (5/10),5 oktas (6/10),6 oktas (7/10 - 8/10),7 oktas or more, but not 8 oktas (9/10 or more, but not 10/10),8 oktas (10/10),Sky obscured by fog and/or other meteorological phenomena,Sky partially obscured by fog and/or other meteorological phenomena,Scattered,Broken,Few,Reserved,Cloud cover is indiscernible for reasons other than fog or other meteorological phenomena, or observation is not made
+comments,43,for UK automatic stations may be takend from Laser Cloud Base Recorder (LCBR) values reported in section 555 of SYNOP message.
+comments,43,TOTL_CLOD_AMNT is taken from thr 7 group ins section 5. CLOD_TYPE is not recported when values are from LBCR instrumentation.
+comments,43,Under local rules (section 5) 80/99 from an autmoatic station means "no cloud" - CLOD_AMNT = 0 and CLOD_BASE_HGHT = 2500
+comments,43,For use of code figure 15, see Regulation 12.1.4 of WMO Codes
+comments,43,"Clear" and "overcast" are coded by 0 and 8, respectively.
+long_name,44,Amount of all cloud present quality control flag,1
+type,44,int
+metdb_short_name,44,TOTL_CLOD_AMNT_QC
+flag_values,44,-1,0,1
+flag_meanings,44,qc not run,qc passed,qc failed
+long_name,45,Period when max temperature reported,hour
+type,45,int
+metdb_short_name,45,MXMM_SRFC_AIR_TMPR_PERD
+long_name,46,Maximum air temperature,K
+standard_name,46,air_temperature,K,CF
+cell_method,46,maximum
+type,46,float
+metdb_short_name,46,MXMM_SRFC_AIR_TMPR
+long_name,47,Period when min temp reported,hour
+type,47,int
+metdb_short_name,47,MNMM_SRFC_AIR_TMPR_PERD
+long_name,48,Minumum air temperature,K
+standard_name,48,air_temperature,K,CF
+cell_method,48,minimum
+type,48,float
+metdb_short_name,48,MNMM_SRFC_AIR_TMPR
+long_name,49,Minumum grass temperature,K
+cell_method,49,minimum
+type,49,float
+metdb_short_name,49,MNMM_GRSS_TMPR
+long_name,50,State of ground with/without snow,1
+type,50,int
+metdb_short_name,50,GRND_STAT_IDNY
+metdb_code_table,50,CODE TBL 020062,State of the ground
+flag_meanings,50,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,31
+flag_values,50,Surface of ground dry (without cracks and no appreciable amount of dust or loose sand),Surface of ground moist,Surface of ground wet (standing water in small or large pools on surface),Flooded,Surface of ground frozen,Glaze on ground,Loose dry dust or sand not covering ground completely,Thin cover of loose dry dust or sand covering ground completely,Moderate or thick cover of loose dry dust or sand covering ground completely,Extremely dry with cracks,Ground predominantly covered by ice,Compact or wet snow (with or without ice) covering less than one-half of the ground,Compact or wet snow (with or without ice) covering at least one-half of the ground but ground not completely covered,Even layer of compact or wet snow covering ground completely,Uneven layer of compact or wet snow covering ground completely,Loose dry snow covering less than one-half of the ground,Loose dry snow covering at least one-half of the ground but ground not completely covered,Even layer of loose dry snow covering ground completely,Uneven layer of loose dry snow covering ground completely,Snow covering ground completely; deep drifts,Missing value
+comments,50,0-10: without snow or measurable ice cover
+comments,50,11-19: with snow or measurable ice cover
+comments,50,The definitions in code numbers 0 to 2 and 4 apply to representative bare ground and numbers 3, 5 to 9 and 10 to 19 to an open representative area. 
+comments,50,In all instances the highest code figures applicable are to be reported. 
+comments,50,In the above code table, whenever reference is made to ice, it also includes solid precipitation other than snow. 
+long_name,51,Total snow depth,m
+standard_name,51,surface_snow_thickness,m,CF
+type,51,float
+metdb_short_name,51,SNOW_DPTH
+comments,51,snow depths are in metres, except for traces, where -1.9 is for SYNOP dode sss = 997 (less thans 0.5 cm) and -2.0 is for SYNOP code sss = 998 (snow cover, not continuous)
+long_name,52,Section 1 rainfall period,hour
+type,52,int
+metdb_short_name,52,PRCTN_PERD_SCTN1
+long_name,53,Section 1 rainfall amount,kg/m2
+standard_name,53,rainfall_amount,kg/m2,CF
+type,53,float
+metdb_short_name,53,PRCTN_AMNT_SCTN1
+long_name,54,Section 1 rainfall amount quality control flag,1
+type,54,int
+metdb_short_name,54,PRCTN_AMNT_SCTN1_QC
+flag_values,54,-1,0,1
+flag_meanings,54,qc not run,qc passed,qc failed
+long_name,55,Section 3 rainfall period,hour
+type,55,int
+metdb_short_name,55,PRCTN_PERD_SCTN3
+long_name,56,Section 3 rainfall amount,kg/m2
+standard_name,56,rainfall_amount,kg/m2,CF
+type,56,float
+metdb_short_name,56,PRCTN_AMNT_SCTN3
+long_name,57,Section 3 rainfall amount quality control flag,1
+type,57,int
+metdb_short_name,57,PRCTN_AMNT_SCTN3_QC
+flag_values,57,-1,0,1
+flag_meanings,57,qc not run,qc passed,qc failed
+long_name,58,Total precipitation past 24 hours,kg/m2
+standard_name,58,precipitation_amount,kg/m2,CF
+type,58,float
+metdb_short_name,58,Q24HOUR_PRCTN_AMNT
+long_name,59,Start of period of max gust,minutes
+type,59,int
+metdb_short_name,59,SRFC_GUST_STRT_PERD
+long_name,60,End of period of max gust,minutes
+type,60,int
+metdb_short_name,60,SRFC_GUST_END_PERD
+long_name,61,Highest gust recorded,m/s
+standard_name,61,wind_speed_of_gust,m/s,CF
+cell_method,61,maximum
+type,61,float
+metdb_short_name,61,MXMM_SRFC_GUST
+long_name,62,Start of period of high mean wind,minutes
+type,62,int
+metdb_short_name,62,MXMM_MEAN_SRFC_WIND_SPED_STRT
+long_name,63,End of period of high mean wind,minutes
+type,63,int
+metdb_short_name,63,MXMM_MEAN_SRFC_WIND_SPED_END
+long_name,64,Highest mean wind speed,m/s
+standard_name,64,wind_speed,m/s,CF
+cell_method,64,mean
+cell_method,64,maximum
+type,64,float
+metdb_short_name,64,MXMM_MEAN_SRFC_WIND_SPED
+long_name,65,Pressure at mean sea level,Pa
+standard_name,65,air_pressure_at_sea_level,Pa,CF
+type,65,float
+metdb_short_name,65,MSL_PESR
+long_name,66,Pressure at station level,Pa
+standard_name,66,air_pressure_at_station_level,Pa,CF
+type,66,float
+metdb_short_name,66,STTN_PESR
+long_name,67,Standard pressure level,Pa
+type,67,float
+metdb_short_name,67,STND_PESR_LEVL
+long_name,68,Geopotential height of agreed level,m
+type,68,float
+metdb_short_name,68,GPTL_HGHT
+long_name,69,3 hour pressure tendency,1
+cell_method,69,over past 3 hours
+type,69,int
+metdb_short_name,69,Q3HOUR_PESR_TNDY
+metdb_code_table,69,CODE TBL 010063,Characteristics of pressure tendency
+flag_values,69,0,1,2,3,4,5,6,7,8,15
+flag_meanings,69,Increasing, then decreasing; atmospheric pressure the same or higher than 3 hours ago,Increasing, then steady; or increasing, then more slowly - atmospheric pressure now higher than 3 hours ago,Increasing (steadily or unsteadily) - atmospheric pressure now higher than 3 hours ago,Decreasing or steady, then increasing; or increasing, then increasing more rapidly - atmospheric pressure now higher than 3 hours ago,Steady; atmospheric pressure the same as 3 hours ago,Decreasing, then increasing; atmospheric pressure the same or lower than 3 hours ago,Decreasing, then steady; or decreasing, then decreasing more slowly - atmospheric pressure now lower than 3 hours ago,Decreasing (steadily or unsteadely) - atmospheric pressure now lower than 3 hours ago,Steady or increasing, then decreasing; or decreasing, then decreasing more rapidly - atmospheric pressure now lower than 3 hours ago,Missing
+comments,69,In reports from automatic stations, code figure 2 shall be used when tendency is positive, 7 when negative, and 4 when the pressure is the same as 3 hours before. 
+comments,69,In reports from tropical stations reporting 24-hour pressure changes, code figure 2 shall be used when tendency is positive, 7 when negative, and 4 when pressure is the same as 24 hours before. 
+long_name,70,3 Hour pressure tendency quality control flag,1
+type,70,int
+metdb_short_name,70,Q3HOUR_PESR_TNDY_QC
+flag_values,70,-1,0,1
+flag_meanings,70,qc not run,qc passed,qc failed
+long_name,71,3 hour pressure change,Pa
+type,71,float
+metdb_short_name,71,Q3HOUR_STTN_LEVL_PESR_DFFRC
+long_name,72,3 Hour pressure change quality control flag,1
+type,72,int
+metdb_short_name,72,Q3HOUR_STTN_LEVL_PESR_DFFRC_qc
+flag_values,72,-1,0,1
+flag_meanings,72,qc not run,qc passed,qc failed
+long_name,73,24 hour pressure change,Pa
+type,73,float
+metdb_short_name,73,Q24HOUR_SRFC_PESR_DFFRC
+long_name,74,Type of evapotranspiration instrument,1
+type,74,int
+metdb_short_name,74,EVPTN_INST_TYPE
+metdb_code_table,74,CODE TBL 002004,Type of instrument for evaporation measurement or type of crop for which evapotranspiration is reported
+flag_values,74,0,1,2,3,4,5,6,7,8,9,15
+flag_meanings,74,USA open pan evaporimeter (without cover) - Evaporation,USA open pan evaporimeter (mesh covered) - Evaporation,GGI-3000 evaporimeter (sunken) - Evaporation,20 m2 tank - Evaporation,Others - Evaporation,Rice - Evapotraspiration,Wheat - Evapotraspiration,Maize - Evapotraspiration,Sorghum - Evapotraspiration,Other crops - Evapotraspiration,Missing value
+comments,74,Instrument or crop type - Type of data 
+long_name,75,Evapotranspiration amount,kg/m2
+type,75,float
+metdb_short_name,75,Q24HOUR_EVPTN_AMNT
+long_name,76,Sunshine duration in last 24 hours,hour
+standard_name,76,duration_of_sunshine,s,CF
+type,76,int
+metdb_short_name,76,Q24HOUR_SUN_AMNT
+long_name,77,Sunshine duration in last hour,minutes
+standard_name,77,duration_of_sunshine,s,CF
+type,77,int
+metdb_short_name,77,Q1HOUR_SUN_AMNT
+long_name,78,Net radiation in last hour,J/m2
+type,78,float
+metdb_short_name,78,Q1HOUR_NET_RADTN
+long_name,79,global radiation in last hour,J/m2
+type,79,float
+metdb_short_name,79,Q1HOUR_GLOBL_SOLR_RADTN
+long_name,80,Diffuse radiation in last hour,J/m2
+type,80,float
+metdb_short_name,80,Q1HOUR_DFFSD_SOLR_RADTN
+long_name,81,Long-wave radiation in last hour,J/m2
+type,81,float
+metdb_short_name,81,Q1HOUR_LONG_WAVE_RADTN
+long_name,82,Short-wave radiation in last hour,J/m2
+type,82,float
+metdb_short_name,82,Q1HOUR_SHRT_WAVE_RADTN
+long_name,83,Net short-wave radiation in last hour,J/m2
+type,83,float
+metdb_short_name,83,Q1HOUR_NET_SHRT_WAVE_RADTN
+long_name,84,Direct solar radiation in last hour,J/m2
+type,84,float
+metdb_short_name,84,Q1HOUR_DRCT_SOLR_RADTN
+long_name,85,Net radiation in last 24 hours,J/m2
+type,85,float
+metdb_short_name,85,Q24HOUR_NET_RADTN
+long_name,86,global radiation in last 24 hours,J/m2
+type,86,float
+metdb_short_name,86,Q24HOUR_GLOBL_SOLR_RADTN
+long_name,87,Diffuse radiation in last 24 hours,J/m2
+type,87,float
+metdb_short_name,87,Q24HOUR_DFFSD_SOLR_RADTN
+long_name,88,Long-wave radiation in last 24 hours,J/m2
+type,88,float
+metdb_short_name,88,Q24HOUR_LONG_WAVE_RADTN
+long_name,89,Short-wave radiation in last 24 hours,J/m2
+type,89,float
+metdb_short_name,89,Q24HOUR_SHRT_WAVE_RADTN
+long_name,90,Net short-wave radiation in last 24 hours,J/m2
+type,90,float
+metdb_short_name,90,Q24HOUR_NET_SHRT_WAVE_RADTN
+long_name,91,Direct solar radiation in last 24 hours,J/m2
+type,91,float
+metdb_short_name,91,Q24HOUR_DRCT_SOLR_RADTN
+long_name,92,Visibility in seaward direction,m
+standard_name,92,visibility_in_air,m,CF
+type,92,float
+metdb_short_name,92,SEA_DRCTN_VSBLY
+long_name,93,State of sea,1
+type,93,int
+metdb_short_name,93,SEA_STAT_IDNY
+metdb_code_table,93,CODE TBL 022061,State of the sea
+flag_values,93,0,1,2,3,4,5,6,7,8,9,15
+flag_meanings,93,Calm (glassy)      0,Calm (rippled)     0    -  0.1,Smooth (wavelets)  0.1  -  0.5,Slight             0.5  -  1.25,Moderate           1.25 -  2.5,Rough              2.5  -  4,Very rough         4    -  6,High               6    -  9,Very high          9    - 14,Phenomenal           Over 14,Missing value
+comments,93,numbers are heigh in metres
+comments,93,These values refer to well-developed wind waves of the open sea. While priority shall be given to the descriptive terms, these height values may be used for guidance by the observer  
+comments,93,when reporting the total state of agitation of the sea resulting from various factors such as wind, swell, currents, angle between swell and wind, etc.
+comments,93,The exact bounding height shall be assigned for the lower code figure; e.g., a height of 4 m is coded as 5. 
+long_name,94,Temperature measuring method,1
+type,94,int
+metdb_short_name,94,SEA_SRFC_TMPR_RCRDG_IDNY
+metdb_code_table,94,CODE TBL 002038,Method of water temperature and/or salinity measurement
+flag_values,94,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+flag_meanings,94,Ship intake,Bucket,Hull contact sensor,Reversing thermometer,STD/CTD sencor,Mechanical BT,Expendable BT,Digital BT,Thermistor Chain,Infrared scanner,Microwave scanner,Infrared radiometer,In line thermosalinograph,Towed body,Other,Missing value
+long_name,95,Sea surface temperature,K
+standard_name,95,sea_surface_temperature,K,CF
+type,95,float
+metdb_short_name,95,SEA_SRFC_TMPR
+long_name,96,Wave measuring method,1
+type,96,int
+metdb_short_name,96,WIND_WAVE_RCRDG_IDNY
+metdb_code_table,96,CODE TBL 002195,Wave measurement method
+flag_values,96,0,1
+flag_meanings,96,Measured wave group,Estimated wave group
+comments,96,code table 002195 is a local code table
+long_name,97,Height of wind waves,m
+standard_name,97,sea_surface_wind_wave_significant_height,m,CF
+type,97,float
+metdb_short_name,97,WIND_WAVE_HGHT
+long_name,98,Period of wind waves,seconds
+standard_name,98,sea_surface_wind_wave_period,seconds,CF
+type,98,int
+metdb_short_name,98,WIND_WAVE_PERD
+long_name,99,Primary swell wave direction,degrees
+standard_name,99,sea_surface_swell_wave_to_direction,degrees,CF
+type,99,float
+metdb_short_name,99,PRMY_SWLL_WAVE_DRCTN
+long_name,100,Primary swell wave period,seconds
+standard_name,100,sea_surface_swell_wave_mean_period_from_variance_spectral_density_first_frequency_moment,seconds,CF
+type,100,int
+metdb_short_name,100,PRMY_SWLL_WAVE_PERD
+long_name,101,Primary swell wave height,m
+standard_name,101,sea_surface_swell_wave_significant_height,m,CF
+type,101,float
+metdb_short_name,101,PRMY_SWLL_WAVE_HGHT
+long_name,102,Secondary swell wave direction,degrees
+standard_name,102,sea_surface_swell_wave_to_direction,degrees,CF
+type,102,float
+metdb_short_name,102,SCNY_SWLL_WAVE_DRCTN
+long_name,103,Secondary swell wave period,seconds
+standard_name,103,sea_surface_swell_wave_mean_period_from_variance_spectral_density_second_frequency_moment,seconds,CF
+type,103,int
+metdb_short_name,103,SCNY_SWLL_WAVE_PERD
+long_name,104,Secondary swell wave height,m
+standard_name,104,sea_surface_swell_wave_significant_height,m,CF
+type,104,float
+metdb_short_name,104,SCNY_SWLL_WAVE_HGHT
+long_name,105,Low cloud type (CL),1
+type,105,int
+metdb_short_name,105,LOW_CLOD_TYPE
+metdb_code_table,105,CODE TBL 020012,Cloud type
+flag_values,105,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,59,60,61,62,63
+flag_meanings,105,Cirrus (Ci),Cirrocumulus (Cc),Cirrostratus (Cs),Altocumulus (Ac),Altostratus (As),Nimbostratus (Ns),Stratocumulus (Sc),Stratus (St),Cumulus (Cu),Cumulonimbus (Cb),No CH clouds,Cirrus fibratus, sometimes uncinus, not progressively invading the sky,Cirrus spissatus, in patches or entangled sheaves, which usually do not increase and sometimes seem to be the remains of the upper part of a Cumulonimbus; or Cirrus castellanus or floccus,Cirrus spissatus cumulonimbogenitus,Cirrus uncinus or fibratus, or both, progressively invading the sky; they generally thicken as a whole,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole, but the continuous veil does not reach 45 degrees above the horizon,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole; the continuous veil extends more than 45 degrees above the horizon, without the sky being totally covered,Cirrostratus covering the whole sky,Cirrostratus not progressively invading the sky and not entirely covering it,Cirrocumulus alone, or Cirrocumulus predominant among the CH clouds,No CM clouds,Altostratus translucidus,Altostratus opacus or Nimbostratus,Altocumulus translucidus at a single level,Patches (often lenticular) of Altocumulus translucidus, continually changing and occuring at one or more levels,Altocumulus translucidus in bands, or one or more layers of Altocumulus translucidus or opacus, progressively invading the sky; these Altocumulus clouds generally thicken as a whole,Altocumulus cumulogenitus (or cumulonimbogenitus),Altocumulus translucidus or opacus in two or more layers, or Altocumulus opacus in a single layer, not progressively invading the sky, or Altocumulus with Altostratus or Nimbostratus,Altocumulus castellanus or floccus,Altocumulus of chaotic sky, generally at several levels,No CL clouds,Cumulus humilis or Cumulus fractus other than of bad weather*, or both,Cumulus mediocris or congestus, Towering Cumulus (TCU), with or without Cumulus of species fractus or humilis or Stratocumulus, all having their bases at the same level,Cumulonimbus calvus, with or without Cumulus, Stratocumulus or Stratus,Stratocumulus cumulogenitus,Stratocumulus other than Stratocumulus cumulogenitus,Stratus nebulosus or Stratus fractus other than of bad weather*, or both,Stratus fractus or Cumulus fractus of bad weather*, or both (pannus), usually below Altostratus or Nimbostratus,Cumulus and Stratocumulus other than Stratocumulus cumulogenitus, with bases at different levels,Cumulonimbus capillatus (often with an anvil), with or without Cumulonimbus calvus, Cumulus, Stratocumulus, Stratus or pannus,CH,CM,CL,Cloud not visible owing to darkness, fog, duststorm, sandstorm, or other analogous phenomena,CH clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CM clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CL clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena,Missing value
+comments,105,* Bad weather denotes the conditions which generally exist during precipitation and a short time before and after.
+long_name,106,Low cloud type (CL) quality control flag,1
+type,106,int
+metdb_short_name,106,LOW_CLOD_TYPE_QC
+flag_values,106,-1,0,1
+flag_meanings,106,qc not run,qc passed,qc failed
+long_name,107,Medium cloud type (CM),1
+type,107,int
+metdb_short_name,107,MEDM_CLOD_TYPE
+metdb_code_table,107,CODE TBL 020012,Cloud type
+flag_values,107,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,59,60,61,62,63
+flag_meanings,107,Cirrus (Ci),Cirrocumulus (Cc),Cirrostratus (Cs),Altocumulus (Ac),Altostratus (As),Nimbostratus (Ns),Stratocumulus (Sc),Stratus (St),Cumulus (Cu),Cumulonimbus (Cb),No CH clouds,Cirrus fibratus, sometimes uncinus, not progressively invading the sky,Cirrus spissatus, in patches or entangled sheaves, which usually do not increase and sometimes seem to be the remains of the upper part of a Cumulonimbus; or Cirrus castellanus or floccus,Cirrus spissatus cumulonimbogenitus,Cirrus uncinus or fibratus, or both, progressively invading the sky; they generally thicken as a whole,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole, but the continuous veil does not reach 45 degrees above the horizon,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole; the continuous veil extends more than 45 degrees above the horizon, without the sky being totally covered,Cirrostratus covering the whole sky,Cirrostratus not progressively invading the sky and not entirely covering it,Cirrocumulus alone, or Cirrocumulus predominant among the CH clouds,No CM clouds,Altostratus translucidus,Altostratus opacus or Nimbostratus,Altocumulus translucidus at a single level,Patches (often lenticular) of Altocumulus translucidus, continually changing and occuring at one or more levels,Altocumulus translucidus in bands, or one or more layers of Altocumulus translucidus or opacus, progressively invading the sky; these Altocumulus clouds generally thicken as a whole,Altocumulus cumulogenitus (or cumulonimbogenitus),Altocumulus translucidus or opacus in two or more layers, or Altocumulus opacus in a single layer, not progressively invading the sky, or Altocumulus with Altostratus or Nimbostratus,Altocumulus castellanus or floccus,Altocumulus of chaotic sky, generally at several levels,No CL clouds,Cumulus humilis or Cumulus fractus other than of bad weather*, or both,Cumulus mediocris or congestus, Towering Cumulus (TCU), with or without Cumulus of species fractus or humilis or Stratocumulus, all having their bases at the same level,Cumulonimbus calvus, with or without Cumulus, Stratocumulus or Stratus,Stratocumulus cumulogenitus,Stratocumulus other than Stratocumulus cumulogenitus,Stratus nebulosus or Stratus fractus other than of bad weather*, or both,Stratus fractus or Cumulus fractus of bad weather*, or both (pannus), usually below Altostratus or Nimbostratus,Cumulus and Stratocumulus other than Stratocumulus cumulogenitus, with bases at different levels,Cumulonimbus capillatus (often with an anvil), with or without Cumulonimbus calvus, Cumulus, Stratocumulus, Stratus or pannus,CH,CM,CL,Cloud not visible owing to darkness, fog, duststorm, sandstorm, or other analogous phenomena,CH clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CM clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CL clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena,Missing value
+comments,107,* Bad weather denotes the conditions which generally exist during precipitation and a short time before and after.
+long_name,108,Medium cloud type (CM) quality control flag,1
+type,108,int
+metdb_short_name,108,MEDM_CLOD_TYPE_QC
+flag_values,108,-1,0,1
+flag_meanings,108,qc not run,qc passed,qc failed
+long_name,109,High cloud type (CH),1
+type,109,int
+metdb_short_name,109,HIGH_CLOD_TYPE
+metdb_code_table,109,CODE TBL 020012,Cloud type
+flag_values,109,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,59,60,61,62,63
+flag_meanings,109,Cirrus (Ci),Cirrocumulus (Cc),Cirrostratus (Cs),Altocumulus (Ac),Altostratus (As),Nimbostratus (Ns),Stratocumulus (Sc),Stratus (St),Cumulus (Cu),Cumulonimbus (Cb),No CH clouds,Cirrus fibratus, sometimes uncinus, not progressively invading the sky,Cirrus spissatus, in patches or entangled sheaves, which usually do not increase and sometimes seem to be the remains of the upper part of a Cumulonimbus; or Cirrus castellanus or floccus,Cirrus spissatus cumulonimbogenitus,Cirrus uncinus or fibratus, or both, progressively invading the sky; they generally thicken as a whole,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole, but the continuous veil does not reach 45 degrees above the horizon,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole; the continuous veil extends more than 45 degrees above the horizon, without the sky being totally covered,Cirrostratus covering the whole sky,Cirrostratus not progressively invading the sky and not entirely covering it,Cirrocumulus alone, or Cirrocumulus predominant among the CH clouds,No CM clouds,Altostratus translucidus,Altostratus opacus or Nimbostratus,Altocumulus translucidus at a single level,Patches (often lenticular) of Altocumulus translucidus, continually changing and occuring at one or more levels,Altocumulus translucidus in bands, or one or more layers of Altocumulus translucidus or opacus, progressively invading the sky; these Altocumulus clouds generally thicken as a whole,Altocumulus cumulogenitus (or cumulonimbogenitus),Altocumulus translucidus or opacus in two or more layers, or Altocumulus opacus in a single layer, not progressively invading the sky, or Altocumulus with Altostratus or Nimbostratus,Altocumulus castellanus or floccus,Altocumulus of chaotic sky, generally at several levels,No CL clouds,Cumulus humilis or Cumulus fractus other than of bad weather*, or both,Cumulus mediocris or congestus, Towering Cumulus (TCU), with or without Cumulus of species fractus or humilis or Stratocumulus, all having their bases at the same level,Cumulonimbus calvus, with or without Cumulus, Stratocumulus or Stratus,Stratocumulus cumulogenitus,Stratocumulus other than Stratocumulus cumulogenitus,Stratus nebulosus or Stratus fractus other than of bad weather*, or both,Stratus fractus or Cumulus fractus of bad weather*, or both (pannus), usually below Altostratus or Nimbostratus,Cumulus and Stratocumulus other than Stratocumulus cumulogenitus, with bases at different levels,Cumulonimbus capillatus (often with an anvil), with or without Cumulonimbus calvus, Cumulus, Stratocumulus, Stratus or pannus,CH,CM,CL,Cloud not visible owing to darkness, fog, duststorm, sandstorm, or other analogous phenomena,CH clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CM clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CL clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena,Missing value
+comments,109,* Bad weather denotes the conditions which generally exist during precipitation and a short time before and after.
+long_name,110,High cloud type (CH) quality control flag,1
+type,110,int
+metdb_short_name,110,HIGH_CLOD_TYPE_QC
+flag_values,110,-1,0,1
+flag_meanings,110,qc not run,qc passed,qc failed
+long_name,111,Low cloud amount,1
+type,111,int
+metdb_short_name,111,LWST_CLOD_AMNT
+metdb_code_table,111,CODE TBL 020011,Cloud Amount
+flag_values,111,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+flag_meanings,111,0 oktas (0/10),1 okta or less, but not zero (1/10 or less, but not zero),2 oktas (2/10 - 3/10),3 oktas (4/10),4 oktas (5/10),5 oktas (6/10),6 oktas (7/10 - 8/10),7 oktas or more, but not 8 oktas (9/10 or more, but not 10/10),8 oktas (10/10),Sky obscured by fog and/or other meteorological phenomena,Sky partially obscured by fog and/or other meteorological phenomena,Scattered,Broken,Few,Reserved,Cloud cover is indiscernible for reasons other than fog or other meteorological phenomena, or observation is not made
+comments,111,for UK automatic stations may be takend from Laser Cloud Base Recorder (LCBR) values reported in section 555 of SYNOP message.
+comments,111,TOTL_CLOD_AMNT is taken from thr 7 group ins section 5. CLOD_TYPE is not recported when values are from LBCR instrumentation.
+comments,111,Under local rules (section 5) 80/99 from an autmoatic station means "no cloud" - CLOD_AMNT = 0 and CLOD_BASE_HGHT = 2500
+comments,111,For use of code figure 15, see Regulation 12.1.4 of WMO Codes
+comments,111,"Clear" and "overcast" are coded by 0 and 8, respectively.
+long_name,112,Low cloud amount quality control flag,1
+type,112,int
+metdb_short_name,112,LWST_CLOD_AMNT_QC
+flag_values,112,-1,0,1
+flag_meanings,112,qc not run,qc passed,qc failed
+long_name,113,Height of base of cloud,m
+type,113,float
+metdb_short_name,113,LWST_CLOD_BASE_HGHT
+long_name,114,High of base of cloud quality control flag,1
+type,114,int
+metdb_short_name,114,LWST_CLOD_BASE_HGHT_QC
+flag_values,114,-1,0,1
+flag_meanings,114,qc not run,qc passed,qc failed
+long_name,115,Cloud amount (8 groups),1
+standard_name,115,cloud_area_fraction,1,CF
+type,115,int
+metdb_short_name,115,CLOD_AMNT
+metdb_code_table,115,CODE TBL 020011,Cloud Amount
+flag_values,115,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+flag_meanings,115,0 oktas (0/10),1 okta or less, but not zero (1/10 or less, but not zero),2 oktas (2/10 - 3/10),3 oktas (4/10),4 oktas (5/10),5 oktas (6/10),6 oktas (7/10 - 8/10),7 oktas or more, but not 8 oktas (9/10 or more, but not 10/10),8 oktas (10/10),Sky obscured by fog and/or other meteorological phenomena,Sky partially obscured by fog and/or other meteorological phenomena,Scattered,Broken,Few,Reserved,Cloud cover is indiscernible for reasons other than fog or other meteorological phenomena, or observation is not made
+comments,115,for UK automatic stations may be takend from Laser Cloud Base Recorder (LCBR) values reported in section 555 of SYNOP message.
+comments,115,TOTL_CLOD_AMNT is taken from thr 7 group ins section 5. CLOD_TYPE is not recported when values are from LBCR instrumentation.
+comments,115,Under local rules (section 5) 80/99 from an autmoatic station means "no cloud" - CLOD_AMNT = 0 and CLOD_BASE_HGHT = 2500
+comments,115,For use of code figure 15, see Regulation 12.1.4 of WMO Codes
+comments,115,"Clear" and "overcast" are coded by 0 and 8, respectively.
+long_name,116,Cloud amount quality control flag,1
+type,116,int
+metdb_short_name,116,CLOD_AMNT_QC
+flag_values,116,-1,0,1
+flag_meanings,116,qc not run,qc passed,qc failed
+long_name,117,Cloud type (8 groups),1
+type,117,int
+metdb_short_name,117,CLOD_TYPE
+metdb_code_table,117,CODE TBL 020012,Cloud type
+flag_values,117,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,59,60,61,62,63,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62
+flag_meanings,117,Cirrus (Ci),Cirrocumulus (Cc),Cirrostratus (Cs),Altocumulus (Ac),Altostratus (As),Nimbostratus (Ns),Stratocumulus (Sc),Stratus (St),Cumulus (Cu),Cumulonimbus (Cb),No CH clouds,Cirrus fibratus, sometimes uncinus, not progressively invading the sky,Cirrus spissatus, in patches or entangled sheaves, which usually do not increase and sometimes seem to be the remains of the upper part of a Cumulonimbus; or Cirrus castellanus or floccus,Cirrus spissatus cumulonimbogenitus,Cirrus uncinus or fibratus, or both, progressively invading the sky; they generally thicken as a whole,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole, but the continuous veil does not reach 45 degrees above the horizon,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole; the continuous veil extends more than 45 degrees above the horizon, without the sky being totally covered,Cirrostratus covering the whole sky,Cirrostratus not progressively invading the sky and not entirely covering it,Cirrocumulus alone, or Cirrocumulus predominant among the CH clouds,No CM clouds,Altostratus translucidus,Altostratus opacus or Nimbostratus,Altocumulus translucidus at a single level,Patches (often lenticular) of Altocumulus translucidus, continually changing and occuring at one or more levels,Altocumulus translucidus in bands, or one or more layers of Altocumulus translucidus or opacus, progressively invading the sky; these Altocumulus clouds generally thicken as a whole,Altocumulus cumulogenitus (or cumulonimbogenitus),Altocumulus translucidus or opacus in two or more layers, or Altocumulus opacus in a single layer, not progressively invading the sky, or Altocumulus with Altostratus or Nimbostratus,Altocumulus castellanus or floccus,Altocumulus of chaotic sky, generally at several levels,No CL clouds,Cumulus humilis or Cumulus fractus other than of bad weather*, or both,Cumulus mediocris or congestus, Towering Cumulus (TCU), with or without Cumulus of species fractus or humilis or Stratocumulus, all having their bases at the same level,Cumulonimbus calvus, with or without Cumulus, Stratocumulus or Stratus,Stratocumulus cumulogenitus,Stratocumulus other than Stratocumulus cumulogenitus,Stratus nebulosus or Stratus fractus other than of bad weather*, or both,Stratus fractus or Cumulus fractus of bad weather*, or both (pannus), usually below Altostratus or Nimbostratus,Cumulus and Stratocumulus other than Stratocumulus cumulogenitus, with bases at different levels,Cumulonimbus capillatus (often with an anvil), with or without Cumulonimbus calvus, Cumulus, Stratocumulus, Stratus or pannus,CH,CM,CL,Cloud not visible owing to darkness, fog, duststorm, sandstorm, or other analogous phenomena,CH clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CM clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CL clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena,Missing valueCLOUD INVIS,CH INVISIBLE,CM INVISIBLE,CL INVISIBLE
+comments,117,* Bad weather denotes the conditions which generally exist during precipitation and a short time before and after.
+long_name,118,Cloud type quality control flag,1
+type,118,int
+metdb_short_name,118,CLOD_TYPE_QC
+flag_values,118,-1,0,1
+flag_meanings,118,qc not run,qc passed,qc failed
+long_name,119,Height of cloud base (8 groups),m
+standard_name,119,cloud_base_altitude,m,CF
+type,119,float
+metdb_short_name,119,CLOD_BASE_HGHT
+comments,119,Conversion has been carried out from WMO code to metDB value according to the following table.  Code
+comments,119,Note this differs slightly from the 1677 (hh) table in the WMO Manual on Codes
+comments,119,WMO code value,0,1,2,3,4,5,6,7,8,9,10
+comments,119,metDB stored value (m),0,30,60,90,120,150,180,210,240,270,300
+comments,119,WMO code value,11,12,13,14,15,16,17,18,19,20,21
+comments,119,metDB stored value (m),330,360,390,420,450,480,510,540,570,600,630
+comments,119,WMO code value,22,23,24,25,26,27,28,29,30,31,32
+comments,119,metDB stored value (m),660,690,720,750,780,810,840,870,900,930,960
+comments,119,WMO code value,33,34,35,36,37,38,39,40,41,42,43
+comments,119,metDB stored value (m),990,1020,1050,1080,1110,1140,1170,1200,1230,1260,1290
+comments,119,WMO code value,44,45,46,47,48,49,50,51,52,53,54
+comments,119,metDB stored value (m),1320,1350,1380,1410,1440,1470,1500,not used,not used,not used,not used
+comments,119,WMO code value,55,56,57,58,59,60,61,62,63,64,65
+comments,119,metDB stored value (m),not used,1800,2100,2400,2700,3000,3300,3600,3900,4200,4500
+comments,119,WMO code value,66,67,68,69,70,71,72,73,74,75,76
+comments,119,metDB stored value (m),4800,5100,5400,5700,6000,6300,6600,6900,7200,7500,7800
+comments,119,WMO code value,77,78,79,80,81,82,83,84,85,86,87
+comments,119,metDB stored value (m),8100,8400,8700,9000,10500,12000,13500,15000,16500,18000,19500
+comments,119,WMO code value,88,89,90,91,92,93,94,95,96,97,98,99
+comments,119,metDB stored value (m),21000,-9999999,20,50,100,200,300,600,1000,1500,2000,2500
+long_name,120,Height of cloud base quality control flag,1
+type,120,int
+metdb_short_name,120,CLOD_BASE_HGHT_QC
+flag_values,120,-1,0,1
+flag_meanings,120,qc not run,qc passed,qc failed
+long_name,121,Cloud amount (8 groups),1
+standard_name,121,cloud_area_fraction,1,CF
+metdb_short_name,121,CLOD_AMNT
+metdb_code_table,121,CODE TBL 020011,Cloud Amount
+flag_values,121,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+flag_meanings,121,0 oktas (0/10),1 okta or less, but not zero (1/10 or less, but not zero),2 oktas (2/10 - 3/10),3 oktas (4/10),4 oktas (5/10),5 oktas (6/10),6 oktas (7/10 - 8/10),7 oktas or more, but not 8 oktas (9/10 or more, but not 10/10),8 oktas (10/10),Sky obscured by fog and/or other meteorological phenomena,Sky partially obscured by fog and/or other meteorological phenomena,Scattered,Broken,Few,Reserved,Cloud cover is indiscernible for reasons other than fog or other meteorological phenomena, or observation is not made
+comments,121,for UK automatic stations may be takend from Laser Cloud Base Recorder (LCBR) values reported in section 555 of SYNOP message.
+comments,121,TOTL_CLOD_AMNT is taken from thr 7 group ins section 5. CLOD_TYPE is not recported when values are from LBCR instrumentation.
+comments,121,Under local rules (section 5) 80/99 from an autmoatic station means "no cloud" - CLOD_AMNT = 0 and CLOD_BASE_HGHT = 2500
+comments,121,For use of code figure 15, see Regulation 12.1.4 of WMO Codes
+comments,121,"Clear" and "overcast" are coded by 0 and 8, respectively.
+long_name,122,Cloud amount quality control flag,1
+type,122,int
+metdb_short_name,122,CLOD_AMNT_QC
+flag_values,122,-1,0,1
+flag_meanings,122,qc not run,qc passed,qc failed
+long_name,123,Cloud type (8 groups),1
+metdb_short_name,123,CLOD_TYPE
+metdb_code_table,123,CODE TBL 020012,Cloud type
+flag_values,123,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,59,60,61,62,63,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62
+flag_meanings,123,Cirrus (Ci),Cirrocumulus (Cc),Cirrostratus (Cs),Altocumulus (Ac),Altostratus (As),Nimbostratus (Ns),Stratocumulus (Sc),Stratus (St),Cumulus (Cu),Cumulonimbus (Cb),No CH clouds,Cirrus fibratus, sometimes uncinus, not progressively invading the sky,Cirrus spissatus, in patches or entangled sheaves, which usually do not increase and sometimes seem to be the remains of the upper part of a Cumulonimbus; or Cirrus castellanus or floccus,Cirrus spissatus cumulonimbogenitus,Cirrus uncinus or fibratus, or both, progressively invading the sky; they generally thicken as a whole,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole, but the continuous veil does not reach 45 degrees above the horizon,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole; the continuous veil extends more than 45 degrees above the horizon, without the sky being totally covered,Cirrostratus covering the whole sky,Cirrostratus not progressively invading the sky and not entirely covering it,Cirrocumulus alone, or Cirrocumulus predominant among the CH clouds,No CM clouds,Altostratus translucidus,Altostratus opacus or Nimbostratus,Altocumulus translucidus at a single level,Patches (often lenticular) of Altocumulus translucidus, continually changing and occuring at one or more levels,Altocumulus translucidus in bands, or one or more layers of Altocumulus translucidus or opacus, progressively invading the sky; these Altocumulus clouds generally thicken as a whole,Altocumulus cumulogenitus (or cumulonimbogenitus),Altocumulus translucidus or opacus in two or more layers, or Altocumulus opacus in a single layer, not progressively invading the sky, or Altocumulus with Altostratus or Nimbostratus,Altocumulus castellanus or floccus,Altocumulus of chaotic sky, generally at several levels,No CL clouds,Cumulus humilis or Cumulus fractus other than of bad weather*, or both,Cumulus mediocris or congestus, Towering Cumulus (TCU), with or without Cumulus of species fractus or humilis or Stratocumulus, all having their bases at the same level,Cumulonimbus calvus, with or without Cumulus, Stratocumulus or Stratus,Stratocumulus cumulogenitus,Stratocumulus other than Stratocumulus cumulogenitus,Stratus nebulosus or Stratus fractus other than of bad weather*, or both,Stratus fractus or Cumulus fractus of bad weather*, or both (pannus), usually below Altostratus or Nimbostratus,Cumulus and Stratocumulus other than Stratocumulus cumulogenitus, with bases at different levels,Cumulonimbus capillatus (often with an anvil), with or without Cumulonimbus calvus, Cumulus, Stratocumulus, Stratus or pannus,CH,CM,CL,Cloud not visible owing to darkness, fog, duststorm, sandstorm, or other analogous phenomena,CH clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CM clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CL clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena,Missing valueCLOUD INVIS,CH INVISIBLE,CM INVISIBLE,CL INVISIBLE
+comments,123,* Bad weather denotes the conditions which generally exist during precipitation and a short time before and after.
+long_name,124,Cloud type quality control flag,1
+type,124,int
+metdb_short_name,124,CLOD_TYPE_QC
+flag_values,124,-1,0,1
+flag_meanings,124,qc not run,qc passed,qc failed
+long_name,125,Height of cloud base (8 groups),m
+standard_name,125,cloud_base_altitude,m,CF
+metdb_short_name,125,CLOD_BASE_HGHT
+commnets,125,See comments for column 115
+long_name,126,Height of cloud base quality control flag,1
+type,126,int
+metdb_short_name,126,CLOD_BASE_HGHT_QC
+flag_values,126,-1,0,1
+flag_meanings,126,qc not run,qc passed,qc failed
+long_name,127,Cloud amount (8 groups),1
+standard_name,127,cloud_area_fraction,1,CF
+metdb_short_name,127,CLOD_AMNT
+metdb_code_table,127,CODE TBL 020011,Cloud Amount
+flag_values,127,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+flag_meanings,127,0 oktas (0/10),1 okta or less, but not zero (1/10 or less, but not zero),2 oktas (2/10 - 3/10),3 oktas (4/10),4 oktas (5/10),5 oktas (6/10),6 oktas (7/10 - 8/10),7 oktas or more, but not 8 oktas (9/10 or more, but not 10/10),8 oktas (10/10),Sky obscured by fog and/or other meteorological phenomena,Sky partially obscured by fog and/or other meteorological phenomena,Scattered,Broken,Few,Reserved,Cloud cover is indiscernible for reasons other than fog or other meteorological phenomena, or observation is not made
+comments,127,for UK automatic stations may be takend from Laser Cloud Base Recorder (LCBR) values reported in section 555 of SYNOP message.
+comments,127,TOTL_CLOD_AMNT is taken from thr 7 group ins section 5. CLOD_TYPE is not recported when values are from LBCR instrumentation.
+comments,127,Under local rules (section 5) 80/99 from an autmoatic station means "no cloud" - CLOD_AMNT = 0 and CLOD_BASE_HGHT = 2500
+comments,127,For use of code figure 15, see Regulation 12.1.4 of WMO Codes
+comments,127,"Clear" and "overcast" are coded by 0 and 8, respectively.
+long_name,128,Cloud amount quality control flag,1
+type,128,int
+metdb_short_name,128,CLOD_AMNT_QC
+flag_values,128,-1,0,1
+flag_meanings,128,qc not run,qc passed,qc failed
+long_name,129,Cloud type (8 groups),1
+metdb_short_name,129,CLOD_TYPE
+metdb_code_table,129,CODE TBL 020012,Cloud type
+flag_values,129,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,59,60,61,62,63,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62
+flag_meanings,129,Cirrus (Ci),Cirrocumulus (Cc),Cirrostratus (Cs),Altocumulus (Ac),Altostratus (As),Nimbostratus (Ns),Stratocumulus (Sc),Stratus (St),Cumulus (Cu),Cumulonimbus (Cb),No CH clouds,Cirrus fibratus, sometimes uncinus, not progressively invading the sky,Cirrus spissatus, in patches or entangled sheaves, which usually do not increase and sometimes seem to be the remains of the upper part of a Cumulonimbus; or Cirrus castellanus or floccus,Cirrus spissatus cumulonimbogenitus,Cirrus uncinus or fibratus, or both, progressively invading the sky; they generally thicken as a whole,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole, but the continuous veil does not reach 45 degrees above the horizon,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole; the continuous veil extends more than 45 degrees above the horizon, without the sky being totally covered,Cirrostratus covering the whole sky,Cirrostratus not progressively invading the sky and not entirely covering it,Cirrocumulus alone, or Cirrocumulus predominant among the CH clouds,No CM clouds,Altostratus translucidus,Altostratus opacus or Nimbostratus,Altocumulus translucidus at a single level,Patches (often lenticular) of Altocumulus translucidus, continually changing and occuring at one or more levels,Altocumulus translucidus in bands, or one or more layers of Altocumulus translucidus or opacus, progressively invading the sky; these Altocumulus clouds generally thicken as a whole,Altocumulus cumulogenitus (or cumulonimbogenitus),Altocumulus translucidus or opacus in two or more layers, or Altocumulus opacus in a single layer, not progressively invading the sky, or Altocumulus with Altostratus or Nimbostratus,Altocumulus castellanus or floccus,Altocumulus of chaotic sky, generally at several levels,No CL clouds,Cumulus humilis or Cumulus fractus other than of bad weather*, or both,Cumulus mediocris or congestus, Towering Cumulus (TCU), with or without Cumulus of species fractus or humilis or Stratocumulus, all having their bases at the same level,Cumulonimbus calvus, with or without Cumulus, Stratocumulus or Stratus,Stratocumulus cumulogenitus,Stratocumulus other than Stratocumulus cumulogenitus,Stratus nebulosus or Stratus fractus other than of bad weather*, or both,Stratus fractus or Cumulus fractus of bad weather*, or both (pannus), usually below Altostratus or Nimbostratus,Cumulus and Stratocumulus other than Stratocumulus cumulogenitus, with bases at different levels,Cumulonimbus capillatus (often with an anvil), with or without Cumulonimbus calvus, Cumulus, Stratocumulus, Stratus or pannus,CH,CM,CL,Cloud not visible owing to darkness, fog, duststorm, sandstorm, or other analogous phenomena,CH clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CM clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CL clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena,Missing valueCLOUD INVIS,CH INVISIBLE,CM INVISIBLE,CL INVISIBLE
+comments,129,* Bad weather denotes the conditions which generally exist during precipitation and a short time before and after.
+long_name,130,Cloud type quality control flag,1
+type,130,int
+metdb_short_name,130,CLOD_TYPE_QC
+flag_values,130,-1,0,1
+flag_meanings,130,qc not run,qc passed,qc failed
+long_name,131,Height of cloud base (8 groups),m
+standard_name,131,cloud_base_altitude,m,CF
+metdb_short_name,131,CLOD_BASE_HGHT
+commnets,125,See comments for column 115
+long_name,132,Height of cloud base quality control flag,1
+type,132,int
+metdb_short_name,132,CLOD_BASE_HGHT_QC
+flag_values,132,-1,0,1
+flag_meanings,132,qc not run,qc passed,qc failed
+long_name,133,Cloud amount (8 groups),1
+standard_name,133,cloud_area_fraction,1,CF
+metdb_short_name,133,CLOD_AMNT
+metdb_code_table,133,CODE TBL 020011,Cloud Amount
+flag_values,133,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+flag_meanings,133,0 oktas (0/10),1 okta or less, but not zero (1/10 or less, but not zero),2 oktas (2/10 - 3/10),3 oktas (4/10),4 oktas (5/10),5 oktas (6/10),6 oktas (7/10 - 8/10),7 oktas or more, but not 8 oktas (9/10 or more, but not 10/10),8 oktas (10/10),Sky obscured by fog and/or other meteorological phenomena,Sky partially obscured by fog and/or other meteorological phenomena,Scattered,Broken,Few,Reserved,Cloud cover is indiscernible for reasons other than fog or other meteorological phenomena, or observation is not made
+comments,133,for UK automatic stations may be takend from Laser Cloud Base Recorder (LCBR) values reported in section 555 of SYNOP message.
+comments,133,TOTL_CLOD_AMNT is taken from thr 7 group ins section 5. CLOD_TYPE is not recported when values are from LBCR instrumentation.
+comments,133,Under local rules (section 5) 80/99 from an autmoatic station means "no cloud" - CLOD_AMNT = 0 and CLOD_BASE_HGHT = 2500
+comments,133,For use of code figure 15, see Regulation 12.1.4 of WMO Codes
+comments,133,"Clear" and "overcast" are coded by 0 and 8, respectively.
+long_name,134,Cloud amount quality control flag,1
+type,134,int
+metdb_short_name,134,CLOD_AMNT_QC
+flag_values,134,-1,0,1
+flag_meanings,134,qc not run,qc passed,qc failed
+long_name,135,Cloud type (8 groups),1
+metdb_short_name,135,CLOD_TYPE
+metdb_code_table,135,CODE TBL 020012,Cloud type
+flag_values,135,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,59,60,61,62,63,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62
+flag_meanings,135,Cirrus (Ci),Cirrocumulus (Cc),Cirrostratus (Cs),Altocumulus (Ac),Altostratus (As),Nimbostratus (Ns),Stratocumulus (Sc),Stratus (St),Cumulus (Cu),Cumulonimbus (Cb),No CH clouds,Cirrus fibratus, sometimes uncinus, not progressively invading the sky,Cirrus spissatus, in patches or entangled sheaves, which usually do not increase and sometimes seem to be the remains of the upper part of a Cumulonimbus; or Cirrus castellanus or floccus,Cirrus spissatus cumulonimbogenitus,Cirrus uncinus or fibratus, or both, progressively invading the sky; they generally thicken as a whole,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole, but the continuous veil does not reach 45 degrees above the horizon,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole; the continuous veil extends more than 45 degrees above the horizon, without the sky being totally covered,Cirrostratus covering the whole sky,Cirrostratus not progressively invading the sky and not entirely covering it,Cirrocumulus alone, or Cirrocumulus predominant among the CH clouds,No CM clouds,Altostratus translucidus,Altostratus opacus or Nimbostratus,Altocumulus translucidus at a single level,Patches (often lenticular) of Altocumulus translucidus, continually changing and occuring at one or more levels,Altocumulus translucidus in bands, or one or more layers of Altocumulus translucidus or opacus, progressively invading the sky; these Altocumulus clouds generally thicken as a whole,Altocumulus cumulogenitus (or cumulonimbogenitus),Altocumulus translucidus or opacus in two or more layers, or Altocumulus opacus in a single layer, not progressively invading the sky, or Altocumulus with Altostratus or Nimbostratus,Altocumulus castellanus or floccus,Altocumulus of chaotic sky, generally at several levels,No CL clouds,Cumulus humilis or Cumulus fractus other than of bad weather*, or both,Cumulus mediocris or congestus, Towering Cumulus (TCU), with or without Cumulus of species fractus or humilis or Stratocumulus, all having their bases at the same level,Cumulonimbus calvus, with or without Cumulus, Stratocumulus or Stratus,Stratocumulus cumulogenitus,Stratocumulus other than Stratocumulus cumulogenitus,Stratus nebulosus or Stratus fractus other than of bad weather*, or both,Stratus fractus or Cumulus fractus of bad weather*, or both (pannus), usually below Altostratus or Nimbostratus,Cumulus and Stratocumulus other than Stratocumulus cumulogenitus, with bases at different levels,Cumulonimbus capillatus (often with an anvil), with or without Cumulonimbus calvus, Cumulus, Stratocumulus, Stratus or pannus,CH,CM,CL,Cloud not visible owing to darkness, fog, duststorm, sandstorm, or other analogous phenomena,CH clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CM clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CL clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena,Missing valueCLOUD INVIS,CH INVISIBLE,CM INVISIBLE,CL INVISIBLE
+comments,135,* Bad weather denotes the conditions which generally exist during precipitation and a short time before and after.
+long_name,136,Cloud type quality control flag,1
+type,136,int
+metdb_short_name,136,CLOD_TYPE_QC
+flag_values,136,-1,0,1
+flag_meanings,136,qc not run,qc passed,qc failed
+long_name,137,Height of cloud base (8 groups),m
+standard_name,137,cloud_base_altitude,m
+metdb_short_name,137,CLOD_BASE_HGHT
+commnets,125,See comments for column 115
+long_name,138,Height of cloud base quality control flag,1
+type,138,int
+metdb_short_name,138,CLOD_BASE_HGHT_QC
+flag_values,138,-1,0,1
+flag_meanings,138,qc not run,qc passed,qc failed
+long_name,139,Below station cloud amount,1
+type,139,int
+metdb_short_name,139,BELW_STTN_CLOD_AMNT
+metdb_code_table,139,CODE TBL 020011,Cloud Amount
+flag_values,139,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+flag_meanings,139,0 oktas (0/10),1 okta or less, but not zero (1/10 or less, but not zero),2 oktas (2/10 - 3/10),3 oktas (4/10),4 oktas (5/10),5 oktas (6/10),6 oktas (7/10 - 8/10),7 oktas or more, but not 8 oktas (9/10 or more, but not 10/10),8 oktas (10/10),Sky obscured by fog and/or other meteorological phenomena,Sky partially obscured by fog and/or other meteorological phenomena,Scattered,Broken,Few,Reserved,Cloud cover is indiscernible for reasons other than fog or other meteorological phenomena, or observation is not made
+comments,139,for UK automatic stations may be takend from Laser Cloud Base Recorder (LCBR) values reported in section 555 of SYNOP message.
+comments,139,TOTL_CLOD_AMNT is taken from thr 7 group ins section 5. CLOD_TYPE is not recported when values are from LBCR instrumentation.
+comments,139,Under local rules (section 5) 80/99 from an autmoatic station means "no cloud" - CLOD_AMNT = 0 and CLOD_BASE_HGHT = 2500
+comments,139,For use of code figure 15, see Regulation 12.1.4 of WMO Codes
+comments,139,"Clear" and "overcast" are coded by 0 and 8, respectively.
+long_name,140,Below station cloud type,1
+type,140,int
+metdb_short_name,140,BELW_STTN_CLOD_TYPE
+metdb_code_table,140,CODE TBL 020012,Cloud type
+flag_values,140,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,59,60,61,62,63,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62
+flag_meanings,140,Cirrus (Ci),Cirrocumulus (Cc),Cirrostratus (Cs),Altocumulus (Ac),Altostratus (As),Nimbostratus (Ns),Stratocumulus (Sc),Stratus (St),Cumulus (Cu),Cumulonimbus (Cb),No CH clouds,Cirrus fibratus, sometimes uncinus, not progressively invading the sky,Cirrus spissatus, in patches or entangled sheaves, which usually do not increase and sometimes seem to be the remains of the upper part of a Cumulonimbus; or Cirrus castellanus or floccus,Cirrus spissatus cumulonimbogenitus,Cirrus uncinus or fibratus, or both, progressively invading the sky; they generally thicken as a whole,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole, but the continuous veil does not reach 45 degrees above the horizon,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole; the continuous veil extends more than 45 degrees above the horizon, without the sky being totally covered,Cirrostratus covering the whole sky,Cirrostratus not progressively invading the sky and not entirely covering it,Cirrocumulus alone, or Cirrocumulus predominant among the CH clouds,No CM clouds,Altostratus translucidus,Altostratus opacus or Nimbostratus,Altocumulus translucidus at a single level,Patches (often lenticular) of Altocumulus translucidus, continually changing and occuring at one or more levels,Altocumulus translucidus in bands, or one or more layers of Altocumulus translucidus or opacus, progressively invading the sky; these Altocumulus clouds generally thicken as a whole,Altocumulus cumulogenitus (or cumulonimbogenitus),Altocumulus translucidus or opacus in two or more layers, or Altocumulus opacus in a single layer, not progressively invading the sky, or Altocumulus with Altostratus or Nimbostratus,Altocumulus castellanus or floccus,Altocumulus of chaotic sky, generally at several levels,No CL clouds,Cumulus humilis or Cumulus fractus other than of bad weather*, or both,Cumulus mediocris or congestus, Towering Cumulus (TCU), with or without Cumulus of species fractus or humilis or Stratocumulus, all having their bases at the same level,Cumulonimbus calvus, with or without Cumulus, Stratocumulus or Stratus,Stratocumulus cumulogenitus,Stratocumulus other than Stratocumulus cumulogenitus,Stratus nebulosus or Stratus fractus other than of bad weather*, or both,Stratus fractus or Cumulus fractus of bad weather*, or both (pannus), usually below Altostratus or Nimbostratus,Cumulus and Stratocumulus other than Stratocumulus cumulogenitus, with bases at different levels,Cumulonimbus capillatus (often with an anvil), with or without Cumulonimbus calvus, Cumulus, Stratocumulus, Stratus or pannus,CH,CM,CL,Cloud not visible owing to darkness, fog, duststorm, sandstorm, or other analogous phenomena,CH clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CM clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CL clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena,Missing valueCLOUD INVIS,CH INVISIBLE,CM INVISIBLE,CL INVISIBLE
+comments,140,* Bad weather denotes the conditions which generally exist during precipitation and a short time before and after.
+long_name,141,Below station cloud base height,m
+type,141,float
+metdb_short_name,141,BELW_STTN_CLOD_TOP_HGHT
+long_name,142,Below station cloud base type,1
+type,142,int
+metdb_short_name,142,BELW_STTN_CLOD_TOP_TYPE
+metdb_code_table,142,CODE TBL 020017,Cloud top description
+flag_meanings,142,0,1,2,3,4,5,6,7,8,9,15
+flag_values,142,Isolated cloud fragments of cloud,Continuous cloud, flat tops,Broken cloud - small breaks, flat tops,Broken cloud - large breaks, flat tops,Continuous cloud - undulating tops,Broken cloud - small breaks, undulated tops,Broken cloud - large breaks, undulated tops,Continuous or almost continuous waves with towering clouds above the top of the layer,Groups of waves with towering clouds above the top of the layer,Two or more layers at different levels,Missing value
+long_name,143,Above station cloud amount,1
+type,143,int
+metdb_short_name,143,ABOV_STTN_CLOD_AMNT
+metdb_code_table,143,CODE TBL 020011,Cloud Amount
+flag_values,143,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+flag_meanings,143,0 oktas (0/10),1 okta or less, but not zero (1/10 or less, but not zero),2 oktas (2/10 - 3/10),3 oktas (4/10),4 oktas (5/10),5 oktas (6/10),6 oktas (7/10 - 8/10),7 oktas or more, but not 8 oktas (9/10 or more, but not 10/10),8 oktas (10/10),Sky obscured by fog and/or other meteorological phenomena,Sky partially obscured by fog and/or other meteorological phenomena,Scattered,Broken,Few,Reserved,Cloud cover is indiscernible for reasons other than fog or other meteorological phenomena, or observation is not made
+comments,143,for UK automatic stations may be takend from Laser Cloud Base Recorder (LCBR) values reported in section 555 of SYNOP message.
+comments,143,TOTL_CLOD_AMNT is taken from thr 7 group ins section 5. CLOD_TYPE is not recported when values are from LBCR instrumentation.
+comments,143,Under local rules (section 5) 80/99 from an autmoatic station means "no cloud" - CLOD_AMNT = 0 and CLOD_BASE_HGHT = 2500
+comments,143,For use of code figure 15, see Regulation 12.1.4 of WMO Codes
+comments,143,"Clear" and "overcast" are coded by 0 and 8, respectively.
+long_name,144,Above station cloud type,1
+type,144,int
+metdb_short_name,144,ABOV_STTN_CLOD_TYPE
+metdb_code_table,144,CODE TBL 020012,Cloud type
+flag_values,144,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,59,60,61,62,63,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62
+flag_values,144,Cirrus (Ci),Cirrocumulus (Cc),Cirrostratus (Cs),Altocumulus (Ac),Altostratus (As),Nimbostratus (Ns),Stratocumulus (Sc),Stratus (St),Cumulus (Cu),Cumulonimbus (Cb),No CH clouds,Cirrus fibratus, sometimes uncinus, not progressively invading the sky,Cirrus spissatus, in patches or entangled sheaves, which usually do not increase and sometimes seem to be the remains of the upper part of a Cumulonimbus; or Cirrus castellanus or floccus,Cirrus spissatus cumulonimbogenitus,Cirrus uncinus or fibratus, or both, progressively invading the sky; they generally thicken as a whole,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole, but the continuous veil does not reach 45 degrees above the horizon,Cirrus (often in bands) and Cirrostratus, or Cirrostratus alone, progressively invading the sky; they generally thicken as a whole; the continuous veil extends more than 45 degrees above the horizon, without the sky being totally covered,Cirrostratus covering the whole sky,Cirrostratus not progressively invading the sky and not entirely covering it,Cirrocumulus alone, or Cirrocumulus predominant among the CH clouds,No CM clouds,Altostratus translucidus,Altostratus opacus or Nimbostratus,Altocumulus translucidus at a single level,Patches (often lenticular) of Altocumulus translucidus, continually changing and occuring at one or more levels,Altocumulus translucidus in bands, or one or more layers of Altocumulus translucidus or opacus, progressively invading the sky; these Altocumulus clouds generally thicken as a whole,Altocumulus cumulogenitus (or cumulonimbogenitus),Altocumulus translucidus or opacus in two or more layers, or Altocumulus opacus in a single layer, not progressively invading the sky, or Altocumulus with Altostratus or Nimbostratus,Altocumulus castellanus or floccus,Altocumulus of chaotic sky, generally at several levels,No CL clouds,Cumulus humilis or Cumulus fractus other than of bad weather*, or both,Cumulus mediocris or congestus, Towering Cumulus (TCU), with or without Cumulus of species fractus or humilis or Stratocumulus, all having their bases at the same level,Cumulonimbus calvus, with or without Cumulus, Stratocumulus or Stratus,Stratocumulus cumulogenitus,Stratocumulus other than Stratocumulus cumulogenitus,Stratus nebulosus or Stratus fractus other than of bad weather*, or both,Stratus fractus or Cumulus fractus of bad weather*, or both (pannus), usually below Altostratus or Nimbostratus,Cumulus and Stratocumulus other than Stratocumulus cumulogenitus, with bases at different levels,Cumulonimbus capillatus (often with an anvil), with or without Cumulonimbus calvus, Cumulus, Stratocumulus, Stratus or pannus,CH,CM,CL,Cloud not visible owing to darkness, fog, duststorm, sandstorm, or other analogous phenomena,CH clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CM clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena, or because of a continuous layer of lower clouds,CL clouds invisible owing to darkness, fog, blowing dust or sand, or other similar phenomena,Missing valueCLOUD INVIS,CH INVISIBLE,CM INVISIBLE,CL INVISIBLE
+comments,144,* Bad weather denotes the conditions which generally exist during precipitation and a short time before and after.
+long_name,145,Above station cloud top height,m
+type,145,float
+metdb_short_name,145,ABOV_STTN_CLOD_TOP_HGHT
+long_name,146,Above station cloud top type,1
+type,146,int
+metdb_short_name,146,ABOV_STTN_CLOD_TOP_TYPE
+metdb_code_table,146,CODE TBL 020017,Cloud top description
+flag_meanings,146,0,1,2,3,4,5,6,7,8,9,15
+flag_values,146,Isolated cloud fragments of cloud,Continuous cloud, flat tops,Broken cloud - small breaks, flat tops,Broken cloud - large breaks, flat tops,Continuous cloud - undulating tops,Broken cloud - small breaks, undulated tops,Broken cloud - large breaks, undulated tops,Continuous or almost continuous waves with towering clouds above the top of the layer,Groups of waves with towering clouds above the top of the layer,Two or more layers at different levels,Missing value
+data
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146
+2024,02,02,00,00,2024,02,01,23,05,16.000,133.000,6.000,44.815,11.613,9.000,11.000,EUMS,IY62,0.000,0.000,0.000,12.000,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-9999999.000,-1,-9999999.000,509.000,-1,-6.000,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-6.000,0.000,-1,-9999999.000,-9999999.000,-1,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,102790.000,-9999999.000,-9999999.000,2.000,-1,50.000,-1,-9999999.000,-9999999.000,-9999999.000,0.100,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000
+2024,02,02,00,00,2024,02,01,23,16,16.000,132.000,6.000,44.528,11.289,51.000,53.000,EUMS,IY65,0.000,0.000,0.000,12.000,-9999999.000,-1,-9999999.000,-1,276.000,-1,273.200,-1,-9999999.000,-9999999.000,-1,-9999999.000,509.000,-1,-6.000,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-6.000,0.000,-1,-9999999.000,-9999999.000,-1,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,102900.000,102280.000,-9999999.000,-9999999.000,2.000,0,100.000,0,-9999999.000,-9999999.000,-9999999.000,12.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000
+2024,02,02,23,46,2024,02,03,00,11,76.000,625.000,4.000,20.563,-100.369,1901.000,1880.000,MXBA,MX01,1.000,0.000,0.000,0.000,300.000,-1,3.000,-1,296.300,-1,283.600,-1,-9999999.000,20000.000,-1,-9999999.000,508.000,-1,-6.000,-9999999.000,-1,-9999999.000,-1,3.000,-1,-12.000,298.100,-18.000,284.300,-9999999.000,0.000,-9999999.000,-6.000,0.000,-1,-9999999.000,-9999999.000,-1,0.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,100290.000,80920.000,-9999999.000,-9999999.000,7.000,1,-80.000,1,-420.000,0.000,2.800,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,38.000,-1,20.000,-1,10.000,-1,3.000,-1,600.000,-1,3.000,-1,8.000,-1,840.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000
+2024,02,02,23,47,2024,02,03,00,11,76.000,773.000,4.000,17.789,-97.772,1603.000,1680.000,MXBA,MX01,1.000,0.000,0.000,0.000,180.000,-1,3.000,-1,299.700,-1,288.700,-1,-9999999.000,20000.000,-1,-9999999.000,508.000,-1,-6.000,-9999999.000,-1,-9999999.000,-1,4.000,-1,-12.000,304.000,-18.000,284.500,-9999999.000,0.000,-9999999.000,-6.000,0.000,-1,-9999999.000,-9999999.000,-1,0.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,100380.000,83760.000,-9999999.000,-9999999.000,7.000,1,-40.000,1,-420.000,1.000,6.300,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,32.000,-1,20.000,-1,10.000,-1,4.000,-1,600.000,-1,4.000,-1,8.000,-1,600.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000
+2024,02,02,23,48,2024,02,03,00,11,76.000,683.000,4.000,19.325,-98.247,2224.000,2248.000,MXBA,MX01,1.000,0.000,0.000,0.000,180.000,-1,3.000,-1,293.500,-1,280.900,-1,-9999999.000,20000.000,-1,-9999999.000,508.000,-1,-6.000,-9999999.000,-1,-9999999.000,-1,0.000,-1,-12.000,296.900,-18.000,278.700,-9999999.000,0.000,-9999999.000,-6.000,0.000,-1,-9999999.000,-9999999.000,-1,0.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,100490.000,77890.000,-9999999.000,-9999999.000,7.000,-1,-60.000,-1,-390.000,1.000,3.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,2500.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-1,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000,-9999999.000
+end data
