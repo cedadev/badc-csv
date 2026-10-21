@@ -42,19 +42,20 @@ class CDL_Templates:
     # NB double curly braces '{{}}', used to escape f-string to put in '{' as text
     # see docs - https://peps.python.org/pep-0498/#escape-sequences
     # NB multiline text includes indentation. (non-indent is intentional)
-    CDL_TEMPLATE_ONE_DIMENSION = """netcdf {filename} {{
-\tdimensions:
-{dimensions_size_declarations_inc_tabs}
-\tvariables:
-{all_variables_lines_inc_tabs}
-\t// global attributes
-{all_global_attribute_lines_inc_tabs}
-
-\tdata:
-// maybe declare dimension(s) here? Not sure.
-{all_data}
-}}
-"""
+    CDL_TEMPLATE_ONE_DIMENSION = (
+        "netcdf {filename} {{\n"
+        "\tdimensions:\n"
+        "{dimensions_size_declarations_inc_tabs}\n"
+        "\tvariables:\n"
+        "{all_variables_lines_inc_tabs}\n"
+        "\t// global attributes\n"
+        "{all_global_attribute_lines_inc_tabs}\n"
+        "\n"
+        "\tdata:\n"
+        "// maybe declare dimension(s) here? Not sure.\n"
+        "{all_data}\n"
+        "}}\n"
+    )
     # Dimensions
     DIMENSION_LINE_TEMPLATE = "\t\t{name} = {count} ;"
     # Variables
