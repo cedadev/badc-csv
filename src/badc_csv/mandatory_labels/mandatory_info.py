@@ -1,14 +1,21 @@
 from enum import Enum
 
-from badc_csv.mandatory_info_data import mandatory_info, mandatory_info_order
-from badc_csv.metadata import MetadataGlobalLabel
 from badc_csv.util.check_types_bool import getCheckFunction
 from badc_csv.util.error_collection import ErrorCollection
+
+from .mandatory_info_data import (
+    mandatory_info,
+    mandatory_info_order,
+)
 
 MANDATORY_CLASS = Enum(
     "MANDATORY_CLASS",
     [("NOT_MANDATORY", 0), ("MANDATORY", 1), ("ALL_COLUMNS", 2)],
 )
+
+
+class MetadataGlobalLabel:
+    pass
 
 
 class MandatoryLabel:

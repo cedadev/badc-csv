@@ -482,7 +482,7 @@ class BADCTextFile:
                         )
 
     def check_colRefs(self):
-        metadataRefs = list(set(line[1] for line in self._metadata.varRecords))  # noqa: C401
+        metadataRefs = list(set(line[1] for line in self._metadata.varRecords))  # noqa: C401  # Keep 'set()', to make clear unique.
         long_namesCnt = tuple(
             colname for colname in set(self.colnames()) if colname != "G"
         )

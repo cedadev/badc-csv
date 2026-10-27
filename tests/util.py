@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from badc_csv.format_checker import ComplianceChecker
+from badc_csv.compliance import ComplianceChecker
 
 TEST_DATA_DIR = Path("tests/reference/")
 TEST_TEMP_DIR = Path("tests/tmp/")
@@ -29,7 +29,7 @@ def __compare(a, b, method: str):
         return a <= b
 
 
-def standard_test(
+def standard_format_checker_test(
     rel_filepath: Path,
     expected_level: ComplianceChecker.COMPLIANCE_LEVEL,
     num_errors: int,
