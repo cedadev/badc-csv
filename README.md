@@ -19,6 +19,11 @@ uv run python -m badc_csv tests/reference/test2.csv
 uv run python -m badc_csv tests/reference/additional/ukmo-metdb_lndsyn_20240202.csv
 ```
 
+## Additional Functionality
+
+Code is available for BADC-CSV to NetCDF conversion, provided a "missing_value" label is present in the header. 
+
+A command-line option for conversion is to-be developed.
 
 ### Other tools
 
