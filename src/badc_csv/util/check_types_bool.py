@@ -6,6 +6,14 @@ Each Function is of the form (Iterable -> bool).
 import time
 from types import MappingProxyType
 
+BADC_CSV_ACCEPTED_DATATYPES = ("int", "float", "char")
+
+
+def checkType(values: list[str]) -> bool:
+    v = values[0]
+    # f"Type not right must be int, float or char. not {v}"
+    return v in BADC_CSV_ACCEPTED_DATATYPES
+
 
 def __checkFloat(value: str) -> bool:
     try:
@@ -67,12 +75,6 @@ def checkConventions(values: list[str]) -> bool:
     # f"Conventions must be BADC-CSV, not {values[0]}"
     # f"Conventions must be 'BADC-CSV, 1', not {values[1]}"
     return values[0] == "BADC-CSV" and values[1] == "1"
-
-
-def checkType(values: list[str]) -> bool:
-    v = values[0]
-    # f"Type not right must be int, float or char. not {v}"
-    return v in ("int", "float", "char")
 
 
 def getCheckFunction(expected_type: str):  # -> function (list[str] -> bool)

@@ -1,6 +1,6 @@
 from string import whitespace
 
-from badc_csv.data.mandatory_info import MetadataGlobalLabel
+from badc_csv.mandatory_labels.mandatory_info import MetadataGlobalLabel
 from badc_csv.util.error_collection import ErrorCollection
 
 
@@ -45,8 +45,11 @@ class Metadata:
     def get_global_attributes(self):
         return self.records[MetadataGlobalLabel]
 
-    def get_column_attributes(self):
+    def get_all_column_attributes(self):
         return {k: self.records[k] for k in self.get_columns()}
+
+    def get_column_attributes(self, column: str):
+        return self.get_all_column_attributes()[column]
 
     def get_columns(self):
         return self.column_names
@@ -64,6 +67,13 @@ class Metadata:
 
     def column_size(self) -> int:
         return len(self.records) - 1  # do not include "global" attributes.
+
+    def get_column_type(self, column: str) -> str:
+        column_attributes = self.get_column_attributes(column)
+        type_lines = column_attributes["type"]
+        type_line = type_lines[0]
+        type_element = type_line[0]
+        return type_element
 
     class MetadataRow:
         def __init__(self, label, column, *values):

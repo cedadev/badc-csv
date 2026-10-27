@@ -19,7 +19,7 @@ import csv
 from enum import Enum
 from pathlib import Path
 
-from badc_csv.data.mandatory_info import (
+from badc_csv.mandatory_labels.mandatory_info import (
     MANDATORY_CLASS,
     MandatoryClassifications,
     MandatoryLabel,
@@ -71,16 +71,6 @@ class ComplianceChecker:
         # CSV Compliance
         raw, csv_errors = self.read_file(Path(filepath))
         errors += csv_errors
-
-        if errors:
-            print("Fucking hell mate")
-
-        if self.__disallow_warnings and errors.has_warnings():
-            print("you awl rite?")
-            if self.__disallow_warnings:
-                print("calm bruv")
-            if errors.has_warnings():
-                print("nuff said aight")
 
         if errors or (self.__disallow_warnings and errors.has_warnings()):
             self.print_verbose("CSV errors")
@@ -321,7 +311,7 @@ class ComplianceChecker:
                 for (
                     column_name,
                     attributes,
-                ) in metadata.get_column_attributes().items():
+                ) in metadata.get_all_column_attributes().items():
                     self.print_verbose(attributes.keys())
                     if m_label.label not in attributes:
                         errors.append(
