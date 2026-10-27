@@ -3,8 +3,8 @@ import json
 from pathlib import Path
 
 from badc_csv.compliance import COMPLIANCE_LEVEL, ComplianceChecker
-from badc_csv.util.error_collection import ErrorCollection
 from badc_csv.netcdf import transform_badccsv_to_netcdf
+from badc_csv.util.error_collection import ErrorCollection
 
 type JsonText = str  # additional type hints
 
@@ -32,6 +32,7 @@ def main(filename: Path, verbose: bool, disallow_warnings: bool) -> JsonText:
     compliance_level, errors = checker.compliance_assessment(filename)
     return create_report_json(filename, compliance_level, errors)
 
+
 def add_required_file(p):
     p.add_argument(
         "filename_pos",
@@ -48,6 +49,7 @@ def add_required_file(p):
         metavar="FILE",
         help="Path to the input file",
     )
+
 
 def add_checker_parser(subparser):
     p = subparser.add_parser(
@@ -70,6 +72,7 @@ def add_checker_parser(subparser):
         help="treat warnings as errors",
     )
 
+
 def add_conversion_parser(subparser):
     p = subparser.add_parser(
         "transform",
@@ -83,13 +86,14 @@ def add_conversion_parser(subparser):
         required=True,
         type=Path,
         help="Result path for produced NetCDF file.",
-    )    
+    )
+
 
 def build_parser() -> argparse.ArgumentParser:
     """Build the CLI argument parser."""
     p = argparse.ArgumentParser(prog="Utilities for the BADC_CSV file format.")
     subparsers = p.add_subparsers(dest="command", help="subcommand help")
-        
+
     add_checker_parser(subparsers)
     add_conversion_parser(subparsers)
     return p
@@ -116,11 +120,9 @@ if __name__ == "__main__":
     if args.command == "check":
         report = main(args.filename, args.verbose, args.disallow_warnings)
         print(report)
-    
+
     elif args.command == "transform":
         transform_badccsv_to_netcdf(args.filename, args.output_file)
-
-
 
 
 """
