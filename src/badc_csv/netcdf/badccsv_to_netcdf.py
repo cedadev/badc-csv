@@ -26,7 +26,7 @@ def _attributes_to_dict(attributes) -> dict:
     }
 
 
-def convert_badccsv_to_netcdf(badc_csv_file: Path, nc_file: Path):
+def transform_badccsv_to_netcdf(badc_csv_file: Path, nc_file: Path) -> None:
     # Read File
     metadata, data = reader(badc_csv_file)
     with nc.Dataset(nc_file, "w", format="NETCDF4") as ds:
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     # NetCDF Destination
     nc_file = "tests/tmp/test.nc"
     # Demo conversion
-    convert_badccsv_to_netcdf(badc_csv_file, nc_file)
+    transform_badccsv_to_netcdf(badc_csv_file, nc_file)

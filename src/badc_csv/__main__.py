@@ -4,6 +4,7 @@ from pathlib import Path
 
 from badc_csv.compliance import COMPLIANCE_LEVEL, ComplianceChecker
 from badc_csv.util.error_collection import ErrorCollection
+from badc_csv.netcdf import transform_badccsv_to_netcdf
 
 type JsonText = str  # additional type hints
 
@@ -31,20 +32,13 @@ def main(filename: Path, verbose: bool, disallow_warnings: bool) -> JsonText:
     compliance_level, errors = checker.compliance_assessment(filename)
     return create_report_json(filename, compliance_level, errors)
 
-
-def build_parser() -> argparse.ArgumentParser:
-    """Build the CLI argument parser."""
-    p = argparse.ArgumentParser(
-        prog="BADC-CSV validation tool",
-        description="Validate a BADC CSV file and report its compliance level, "
-        "errors and warnings.",
-    )
+def add_required_file(p):
     p.add_argument(
         "filename_pos",
         nargs="?",
         type=Path,
         metavar="FILE",
-        help="path to the file to validate (alternative to -f)",
+        help="INPUT File",
     )
     p.add_argument(
         "-f",
@@ -52,8 +46,17 @@ def build_parser() -> argparse.ArgumentParser:
         dest="filename_opt",
         type=Path,
         metavar="FILE",
-        help="path to the file to validate",
+        help="Path to the input file",
     )
+
+def add_checker_parser(subparser):
+    p = subparser.add_parser(
+        "check",
+        prog="BADC-CSV validation tool",
+        description="Validate a BADC CSV file and report its compliance level, "
+        "errors and warnings.",
+    )
+    add_required_file(p)
     p.add_argument(
         "-v",
         "--verbose",
@@ -66,6 +69,29 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="treat warnings as errors",
     )
+
+def add_conversion_parser(subparser):
+    p = subparser.add_parser(
+        "transform",
+        prog="Conversion tool for BADC-CSV",
+        description="Converts a COMPLETE BADC-CSV file into a NetCDF4 file.",
+    )
+    add_required_file(p)
+    p.add_argument(
+        "-o",
+        dest="output_file",
+        required=True,
+        type=Path,
+        help="Result path for produced NetCDF file.",
+    )    
+
+def build_parser() -> argparse.ArgumentParser:
+    """Build the CLI argument parser."""
+    p = argparse.ArgumentParser(prog="Utilities for the BADC_CSV file format.")
+    subparsers = p.add_subparsers(dest="command", help="subcommand help")
+        
+    add_checker_parser(subparsers)
+    add_conversion_parser(subparsers)
     return p
 
 
@@ -86,21 +112,33 @@ def parse_args() -> argparse.Namespace:
 
 if __name__ == "__main__":
     args = parse_args()
-    report = main(args.filename, args.verbose, args.disallow_warnings)
-    print(report)
+
+    if args.command == "check":
+        report = main(args.filename, args.verbose, args.disallow_warnings)
+        print(report)
+    
+    elif args.command == "transform":
+        transform_badccsv_to_netcdf(args.filename, args.output_file)
+
+
 
 
 """
-Examples for use.
+Examples for use. 
+
+Two subcommands, 1) check and 2) transform
 ```
-uv run python -m badc_csv tests/reference/test2.csv
-uv run python -m badc_csv tests/reference/test2.csv
-uv run python -m badc_csv -f tests/reference/test2.csv 
-uv run python -m badc_csv tests/reference/test2.csv -v
-uv run python -m badc_csv tests/reference/additional/ukmo-metdb_lndsyn_20240202.csv
-uv run python -m badc_csv tests/reference/additional/ukmo-metdb_lndsyn_20240202.csv -w
-uv run python -m badc_csv tests/reference/amended/ukmo-metdb_lndsyn_20240202.csv
-uv run python -m badc_csv tests/reference/amended/ukmo-metdb_lndsyn_20240202.csv -w
-uv run python -m badc_csv tests/reference/additional/midas-open_uk-hourly-rain-obs_dv-202007_dumfriesshire_01023_eskdalemuir_qcv-1_2018.csv
+uv run python -m badc_csv check tests/reference/test2.csv
+uv run python -m badc_csv check tests/reference/test2.csv
+uv run python -m badc_csv check -f tests/reference/test2.csv 
+uv run python -m badc_csv check tests/reference/test2.csv -v
+uv run python -m badc_csv check tests/reference/additional/ukmo-metdb_lndsyn_20240202.csv
+uv run python -m badc_csv check tests/reference/additional/ukmo-metdb_lndsyn_20240202.csv -w
+uv run python -m badc_csv check tests/reference/amended/ukmo-metdb_lndsyn_20240202.csv
+uv run python -m badc_csv check tests/reference/amended/ukmo-metdb_lndsyn_20240202.csv -w
+uv run python -m badc_csv check tests/reference/additional/midas-open_uk-hourly-rain-obs_dv-202007_dumfriesshire_01023_eskdalemuir_qcv-1_2018.csv
+...
+uv run python -m badc_csv transform <badc_csv_file> -o <destination_netcdf_file>
+uv run python -m badc_csv transform tests/reference/additional/midas-open_uk-hourly-rain-obs_dv-202007_dumfriesshire_01023_eskdalemuir_qcv-1_2018.csv -o tests/tmp/test.nc
 ```
 """
